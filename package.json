@@ -1,0 +1,54 @@
+{
+  "name": "baile",
+  "version": "0.1.0",
+  "license": "GPL-3.0-or-later",
+  "author": "Doug Stewart",
+  "homepage": "/baile/",
+  "bugs": {
+    "url": "https://github.com/doug-stewart/baile/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doug-stewart/baile.git"
+  },
+  "main": ".eslintrc.js",
+  "devDependencies": {
+    "autoprefixer": "^9.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.4",
+    "prettier": "^2.0.5",
+    "sass": "^1.26.7",
+    "stylelint": "^13.5.0",
+    "stylelint-config-recommended": "^3.0.0",
+    "stylelint-order": "^4.0.0"
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "classnames": "^2.2.6",
+    "dropbox": "^4.0.30",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 ChromeAndroid versions",
+    "last 2 Firefox versions",
+    "last 2 FirefoxAndroid versions",
+    "last 2 Safari versions",
+    "last 2 iOS versions",
+    "last 2 Edge versions"
+  ]
+}

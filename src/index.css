@@ -1,0 +1,26 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+form {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: max-content 1fr;
+  padding: 20px;
+}
+
+label {
+  grid-column: 1;
+}
+
+label + label {
+  grid-column: 2;
+}
+
+form *:not(label) {
+  grid-column: 2;
+}
