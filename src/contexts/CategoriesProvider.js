@@ -1,15 +1,15 @@
 import React, { createContext, useReducer } from 'react';
 import { Dropbox } from 'dropbox';
 
-const accessToken = window.localStorage.getItem('accessToken');
+const accessToken = localStorage.getItem('accessToken');
 const initialState = [];
 
 const Categories = createContext(initialState);
 const { Provider } = Categories;
 
+const dbx = new Dropbox({ accessToken, fetch });
+
 const updateRemoteCategories = (data) => {
-  console.log('accessToken', accessToken);
-  const dbx = new Dropbox({ accessToken, fetch });
   dbx
     .filesUpload({
       path: '/categories.json',
@@ -23,11 +23,11 @@ const reducer = (state, action) => {
   let temp = state;
 
   switch (true) {
-    case action.type === 'update':
+    case action.type === 'UPDATE':
       temp = action.categories;
       break;
 
-    case action.type === 'add':
+    case action.type === 'ADD':
       temp.categories.push({
         id: state.categories[state.categories.length - 1].id + 1,
         order: state.categories[state.categories.length - 1].order + 1,
@@ -35,7 +35,7 @@ const reducer = (state, action) => {
       });
       break;
 
-    case action.type === 'remove':
+    case action.type === 'REMOVE':
       temp.categories.splice(action.id, 1);
       break;
 
@@ -43,7 +43,10 @@ const reducer = (state, action) => {
       console.error('Category reducer called unnecessarily.');
   }
 
+  localStorage.setItem('categoriesJson', JSON.stringify(temp));
+
   if (state === temp) updateRemoteCategories(temp);
+
   return { ...temp };
 };
 

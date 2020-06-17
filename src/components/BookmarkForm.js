@@ -28,7 +28,7 @@ const BookmarkForm = () => {
 
     if (addCategory) {
       categoryReducer({
-        type: 'add',
+        type: 'ADD',
         name: form.get('new-category'),
       });
     }
@@ -38,7 +38,7 @@ const BookmarkForm = () => {
       : parseInt(form.get('category'), 10);
 
     bookmarksReducer({
-      type: 'add',
+      type: 'ADD',
       name: form.get('name'),
       link: form.get('link'),
       category: category,

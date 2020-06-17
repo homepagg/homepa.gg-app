@@ -15,20 +15,28 @@ const Auth = () => {
 
   const getDropboxAuthCode = () => {
     const dbx = new Dropbox({ clientId: '5xp9p5yhgpd6oe9' });
-    return dbx.getAuthenticationUrl(`${window.location}auth`);
+    return dbx.getAuthenticationUrl(`${window.location}`);
   };
 
-  const loadFiles = useCallback(() => {
+  const updateSettings = useCallback(() => {
     const dbx = new Dropbox({ accessToken, fetch });
 
-    // dbx
-    //   .filesDownload({ path: '/settings.json' })
-    //   .then((response) => {
-    //     const reader = new FileReader();
-    //     reader.addEventListener('loadend', () => setSettings(JSON.parse(reader.result)));
-    //     reader.readAsText(response.fileBlob);
-    //   })
-    //   .catch((error) => console.error(error));
+    dbx
+      .filesDownload({ path: '/settings.json' })
+      .then((response) => {
+        const reader = new FileReader();
+        reader.addEventListener(
+          'loadend',
+          () => console.log(reader.result)
+          // setSettings(JSON.parse(reader.result))
+        );
+        reader.readAsText(response.fileBlob);
+      })
+      .catch((error) => console.error(error));
+  }, [accessToken]);
+
+  const updateCategories = useCallback(() => {
+    const dbx = new Dropbox({ accessToken, fetch });
 
     dbx
       .filesDownload({ path: '/categories.json' })
@@ -36,13 +44,17 @@ const Auth = () => {
         const reader = new FileReader();
         reader.addEventListener('loadend', () =>
           categoryReducer({
-            type: 'update',
+            type: 'UPDATE',
             categories: JSON.parse(reader.result),
           })
         );
         reader.readAsText(response.fileBlob);
       })
       .catch((error) => console.error(error));
+  }, [accessToken, categoryReducer]);
+
+  const updateBookmarks = useCallback(() => {
+    const dbx = new Dropbox({ accessToken, fetch });
 
     dbx
       .filesDownload({ path: '/bookmarks.json' })
@@ -50,14 +62,70 @@ const Auth = () => {
         const reader = new FileReader();
         reader.addEventListener('loadend', () =>
           bookmarksReducer({
-            type: 'update',
+            type: 'UPDATE',
             bookmarks: JSON.parse(reader.result),
           })
         );
         reader.readAsText(response.fileBlob);
       })
       .catch((error) => console.error(error));
-  }, [accessToken, bookmarksReducer, categoryReducer]);
+  }, [accessToken, bookmarksReducer]);
+
+  const checkRevisions = useCallback(() => {
+    const dbx = new Dropbox({ accessToken, fetch });
+
+    dbx
+      .filesListFolder({ path: '' })
+      .then(function (response) {
+        const settings = response.entries.filter(
+          (entry) => entry.name === 'settings.json'
+        )[0].rev;
+
+        const categories = response.entries.filter(
+          (entry) => entry.name === 'categories.json'
+        )[0].rev;
+
+        const bookmarks = response.entries.filter(
+          (entry) => entry.name === 'bookmarks.json'
+        )[0].rev;
+
+        if (localStorage.getItem('settingsRevision') !== settings) {
+          localStorage.setItem('settingsRevision', settings);
+          updateSettings();
+        }
+
+        if (
+          localStorage.getItem('categoriesRevision') !== categories &&
+          localStorage.getItem('categoriesJson')
+        ) {
+          localStorage.setItem('categoriesRevision', categories);
+          updateCategories();
+        } else {
+          const categories = JSON.parse(localStorage.getItem('categoriesJson'));
+          categoryReducer({
+            type: 'UPDATE',
+            categories: categories,
+          });
+        }
+
+        if (
+          localStorage.getItem('bookmarksRevision') !== bookmarks &&
+          localStorage.getItem('bookmarksJson')
+        ) {
+          localStorage.setItem('bookmarksRevision', bookmarks);
+          updateBookmarks();
+        } else {
+          const bookmarks = JSON.parse(localStorage.getItem('bookmarksJson'));
+          bookmarksReducer({
+            type: 'UPDATE',
+            bookmarks: bookmarks,
+          });
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }, [accessToken, updateSettings, updateCategories, updateBookmarks]);
 
   useEffect(() => {
     const getToken = () => {
@@ -69,10 +137,11 @@ const Auth = () => {
         .forEach((item) => {
           hashObj[item.split('=')[0]] = decodeURIComponent(item.split('=')[1]);
         });
+
       if (hashObj.access_token) {
         setAccessToken(hashObj.access_token);
       } else {
-        getDropboxAuthCode();
+        window.open(getDropboxAuthCode());
       }
     };
 
@@ -86,10 +155,10 @@ const Auth = () => {
   useEffect(() => {
     if (!accessToken || accessToken === '' || accessToken === 'undefined')
       return;
-    window.localStorage.setItem('accessToken', accessToken);
-    loadFiles();
+    localStorage.setItem('accessToken', accessToken);
+    checkRevisions();
     setHasToken(true);
-  }, [accessToken, loadFiles]);
+  }, [accessToken, checkRevisions]);
 
   return hasToken ? <Redirect to="/" /> : <h2>Grabbing the bits&hellip;</h2>;
 };

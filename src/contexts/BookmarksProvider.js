@@ -1,14 +1,15 @@
 import React, { createContext, useReducer } from 'react';
 import { Dropbox } from 'dropbox';
 
-const accessToken = window.localStorage.getItem('accessToken');
+const accessToken = localStorage.getItem('accessToken');
 const initialState = [];
 
 const Bookmarks = createContext(initialState);
 const { Provider } = Bookmarks;
 
+const dbx = new Dropbox({ accessToken, fetch });
+
 const updateRemoteBookmarks = (data) => {
-  const dbx = new Dropbox({ accessToken, fetch });
   dbx
     .filesUpload({
       path: '/bookmarks.json',
@@ -22,11 +23,11 @@ const reducer = (state, action) => {
   let temp = state;
 
   switch (true) {
-    case action.type === 'update':
+    case action.type === 'UPDATE':
       temp = action.bookmarks;
       break;
 
-    case action.type === 'add':
+    case action.type === 'ADD':
       temp.bookmarks.push({
         id: state.bookmarks[state.bookmarks.length - 1].id + 1,
         name: action.name,
@@ -35,7 +36,7 @@ const reducer = (state, action) => {
       });
       break;
 
-    case action.type === 'remove':
+    case action.type === 'REMOVE':
       temp.bookmarks.splice(action.id, 1);
       break;
 
@@ -43,7 +44,10 @@ const reducer = (state, action) => {
       console.error('Bookmark reducer called unnecessarily.');
   }
 
+  localStorage.setItem('bookmarksJson', JSON.stringify(temp));
+
   if (state === temp) updateRemoteBookmarks(temp);
+
   return { ...temp };
 };
 
