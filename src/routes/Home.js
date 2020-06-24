@@ -1,12 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import BookmarkForm from '../components/BookmarkForm.js';
 import Lists from '../components/Lists';
 
 const Home = () => {
-  return (
+  const checkContextToSeeIfUpdated = false;
+
+  return localStorage.getItem('accessToken') === '' ? (
+    <Link to="/auth">Login</Link>
+  ) : checkContextToSeeIfUpdated ? (
+    <Redirect to="/update" />
+  ) : (
     <>
-      <Link to="/auth">Login</Link>
       <BookmarkForm />
       <Lists />
     </>
