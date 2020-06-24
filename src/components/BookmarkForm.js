@@ -42,6 +42,7 @@ const BookmarkForm = () => {
       name: form.get('name'),
       link: form.get('link'),
       category: category,
+      favorite: form.get('favorite') === 'on',
     });
 
     resetForm();
