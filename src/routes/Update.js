@@ -3,6 +3,7 @@ import { Dropbox } from 'dropbox';
 import { Redirect } from 'react-router-dom';
 import { Bookmarks } from '../contexts/BookmarksProvider.js';
 import { Categories } from '../contexts/CategoriesProvider.js';
+import { Session } from '../contexts/SessionProvider.js';
 
 const Update = () => {
   const accessToken = localStorage.getItem('accessToken');
@@ -14,6 +15,10 @@ const Update = () => {
   const categoriesState = useContext(Categories);
   const { categoryReducer } = categoriesState;
   const categories = categoriesState.state.categories || [];
+
+  const sessionState = useContext(Session);
+  const { sessionReducer } = sessionState;
+  const isReady = sessionState.state.loggedIn || false;
 
   const [grabbing, setGrabbing] = useState(false);
   const [grabError, setGrabError] = useState(false);
@@ -84,7 +89,6 @@ const Update = () => {
   }, [accessToken, bookmarksReducer]);
 
   const checkRevisions = useCallback(() => {
-    console.log('checking');
     const dbx = new Dropbox({ accessToken, fetch });
 
     dbx
@@ -113,17 +117,15 @@ const Update = () => {
           localStorage.setItem('categoriesRevision', categories);
 
         if (
-          localStorage.getItem('categoriesJson') !==
-          ('null' || 'undefined' || '')
+          localStorage.getItem('categoriesJson') &&
+          localStorage.getItem('categoriesJson').startsWith('{"categories":[{')
         ) {
-          console.log('categories: in local storage');
           const categories = JSON.parse(localStorage.getItem('categoriesJson'));
           categoryReducer({
             type: 'UPDATE',
             categories: categories,
           });
         } else {
-          console.log('categories: needed to update');
           updateCategories();
         }
 
@@ -131,17 +133,15 @@ const Update = () => {
           localStorage.setItem('bookmarksRevision', bookmarks);
 
         if (
-          localStorage.getItem('bookmarksJson') !==
-          ('null' || 'undefined' || '')
+          localStorage.getItem('bookmarksJson') &&
+          localStorage.getItem('bookmarksJson').startsWith('{"bookmarks":[{')
         ) {
-          console.log('bookmarks: in local storage');
           const bookmarks = JSON.parse(localStorage.getItem('bookmarksJson'));
           bookmarksReducer({
             type: 'UPDATE',
             bookmarks: bookmarks,
           });
         } else {
-          console.log('bookmarks: needed to update');
           updateBookmarks();
         }
       })
@@ -172,7 +172,12 @@ const Update = () => {
     checkRevisions();
   }, [checkRevisions, grabbing]);
 
-  return hasDropbox && hasBookmarks && hasCategories ? (
+  useEffect(() => {
+    if (hasBookmarks && hasCategories && hasDropbox)
+      sessionReducer({ type: 'SET', value: true });
+  }, [hasBookmarks, hasCategories, hasDropbox, sessionReducer]);
+
+  return isReady ? (
     <Redirect to="/" />
   ) : grabError ? (
     <Redirect to="/error" />
