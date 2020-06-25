@@ -33,11 +33,26 @@ const reducer = (state, action) => {
         name: action.name,
         link: action.link,
         category: action.category,
+        favorite: action.favorite,
       });
       break;
 
+    case action.type === 'EDIT':
+      const bookmark = state.bookmarks
+        .map((node) => node.id)
+        .indexOf(action.id);
+      temp.bookmarks[bookmark] = {
+        id: action.id,
+        name: action.name,
+        link: action.link,
+        category: action.category,
+        favorite: action.favorite,
+      };
+      break;
+
     case action.type === 'REMOVE':
-      temp.bookmarks.splice(action.id, 1);
+      const index = state.bookmarks.map((node) => node.id).indexOf(action.id);
+      temp.bookmarks.splice(index, 1);
       break;
 
     default:

@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Session } from '../contexts/SessionProvider.js';
-import BookmarkForm from '../components/BookmarkForm.js';
 import Lists from '../components/Lists';
 
 const Home = () => {
@@ -13,10 +12,7 @@ const Home = () => {
   ) : !activeSession ? (
     <Redirect to="/update" />
   ) : (
-    <>
-      <BookmarkForm />
-      <Lists />
-    </>
+    <Lists />
   );
 };
 

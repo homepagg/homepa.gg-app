@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CategoryGroup = ({ name, bookmarks }) => {
+const CategoryGroup = ({ name, bookmarks, setDraggingNode }) => {
   const openAll = () =>
     bookmarks.forEach((bookmark) => window.open(bookmark.link));
 
@@ -11,7 +11,10 @@ const CategoryGroup = ({ name, bookmarks }) => {
       </h2>
       <ul>
         {bookmarks.map((bookmark) => (
-          <li key={bookmark.id}>
+          <li
+            key={bookmark.id}
+            onDragStart={() => setDraggingNode(bookmark.id)}
+            onDragEnd={() => setDraggingNode(null)}>
             <a href={bookmark.link} title={bookmark.name}>
               <img
                 alt=""
