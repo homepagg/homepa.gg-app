@@ -18,7 +18,6 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
 
   const resetForm = () => {
     setAddCategory(false);
-    categorySelect.current.required = addCategory;
     categorySelect.current.disabled = !addCategory;
     form.current.reset();
 
@@ -37,8 +36,12 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
       });
     }
 
+    debugger;
+
     const category = addCategory
       ? categories[categories.length - 1].id
+      : !form.get('category')
+      ? '0'
       : parseInt(form.get('category'), 10);
 
     bookmark
@@ -64,7 +67,6 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
   const toggleAddCategory = (event) => {
     event.preventDefault();
     setAddCategory(!addCategory);
-    categorySelect.current.required = addCategory;
     categorySelect.current.disabled = !addCategory;
   };
 
@@ -98,21 +100,22 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
         <label htmlFor="category">Category</label>
         <fieldset>
           <select
-            defaultValue={bookmark?.category}
+            defaultValue={bookmark?.category || ''}
             id="category"
             key={`category-select-${bookmark?.category || 0}`}
             name="category"
-            ref={categorySelect}
-            required>
+            ref={categorySelect}>
             <option value=""></option>
             {categories.length > 0
-              ? categories.map((category) => {
-                  return (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  );
-                })
+              ? categories
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map((category) => {
+                    return (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    );
+                  })
               : null}
           </select>
           or
