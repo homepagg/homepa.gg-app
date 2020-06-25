@@ -144,7 +144,7 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
         </label>
         <div>
           <button type="submit">
-            <span>Add</span>
+            <span>{bookmark ? 'Save' : 'Add'}</span>
           </button>
           <button type="reset">
             <span>Cancel</span>
