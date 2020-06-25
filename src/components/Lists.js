@@ -60,7 +60,7 @@ const Lists = () => {
   }, []);
 
   return (
-    <section>
+    <>
       <button onClick={() => setShowModal(true)}>+ Add Bookmark</button>
       {isDragging && (
         <ul
@@ -121,7 +121,7 @@ const Lists = () => {
       <ReactModal isOpen={showModal} onRequestClose={closeModal}>
         <BookmarkForm bookmarkId={editModalId} formCallback={closeModal} />
       </ReactModal>
-    </section>
+    </>
   );
 };
 

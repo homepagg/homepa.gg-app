@@ -16,14 +16,16 @@ function App() {
       <CategoriesProvider>
         <BookmarksProvider>
           <AppHeader />
-          <Router>
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/auth" component={Auth} />
-              <Route exact path="/error" component={Error} />
-              <Route exact path="/update" component={Update} />
-            </Switch>
-          </Router>
+          <main>
+            <Router>
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/auth" component={Auth} />
+                <Route exact path="/error" component={Error} />
+                <Route exact path="/update" component={Update} />
+              </Switch>
+            </Router>
+          </main>
         </BookmarksProvider>
       </CategoriesProvider>
     </SessionProvider>
