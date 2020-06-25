@@ -20,6 +20,8 @@ const Lists = () => {
   const [editModalId, setEditModalId] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  const hasData = categories.length > 0 && bookmarks.length > 0;
+
   const closeModal = () => {
     setShowModal(false);
     setEditModalId(null);
@@ -46,6 +48,12 @@ const Lists = () => {
     setOverEdit(false);
   };
 
+  const favorites = () => {
+    return bookmarks
+      .filter((bookmark) => bookmark.favorite)
+      .sort((a, b) => a.name.localeCompare(b.name));
+  };
+
   useEffect(() => {
     const dragstart = () => setIsDragging(true);
     const dragend = () => setIsDragging(false);
@@ -62,61 +70,75 @@ const Lists = () => {
   return (
     <>
       <button onClick={() => setShowModal(true)}>+ Add Bookmark</button>
-      {isDragging && (
-        <ul
-          style={{
-            display: 'grid',
-            gridGap: '5px',
-            gridTemplateColumns: '1fr 1fr',
-            gridTemplateRows: '80px 80px',
-            listStyle: 'none',
-          }}>
-          <li
-            onDragEnter={() => setOverDelete(true)}
-            onDragLeave={() => setOverDelete(false)}
-            onDragOver={(event) => event.preventDefault()}
-            onDrop={(event) => handleDelete(event, draggingNode)}
-            style={{
-              alignItems: 'center',
-              backgroundColor: overDelete ? 'lightskyblue' : '#eee',
-              display: 'flex',
-              justifyContent: 'center',
-            }}>
-            Delete
-          </li>
-          <li
-            onDragEnter={() => setOverEdit(true)}
-            onDragLeave={() => setOverEdit(false)}
-            onDragOver={(event) => event.preventDefault()}
-            onDrop={(event) => handleEdit(event, draggingNode)}
-            style={{
-              alignItems: 'center',
-              backgroundColor: overEdit ? 'lightskyblue' : '#eee',
-              display: 'flex',
-              justifyContent: 'center',
-            }}>
-            Edit
-          </li>
-        </ul>
-      )}
-      {categories.length > 0 &&
-        bookmarks.length > 0 &&
-        categories.map((category) => {
-          const categoryBookmarks = bookmarks
-            .filter((bookmark) => bookmark.category === category.id)
-            .sort((a, b) => a.name.localeCompare(b.name));
 
-          return (
-            categoryBookmarks.length > 0 && (
-              <CategoryGroup
-                key={category.id}
-                name={category.name}
-                bookmarks={categoryBookmarks}
-                setDraggingNode={setDraggingNode}
-              />
-            )
-          );
-        })}
+      {hasData ? (
+        <>
+          {isDragging && (
+            <ul
+              style={{
+                display: 'grid',
+                gridGap: '5px',
+                gridTemplateColumns: '1fr 1fr',
+                gridTemplateRows: '80px 80px',
+                listStyle: 'none',
+              }}>
+              <li
+                onDragEnter={() => setOverDelete(true)}
+                onDragLeave={() => setOverDelete(false)}
+                onDragOver={(event) => event.preventDefault()}
+                onDrop={(event) => handleDelete(event, draggingNode)}
+                style={{
+                  alignItems: 'center',
+                  backgroundColor: overDelete ? 'lightskyblue' : '#eee',
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}>
+                Delete
+              </li>
+              <li
+                onDragEnter={() => setOverEdit(true)}
+                onDragLeave={() => setOverEdit(false)}
+                onDragOver={(event) => event.preventDefault()}
+                onDrop={(event) => handleEdit(event, draggingNode)}
+                style={{
+                  alignItems: 'center',
+                  backgroundColor: overEdit ? 'lightskyblue' : '#eee',
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}>
+                Edit
+              </li>
+            </ul>
+          )}
+
+          {favorites().length > 0 && (
+            <CategoryGroup
+              name="Favorites"
+              bookmarks={favorites()}
+              setDraggingNode={setDraggingNode}
+            />
+          )}
+
+          {categories.map((category) => {
+            const categoryBookmarks = bookmarks
+              .filter((bookmark) => bookmark.category === category.id)
+              .sort((a, b) => a.name.localeCompare(b.name));
+
+            return (
+              categoryBookmarks.length > 0 && (
+                <CategoryGroup
+                  key={category.id}
+                  name={category.name}
+                  bookmarks={categoryBookmarks}
+                  setDraggingNode={setDraggingNode}
+                />
+              )
+            );
+          })}
+        </>
+      ) : (
+        <p>No Data.</p>
+      )}
 
       <ReactModal isOpen={showModal} onRequestClose={closeModal}>
         <BookmarkForm bookmarkId={editModalId} formCallback={closeModal} />
