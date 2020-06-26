@@ -11,6 +11,7 @@ const AppSettings = () => {
   const { settingReducer } = settingsState;
   const settings = settingsState.state || {};
 
+  const [showSettings, setShowSettings] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [theme, setTheme] = useState('default');
   const [favesGroup, setFavesGroup] = useState(true);
@@ -44,64 +45,72 @@ const AppSettings = () => {
   }, [theme]);
 
   return activeSession ? (
-    <aside>
-      <h2>Settings</h2>
-      <form>
-        <fieldset>
-          <h3>Theme</h3>
-          <label>
-            <input
-              checked={theme === 'default'}
-              name="theme"
-              onChange={() => updateTheme('default')}
-              type="radio"
-              value="default"
-            />
-            <span>System (Default)</span>
-          </label>
-          <label>
-            <input
-              checked={theme === 'dark'}
-              name="theme"
-              onChange={() => updateTheme('dark')}
-              type="radio"
-              value="dark"
-            />
-            <span>Dark</span>
-          </label>
-          <label>
-            <input
-              checked={theme === 'light'}
-              name="theme"
-              onChange={() => updateTheme('light')}
-              type="radio"
-              value="light"
-            />
-            <span>Light</span>
-          </label>
-        </fieldset>
-        <fieldset>
-          <h3>Favorites</h3>
-          <label>
-            <input
-              checked={favesGroup}
-              onChange={(event) => updateFavsGroup(event.target.checked)}
-              type="checkbox"
-            />
-            <span>Show Favorites group</span>
-          </label>
-          <label>
-            <input
-              checked={favesHide}
-              onChange={(event) => updatefavesHide(event.target.checked)}
-              type="checkbox"
-            />
-            <span>Hide favorites in categories</span>
-          </label>
-        </fieldset>
-        <Link to="/logout">Logout</Link>
-      </form>
-    </aside>
+    <>
+      <button onClick={() => setShowSettings(!showSettings)}>Settings</button>
+      {showSettings && (
+        <aside>
+          <h2>Settings</h2>
+          <button onClick={() => setShowSettings(!showSettings)}>
+            &times;
+          </button>
+          <form>
+            <fieldset>
+              <h3>Theme</h3>
+              <label>
+                <input
+                  checked={theme === 'default'}
+                  name="theme"
+                  onChange={() => updateTheme('default')}
+                  type="radio"
+                  value="default"
+                />
+                <span>System (Default)</span>
+              </label>
+              <label>
+                <input
+                  checked={theme === 'dark'}
+                  name="theme"
+                  onChange={() => updateTheme('dark')}
+                  type="radio"
+                  value="dark"
+                />
+                <span>Dark</span>
+              </label>
+              <label>
+                <input
+                  checked={theme === 'light'}
+                  name="theme"
+                  onChange={() => updateTheme('light')}
+                  type="radio"
+                  value="light"
+                />
+                <span>Light</span>
+              </label>
+            </fieldset>
+            <fieldset>
+              <h3>Favorites</h3>
+              <label>
+                <input
+                  checked={favesGroup}
+                  onChange={(event) => updateFavsGroup(event.target.checked)}
+                  type="checkbox"
+                />
+                <span>Show Favorites group</span>
+              </label>
+              <label>
+                <input
+                  checked={favesHide}
+                  onChange={(event) => updatefavesHide(event.target.checked)}
+                  type="checkbox"
+                />
+                <span>Hide favorites in categories</span>
+              </label>
+            </fieldset>
+            <Link to="/logout">Logout</Link>
+          </form>
+        </aside>
+      )}
+    </>
   ) : null;
 };
 
