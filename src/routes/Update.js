@@ -51,7 +51,7 @@ const Update = () => {
         console.error('Unable to grab "settings.json":', error);
         setGrabError(true);
       });
-  }, [accessToken]);
+  }, [accessToken, settingReducer]);
 
   const updateCategories = useCallback(() => {
     const dbx = new Dropbox({ accessToken, fetch });
