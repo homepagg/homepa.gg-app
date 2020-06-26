@@ -23,7 +23,7 @@ const Update = () => {
 
   const settingsState = useContext(Settings);
   const { settingReducer } = settingsState;
-  const settings = settingsState.state.settings || [];
+  const settings = settingsState.state || {};
 
   const [grabbing, setGrabbing] = useState(false);
   const [grabError, setGrabError] = useState(false);
@@ -125,7 +125,7 @@ const Update = () => {
           localStorage.getItem('settingsJson').startsWith('{"settings":[{')
         ) {
           const settings = JSON.parse(localStorage.getItem('settingsJson'));
-          categoryReducer({ type: 'UPDATE', settings: settings });
+          settingReducer({ type: 'UPDATE', settings: settings });
         } else {
           updateSettings();
         }
@@ -164,6 +164,7 @@ const Update = () => {
     accessToken,
     bookmarksReducer,
     categoryReducer,
+    settingReducer,
     updateBookmarks,
     updateCategories,
     updateSettings,
@@ -178,7 +179,7 @@ const Update = () => {
   }, [categories]);
 
   useEffect(() => {
-    setHasSettings(settings.length > 0);
+    setHasSettings(Object.keys(settings).length > 0);
   }, [settings]);
 
   useEffect(() => {
@@ -188,9 +189,9 @@ const Update = () => {
   }, [checkRevisions, grabbing]);
 
   useEffect(() => {
-    if (hasBookmarks && hasCategories && hasDropbox)
+    if (hasBookmarks && hasCategories && hasDropbox && hasSettings)
       sessionReducer({ type: 'SET', value: true });
-  }, [hasBookmarks, hasCategories, hasDropbox, sessionReducer]);
+  }, [hasBookmarks, hasCategories, hasDropbox, hasSettings, sessionReducer]);
 
   return isReady ? (
     <Redirect to="/" />

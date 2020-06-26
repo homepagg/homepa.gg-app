@@ -5,6 +5,7 @@ import { Bookmarks } from '../contexts/BookmarksProvider.js';
 import { Categories } from '../contexts/CategoriesProvider.js';
 import CategoryGroup from './CategoryGroup.js';
 import BookmarkForm from '../components/BookmarkForm.js';
+import { Settings } from '../contexts/SettingsProvider.js';
 
 const Lists = () => {
   const bookmarksState = useContext(Bookmarks);
@@ -14,6 +15,9 @@ const Lists = () => {
   const categoriesState = useContext(Categories);
   const { categoryReducer } = categoriesState;
   const categories = categoriesState.state.categories || [];
+
+  const settingsState = useContext(Settings);
+  const settings = settingsState.state || {};
 
   const [isDragging, setIsDragging] = useState(false);
   const [draggingNode, setDraggingNode] = useState(null);
@@ -136,7 +140,7 @@ const Lists = () => {
             </ul>
           )}
 
-          {favoriteBookmarks().length > 0 && (
+          {settings.favesGroup && favoriteBookmarks().length > 0 && (
             <CategoryGroup
               name="Favorites"
               bookmarks={favoriteBookmarks()}
@@ -151,9 +155,14 @@ const Lists = () => {
             onEnd={updateCategoryOrder}
             setList={(list) => setSortedCategories(list)}>
             {sortedCategories.map((category) => {
-              const categoryBookmarks = bookmarks
+              let categoryBookmarks = bookmarks
                 .filter((bookmark) => bookmark.category === category.id)
                 .sort((a, b) => a.name.localeCompare(b.name));
+
+              if (settings.favesHide)
+                categoryBookmarks = categoryBookmarks.filter(
+                  (bookmark) => bookmark.favorite === false
+                );
 
               return (
                 categoryBookmarks.length > 0 && (

@@ -27,13 +27,25 @@ const reducer = (state, action) => {
       temp = action.settings;
       break;
 
+    case action.type === 'SET_THEME':
+      temp.theme = action.value;
+      break;
+
+    case action.type === 'SET_SHOW_FAVORITES':
+      temp.favesHide = action.value;
+      break;
+
+    case action.type === 'SET_FAVORITES_GROUP':
+      temp.favesGroup = action.value;
+      break;
+
     default:
-      console.error('Category reducer called unnecessarily.');
+      console.error('Settings reducer called unnecessarily.');
   }
 
   localStorage.setItem('settingsJson', JSON.stringify(temp));
 
-  if (state === temp) updateRemoteSettings(temp);
+  if (action.type !== 'UPDATE') updateRemoteSettings(temp);
 
   return { ...temp };
 };
