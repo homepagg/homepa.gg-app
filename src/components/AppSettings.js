@@ -39,6 +39,10 @@ const AppSettings = () => {
     setFavesHide(settings.favesHide);
   }, [settings, updated]);
 
+  useEffect(() => {
+    document.body.dataset.theme = theme;
+  }, [theme]);
+
   return activeSession ? (
     <aside>
       <h2>Settings</h2>

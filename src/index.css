@@ -6,6 +6,40 @@
   padding: 0;
 }
 
+:root {
+  --theme-base: #fff;
+  --theme-text: #000;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --theme-base: #000;
+    --theme-text: #fff;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --theme-base: #fff;
+    --theme-text: #000;
+  }
+}
+
+[data-theme='dark'] {
+  --theme-base: #000;
+  --theme-text: #fff;
+}
+
+[data-theme='light'] {
+  --theme-base: #fff;
+  --theme-text: #000;
+}
+
+body {
+  background-color: var(--theme-base);
+  color: var(--theme-text);
+}
+
 form {
   display: grid;
   grid-gap: 10px;
