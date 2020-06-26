@@ -27,7 +27,7 @@ const AppSettings = () => {
     settingReducer({ type: 'SET_FAVORITES_GROUP', value: value });
   };
 
-  const updatefavesHide = (value) => {
+  const updateFavesHide = (value) => {
     setFavesHide(value);
     settingReducer({ type: 'SET_SHOW_FAVORITES', value: value });
   };
@@ -100,7 +100,7 @@ const AppSettings = () => {
               <label>
                 <input
                   checked={favesHide}
-                  onChange={(event) => updatefavesHide(event.target.checked)}
+                  onChange={(event) => updateFavesHide(event.target.checked)}
                   type="checkbox"
                 />
                 <span>Hide favorites in categories</span>
