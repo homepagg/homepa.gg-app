@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { Bookmarks } from '../contexts/BookmarksProvider.js';
 import { Categories } from '../contexts/CategoriesProvider.js';
 import { Session } from '../contexts/SessionProvider.js';
+import { Settings } from '../contexts/SettingsProvider.js';
 
 const Update = () => {
   const accessToken = localStorage.getItem('accessToken');
@@ -20,11 +21,16 @@ const Update = () => {
   const { sessionReducer } = sessionState;
   const isReady = sessionState.state.loggedIn || false;
 
+  const settingsState = useContext(Settings);
+  const { settingReducer } = settingsState;
+  const settings = settingsState.state.settings || [];
+
   const [grabbing, setGrabbing] = useState(false);
   const [grabError, setGrabError] = useState(false);
   const [hasBookmarks, setHasBookmarks] = useState(false);
   const [hasDropbox, setHasDropbox] = useState(false);
   const [hasCategories, setHasCategories] = useState(false);
+  const [hasSettings, setHasSettings] = useState(false);
 
   const updateSettings = useCallback(() => {
     const dbx = new Dropbox({ accessToken, fetch });
@@ -33,11 +39,12 @@ const Update = () => {
       .filesDownload({ path: '/settings.json' })
       .then((response) => {
         const reader = new FileReader();
-        reader.addEventListener(
-          'loadend',
-          () => console.log(reader.result)
-          // setSettings(JSON.parse(reader.result))
-        );
+        reader.addEventListener('loadend', () => {
+          settingReducer({
+            type: 'UPDATE',
+            settings: JSON.parse(reader.result),
+          });
+        });
         reader.readAsText(response.fileBlob);
       })
       .catch((error) => {
@@ -113,6 +120,16 @@ const Update = () => {
           updateSettings();
         }
 
+        if (
+          localStorage.getItem('settingsJson') &&
+          localStorage.getItem('settingsJson').startsWith('{"settings":[{')
+        ) {
+          const settings = JSON.parse(localStorage.getItem('settingsJson'));
+          categoryReducer({ type: 'UPDATE', settings: settings });
+        } else {
+          updateSettings();
+        }
+
         if (localStorage.getItem('categoriesRevision') !== categories)
           localStorage.setItem('categoriesRevision', categories);
 
@@ -161,6 +178,10 @@ const Update = () => {
   }, [categories]);
 
   useEffect(() => {
+    setHasSettings(settings.length > 0);
+  }, [settings]);
+
+  useEffect(() => {
     if (grabbing) return;
     setGrabbing(true);
     checkRevisions();
@@ -193,9 +214,15 @@ const Update = () => {
         </dd>
         <dt>Settings</dt>
         <dd>
-          <span aria-label="Shrug" role="img">
-            ❓
-          </span>
+          {hasSettings ? (
+            <span aria-label="Yarp" role="img">
+              ✅
+            </span>
+          ) : (
+            <span aria-label="Narp" role="img">
+              ❌
+            </span>
+          )}
         </dd>
         <dt>Categories</dt>
         <dd>

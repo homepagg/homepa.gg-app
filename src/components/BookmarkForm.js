@@ -36,8 +36,6 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
       });
     }
 
-    debugger;
-
     const category = addCategory
       ? categories[categories.length - 1].id
       : !form.get('category')
