@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Session } from '../contexts/SessionProvider.js';
 import { Settings } from '../contexts/SettingsProvider.js';
 
@@ -94,7 +95,7 @@ const AppSettings = () => {
             <span>Hide favorites in categories</span>
           </label>
         </fieldset>
-        <button>Logout</button>
+        <Link to="/logout">Logout</Link>
       </form>
     </aside>
   ) : null;

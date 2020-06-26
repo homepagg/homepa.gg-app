@@ -9,7 +9,8 @@ import AppSettings from './components/AppSettings';
 import Auth from './routes/Auth';
 import Error from './routes/Error';
 import Home from './routes/Home';
-import Update from './routes/Update';
+import Logout from './routes/Logout';
+import Setup from './routes/Setup';
 import './App.css';
 
 function App() {
@@ -19,17 +20,18 @@ function App() {
         <CategoriesProvider>
           <BookmarksProvider>
             <AppHeader />
-            <AppSettings />
-            <main>
-              <Router>
+            <Router>
+              <AppSettings />
+              <main>
                 <Switch>
                   <Route exact path="/" component={Home} />
                   <Route path="/auth" component={Auth} />
                   <Route path="/error" component={Error} />
-                  <Route path="/update" component={Update} />
+                  <Route path="/logout" component={Logout} />
+                  <Route path="/setup" component={Setup} />
                 </Switch>
-              </Router>
-            </main>
+              </main>
+            </Router>
           </BookmarksProvider>
         </CategoriesProvider>
       </SettingsProvider>

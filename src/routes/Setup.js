@@ -6,7 +6,7 @@ import { Categories } from '../contexts/CategoriesProvider.js';
 import { Session } from '../contexts/SessionProvider.js';
 import { Settings } from '../contexts/SettingsProvider.js';
 
-const Update = () => {
+const Setup = () => {
   const accessToken = localStorage.getItem('accessToken');
 
   const bookmarksState = useContext(Bookmarks);
@@ -254,4 +254,4 @@ const Update = () => {
   );
 };
 
-export default Update;
+export default Setup;

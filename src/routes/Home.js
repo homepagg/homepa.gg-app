@@ -7,10 +7,11 @@ const Home = () => {
   const sessionState = useContext(Session);
   const activeSession = sessionState.state.loggedIn || false;
 
-  return localStorage.getItem('accessToken') === '' ? (
+  return !localStorage.getItem('accessToken') ||
+    localStorage.getItem('accessToken') === '' ? (
     <Link to="/auth">Login</Link>
   ) : !activeSession ? (
-    <Redirect to="/update" />
+    <Redirect to="/setup" />
   ) : (
     <Lists />
   );

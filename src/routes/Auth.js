@@ -44,7 +44,7 @@ const Auth = () => {
   }, [accessToken]);
 
   return hasToken ? (
-    <Redirect to="/update" />
+    <Redirect to="/setup" />
   ) : (
     <h2>Checking you out&hellip;</h2>
   );
