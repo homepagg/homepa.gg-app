@@ -1,17 +1,25 @@
 import React from 'react';
 
-const CategoryGroup = ({ name, bookmarks, setDraggingNode }) => {
+const CategoryGroup = ({
+  name,
+  bookmarks,
+  setDraggingNode,
+  sortable,
+  sorting,
+}) => {
   const openAll = () =>
     bookmarks.forEach((bookmark) => window.open(bookmark.link));
 
   return (
     <section>
       <h2>
-        {name} <button onClick={openAll}>Open All</button>
+        {name} {!sorting && <button onClick={openAll}>Open All</button>}
       </h2>
-      <ul>
+      {sortable && <button data-sortable-handle>≡</button>}
+      <ul style={{ display: sorting ? 'none' : '' }}>
         {bookmarks.map((bookmark) => (
           <li
+            data-bookmark={bookmark.id}
             key={bookmark.id}
             onDragStart={() => setDraggingNode(bookmark.id)}
             onDragEnd={() => setDraggingNode(null)}>

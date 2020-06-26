@@ -121,10 +121,7 @@ const Update = () => {
           localStorage.getItem('categoriesJson').startsWith('{"categories":[{')
         ) {
           const categories = JSON.parse(localStorage.getItem('categoriesJson'));
-          categoryReducer({
-            type: 'UPDATE',
-            categories: categories,
-          });
+          categoryReducer({ type: 'UPDATE', categories: categories });
         } else {
           updateCategories();
         }
@@ -137,10 +134,7 @@ const Update = () => {
           localStorage.getItem('bookmarksJson').startsWith('{"bookmarks":[{')
         ) {
           const bookmarks = JSON.parse(localStorage.getItem('bookmarksJson'));
-          bookmarksReducer({
-            type: 'UPDATE',
-            bookmarks: bookmarks,
-          });
+          bookmarksReducer({ type: 'UPDATE', bookmarks: bookmarks });
         } else {
           updateBookmarks();
         }

@@ -45,7 +45,7 @@ const reducer = (state, action) => {
 
   localStorage.setItem('categoriesJson', JSON.stringify(temp));
 
-  if (state === temp) updateRemoteCategories(temp);
+  if (state !== temp && state.length !== 0) updateRemoteCategories(temp);
 
   return { ...temp };
 };

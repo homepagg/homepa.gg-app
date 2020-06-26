@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { ReactSortable } from 'react-sortablejs';
 import ReactModal from 'react-modal';
 import { Bookmarks } from '../contexts/BookmarksProvider.js';
 import { Categories } from '../contexts/CategoriesProvider.js';
@@ -11,14 +12,19 @@ const Lists = () => {
   const bookmarks = bookmarksState.state.bookmarks || [];
 
   const categoriesState = useContext(Categories);
+  const { categoryReducer } = categoriesState;
   const categories = categoriesState.state.categories || [];
 
   const [isDragging, setIsDragging] = useState(false);
   const [draggingNode, setDraggingNode] = useState(null);
   const [overDelete, setOverDelete] = useState(false);
-  const [overEdit, setOverEdit] = useState(false);
   const [editModalId, setEditModalId] = useState(null);
+  const [overEdit, setOverEdit] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isSorting, setIsSorting] = useState(false);
+  const [sortedCategories, setSortedCategories] = useState(
+    categories.sort((a, b) => (a.order > b.order ? 1 : -1)) || []
+  );
 
   const hasData = categories.length > 0 && bookmarks.length > 0;
 
@@ -48,14 +54,33 @@ const Lists = () => {
     setOverEdit(false);
   };
 
-  const favorites = () => {
+  const favoriteBookmarks = () => {
     return bookmarks
       .filter((bookmark) => bookmark.favorite)
       .sort((a, b) => a.name.localeCompare(b.name));
   };
 
+  const updateCategoryOrder = () => {
+    const newOrder = {
+      categories: sortedCategories.map((category, i) => {
+        category.order = i + 1;
+        return {
+          id: category.id,
+          name: category.name,
+          order: category.order,
+        };
+      }),
+    };
+
+    setIsSorting(false);
+    categoryReducer({ type: 'UPDATE', categories: newOrder });
+  };
+
   useEffect(() => {
-    const dragstart = () => setIsDragging(true);
+    const dragstart = (event) => {
+      if (!!event.target.closest('[data-bookmark]')) setIsDragging(true);
+    };
+
     const dragend = () => setIsDragging(false);
 
     document.addEventListener('dragstart', dragstart);
@@ -111,30 +136,39 @@ const Lists = () => {
             </ul>
           )}
 
-          {favorites().length > 0 && (
+          {favoriteBookmarks().length > 0 && (
             <CategoryGroup
               name="Favorites"
-              bookmarks={favorites()}
+              bookmarks={favoriteBookmarks()}
               setDraggingNode={setDraggingNode}
             />
           )}
 
-          {categories.map((category) => {
-            const categoryBookmarks = bookmarks
-              .filter((bookmark) => bookmark.category === category.id)
-              .sort((a, b) => a.name.localeCompare(b.name));
+          <ReactSortable
+            handle="[data-sortable-handle]"
+            list={sortedCategories}
+            onStart={() => setIsSorting(true)}
+            onEnd={updateCategoryOrder}
+            setList={(list) => setSortedCategories(list)}>
+            {sortedCategories.map((category) => {
+              const categoryBookmarks = bookmarks
+                .filter((bookmark) => bookmark.category === category.id)
+                .sort((a, b) => a.name.localeCompare(b.name));
 
-            return (
-              categoryBookmarks.length > 0 && (
-                <CategoryGroup
-                  key={category.id}
-                  name={category.name}
-                  bookmarks={categoryBookmarks}
-                  setDraggingNode={setDraggingNode}
-                />
-              )
-            );
-          })}
+              return (
+                categoryBookmarks.length > 0 && (
+                  <CategoryGroup
+                    key={category.id}
+                    name={category.name}
+                    bookmarks={categoryBookmarks}
+                    setDraggingNode={setDraggingNode}
+                    sortable={true}
+                    sorting={isSorting}
+                  />
+                )
+              );
+            })}
+          </ReactSortable>
         </>
       ) : (
         <p>No Data.</p>
