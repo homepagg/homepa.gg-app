@@ -13,7 +13,7 @@ const Logout = () => {
     localStorage.removeItem('categoriesRevision');
 
     setClean(true);
-  }, []);
+  }, [clean]);
 
   return clean ? <Redirect to="/" /> : <h2>Logging out&hellip;</h2>;
 };
