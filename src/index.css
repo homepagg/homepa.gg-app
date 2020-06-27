@@ -35,9 +35,14 @@
   --theme-text: #000;
 }
 
+html {
+  font-size: 10px;
+}
+
 body {
   background-color: var(--theme-base);
   color: var(--theme-text);
+  font: 400 1.5rem/1.3333 sans-serif;
 }
 
 form {

@@ -1,4 +1,6 @@
 import React from 'react';
+import styles from './CategoryGroup.module.css';
+import Bookmark from './Bookmark';
 
 const CategoryGroup = ({
   name,
@@ -16,21 +18,15 @@ const CategoryGroup = ({
         {name} {!sorting && <button onClick={openAll}>Open All</button>}
       </h2>
       {sortable && <button data-sortable-handle>≡</button>}
-      <ul style={{ display: sorting ? 'none' : '' }}>
+      <ul
+        className={styles.bookmarks}
+        style={{ display: sorting ? 'none' : '' }}>
         {bookmarks.map((bookmark) => (
-          <li
-            data-bookmark={bookmark.id}
+          <Bookmark
             key={bookmark.id}
-            onDragStart={() => setDraggingNode(bookmark.id)}
-            onDragEnd={() => setDraggingNode(null)}>
-            <a href={bookmark.link} title={bookmark.name}>
-              <img
-                alt=""
-                src={`http://www.google.com/s2/favicons?domain=${bookmark.link}`}
-              />
-              {bookmark.name}
-            </a>
-          </li>
+            bookmark={bookmark}
+            setDraggingNode={setDraggingNode}
+          />
         ))}
       </ul>
     </section>

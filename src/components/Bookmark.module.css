@@ -1,0 +1,35 @@
+.bookmark {
+  list-style: none;
+}
+
+.icon {
+  display: block;
+  flex: 0 0 auto;
+  margin-right: 0.5rem;
+}
+
+.link {
+  align-items: center;
+  display: flex;
+  padding: 5px;
+  position: relative;
+  text-decoration: none;
+  z-index: 0;
+}
+
+.link::after {
+  border-radius: 5px;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+.text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
