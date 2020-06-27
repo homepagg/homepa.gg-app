@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import cx from 'classnames';
 import { ReactSortable } from 'react-sortablejs';
 import ReactModal from 'react-modal';
 import { Bookmarks } from '../contexts/BookmarksProvider.js';
@@ -106,7 +107,7 @@ const Lists = () => {
           {isDragging && (
             <ul className={styles.dropzones}>
               <li
-                className={styles.dropzone}
+                className={cx(styles.dropzone, { [styles.over]: overDelete })}
                 onDragEnter={() => setOverDelete(true)}
                 onDragLeave={() => setOverDelete(false)}
                 onDragOver={(event) => event.preventDefault()}
@@ -114,7 +115,7 @@ const Lists = () => {
                 <span className={styles.label}>Delete</span>
               </li>
               <li
-                className={styles.dropzone}
+                className={cx(styles.dropzone, { [styles.over]: overEdit })}
                 onDragEnter={() => setOverEdit(true)}
                 onDragLeave={() => setOverEdit(false)}
                 onDragOver={(event) => event.preventDefault()}

@@ -50,3 +50,11 @@
   pointer-events: none;
   text-transform: uppercase;
 }
+
+.over::after {
+  opacity: 0.24;
+}
+
+.over .label {
+  opacity: 0.36;
+}
