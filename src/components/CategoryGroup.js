@@ -13,11 +13,18 @@ const CategoryGroup = ({
     bookmarks.forEach((bookmark) => window.open(bookmark.link));
 
   return (
-    <section>
-      <h2>
-        {name} {!sorting && <button onClick={openAll}>Open All</button>}
-      </h2>
-      {sortable && <button data-sortable-handle>≡</button>}
+    <section className={styles.category}>
+      <h2 className={styles.title}>{name}</h2>
+      {!sorting && (
+        <button className={styles.open} onClick={openAll}>
+          Open All
+        </button>
+      )}
+      {sortable && (
+        <span className={styles.move} data-sortable-handle>
+          ≡
+        </span>
+      )}
       <ul
         className={styles.bookmarks}
         style={{ display: sorting ? 'none' : '' }}>

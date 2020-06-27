@@ -3,32 +3,50 @@
 }
 
 .icon {
-  display: block;
+  background-color: hsla(0, 0%, 100%, 0.4);
+  border-radius: 50%;
+  display: flex;
   flex: 0 0 auto;
-  margin-right: 0.5rem;
+  height: calc(100% - 4px);
+  margin-right: 8px;
+  padding: 6px;
+  width: auto;
+}
+
+img {
+  height: 100%;
+  width: auto;
 }
 
 .link {
   align-items: center;
   display: flex;
-  padding: 5px;
+  padding: 2px 12px 2px 2px;
   position: relative;
   text-decoration: none;
   z-index: 0;
 }
 
 .link::after {
-  border-radius: 5px;
+  background-color: var(--theme-text);
+  border-radius: 36px;
+  content: '';
   height: 100%;
   left: 0;
+  opacity: 0.06;
   position: absolute;
   top: 0;
   width: 100%;
   z-index: -1;
 }
 
+.link:hover::after {
+  opacity: 0.12;
+}
+
 .text {
   flex: 1;
+  line-height: 1.2;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

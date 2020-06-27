@@ -11,7 +11,9 @@ const Bookmark = ({ bookmark, setDraggingNode }) => {
       onDragStart={() => setDraggingNode(bookmark.id)}
       onDragEnd={() => setDraggingNode(null)}>
       <a className={styles.link} href={bookmark.link} title={bookmark.name}>
-        <img alt="" className={styles.icon} src={favicon} />
+        <span className={styles.icon}>
+          <img alt="" className={styles.img} src={favicon} />
+        </span>
         <span className={styles.text}>{bookmark.name}</span>
       </a>
     </li>
