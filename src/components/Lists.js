@@ -6,6 +6,7 @@ import { Categories } from '../contexts/CategoriesProvider.js';
 import CategoryGroup from './CategoryGroup.js';
 import BookmarkForm from '../components/BookmarkForm.js';
 import { Settings } from '../contexts/SettingsProvider.js';
+import styles from './Lists.module.css';
 
 const Lists = () => {
   const bookmarksState = useContext(Bookmarks);
@@ -102,40 +103,23 @@ const Lists = () => {
 
       {hasData ? (
         <>
-          {isDragging && (
-            <ul
-              style={{
-                display: 'grid',
-                gridGap: '5px',
-                gridTemplateColumns: '1fr 1fr',
-                gridTemplateRows: '80px 80px',
-                listStyle: 'none',
-              }}>
+          {!isDragging && (
+            <ul className={styles.dropzones}>
               <li
+                className={styles.dropzone}
                 onDragEnter={() => setOverDelete(true)}
                 onDragLeave={() => setOverDelete(false)}
                 onDragOver={(event) => event.preventDefault()}
-                onDrop={(event) => handleDelete(event, draggingNode)}
-                style={{
-                  alignItems: 'center',
-                  backgroundColor: overDelete ? 'lightskyblue' : '#eee',
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}>
-                Delete
+                onDrop={(event) => handleDelete(event, draggingNode)}>
+                <span className={styles.label}>Delete</span>
               </li>
               <li
+                className={styles.dropzone}
                 onDragEnter={() => setOverEdit(true)}
                 onDragLeave={() => setOverEdit(false)}
                 onDragOver={(event) => event.preventDefault()}
-                onDrop={(event) => handleEdit(event, draggingNode)}
-                style={{
-                  alignItems: 'center',
-                  backgroundColor: overEdit ? 'lightskyblue' : '#eee',
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}>
-                Edit
+                onDrop={(event) => handleEdit(event, draggingNode)}>
+                <span className={styles.label}>Edit</span>
               </li>
             </ul>
           )}
