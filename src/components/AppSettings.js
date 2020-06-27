@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { Session } from '../contexts/SessionProvider.js';
 import { Settings } from '../contexts/SettingsProvider.js';
 import { ReactComponent as CancelSvg } from '../images/icons/cancel.svg';
+import { ReactComponent as LogoutSvg } from '../images/icons/logout.svg';
+import { ReactComponent as SettingsSvg } from '../images/icons/settings.svg';
+import styles from './AppSettings.module.css';
 
 const AppSettings = () => {
   const sessionState = useContext(Session);
@@ -47,14 +50,21 @@ const AppSettings = () => {
 
   return activeSession ? (
     <>
-      <button onClick={() => setShowSettings(!showSettings)}>Settings</button>
+      <button
+        className={styles.settings}
+        onClick={() => setShowSettings(!showSettings)}
+        title="Settings">
+        <SettingsSvg />
+      </button>
       {showSettings && (
-        <aside>
-          <h2>Settings</h2>
-          <button onClick={() => setShowSettings(!showSettings)}>
+        <aside className={styles.container}>
+          <button
+            className={styles.close}
+            onClick={() => setShowSettings(!showSettings)}>
             <CancelSvg />
           </button>
-          <form>
+          <form className={styles.form}>
+            <h2>Settings</h2>
             <fieldset>
               <h3>Theme</h3>
               <label>
@@ -107,7 +117,10 @@ const AppSettings = () => {
                 <span>Hide favorites in categories</span>
               </label>
             </fieldset>
-            <Link to="/logout">Logout</Link>
+            <Link className={styles.logout} to="/logout">
+              <LogoutSvg />
+              Logout
+            </Link>
           </form>
         </aside>
       )}
