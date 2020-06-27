@@ -31,6 +31,7 @@
     "@testing-library/user-event": "^7.1.2",
     "classnames": "^2.2.6",
     "dropbox": "^4.0.30",
+    "node-vibrant": "^3.1.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-modal": "^3.11.2",

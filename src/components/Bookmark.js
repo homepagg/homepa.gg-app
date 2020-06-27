@@ -9,7 +9,8 @@ const Bookmark = ({ bookmark, setDraggingNode }) => {
       className={styles.bookmark}
       data-bookmark={bookmark.id}
       onDragStart={() => setDraggingNode(bookmark.id)}
-      onDragEnd={() => setDraggingNode(null)}>
+      onDragEnd={() => setDraggingNode(null)}
+      style={{ '--bg-color': bookmark.color }}>
       <a className={styles.link} href={bookmark.link} title={bookmark.name}>
         <span className={styles.icon}>
           <img alt="" className={styles.img} src={favicon} />

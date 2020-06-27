@@ -9,6 +9,7 @@
 :root {
   --theme-base: #fff;
   --theme-text: #000;
+  --bg-color: var(--theme-text);
 }
 
 @media (prefers-color-scheme: dark) {

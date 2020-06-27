@@ -33,6 +33,7 @@ const reducer = (state, action) => {
         name: action.name,
         link: action.link,
         category: action.category,
+        color: action.color,
         favorite: action.favorite,
       });
       break;
@@ -46,6 +47,7 @@ const reducer = (state, action) => {
         name: action.name,
         link: action.link,
         category: action.category,
+        color: action.color,
         favorite: action.favorite,
       };
       break;

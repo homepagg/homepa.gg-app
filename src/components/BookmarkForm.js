@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import Vibrant from 'node-vibrant';
 import { Bookmarks } from '../contexts/BookmarksProvider.js';
 import { Categories } from '../contexts/CategoriesProvider.js';
 
@@ -13,8 +14,20 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
 
   const form = useRef();
   const categorySelect = useRef();
+  const linkInput = useRef();
+
   const [addCategory, setAddCategory] = useState(false);
   const [bookmark, setBookmark] = useState(null);
+  const [color, setColor] = useState('');
+
+  const getPalette = async () => {
+    const image = new Image();
+    image.crossOrigin = 'anonymous';
+    image.src = `https://cors-anywhere.herokuapp.com/http://www.google.com/s2/favicons?domain=${linkInput.current.value}`;
+
+    const palette = (await Vibrant.from(image).getPalette()) || '#fff';
+    setColor(palette.Vibrant.getHex());
+  };
 
   const resetForm = () => {
     setAddCategory(false);
@@ -49,6 +62,7 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
           name: form.get('name'),
           link: form.get('link'),
           category: category,
+          color: color,
           favorite: form.get('favorite') === 'on',
         })
       : bookmarksReducer({
@@ -56,6 +70,7 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
           name: form.get('name'),
           link: form.get('link'),
           category: category,
+          color: color,
           favorite: form.get('favorite') === 'on',
         });
 
@@ -92,7 +107,9 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
           defaultValue={bookmark?.link}
           id="link"
           name="link"
+          onBlur={getPalette}
           required
+          ref={linkInput}
           type="url"
         />
         <label htmlFor="category">Category</label>
