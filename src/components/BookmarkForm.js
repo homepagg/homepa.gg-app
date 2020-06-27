@@ -25,8 +25,19 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
     image.crossOrigin = 'anonymous';
     image.src = `https://cors-anywhere.herokuapp.com/http://www.google.com/s2/favicons?domain=${linkInput.current.value}`;
 
-    const palette = (await Vibrant.from(image).getPalette()) || '#fff';
-    setColor(palette.Vibrant.getHex());
+    const palette = await Vibrant.from(image).getPalette();
+    setColor(
+      palette.Vibrant?.getHex() ||
+        palette.Muted?.getHex() ||
+        palette[
+          Object.keys(palette)[
+            Object.values(palette).indexOf(
+              Object.values(palette).find((e) => e !== null)
+            )
+          ]
+        ] ||
+        '#fff'
+    );
   };
 
   const resetForm = () => {
