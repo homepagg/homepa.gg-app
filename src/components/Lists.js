@@ -103,7 +103,7 @@ const Lists = () => {
 
       {hasData ? (
         <>
-          {!isDragging && (
+          {isDragging && (
             <ul className={styles.dropzones}>
               <li
                 className={styles.dropzone}
