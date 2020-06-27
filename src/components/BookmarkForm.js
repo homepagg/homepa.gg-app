@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import Vibrant from 'node-vibrant';
 import { Bookmarks } from '../contexts/BookmarksProvider.js';
 import { Categories } from '../contexts/CategoriesProvider.js';
+import { ReactComponent as CancelSvg } from '../images/icons/cancel.svg';
 
 const BookmarkForm = ({ bookmarkId, formCallback }) => {
   const bookmarksState = useContext(Bookmarks);
@@ -36,7 +37,7 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
             )
           ]
         ] ||
-        '#fff'
+        '#888'
     );
   };
 
@@ -154,7 +155,7 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
             <label htmlFor="new-category">Name your new category</label>
             <input id="new-category" name="new-category" required type="text" />
             <button onClick={toggleAddCategory} title="Delete">
-              &times;
+              <CancelSvg />
             </button>
           </fieldset>
         ) : null}

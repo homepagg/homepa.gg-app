@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './CategoryGroup.module.css';
 import Bookmark from './Bookmark';
+import { ReactComponent as ArrowSvg } from '../images/icons/arrow.svg';
+import { ReactComponent as MoveSvg } from '../images/icons/move.svg';
 
 const CategoryGroup = ({
   name,
@@ -18,11 +20,12 @@ const CategoryGroup = ({
       {!sorting && (
         <button className={styles.open} onClick={openAll}>
           Open All
+          <ArrowSvg />
         </button>
       )}
       {sortable && (
         <span className={styles.move} data-sortable-handle>
-          ≡
+          <MoveSvg />
         </span>
       )}
       <ul

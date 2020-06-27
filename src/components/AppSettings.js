@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Session } from '../contexts/SessionProvider.js';
 import { Settings } from '../contexts/SettingsProvider.js';
+import { ReactComponent as CancelSvg } from '../images/icons/cancel.svg';
 
 const AppSettings = () => {
   const sessionState = useContext(Session);
@@ -51,7 +52,7 @@ const AppSettings = () => {
         <aside>
           <h2>Settings</h2>
           <button onClick={() => setShowSettings(!showSettings)}>
-            &times;
+            <CancelSvg />
           </button>
           <form>
             <fieldset>

@@ -9,7 +9,7 @@
 :root {
   --theme-base: #fff;
   --theme-text: #000;
-  --bg-color: var(--theme-text);
+  --color-main: var(--theme-text);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -91,4 +91,10 @@ label + label {
 
 form *:not(label) {
   grid-column: 2;
+}
+
+svg {
+  display: inline-block;
+  height: 1em;
+  width: 1em;
 }

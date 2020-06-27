@@ -7,6 +7,9 @@ import { Categories } from '../contexts/CategoriesProvider.js';
 import CategoryGroup from './CategoryGroup.js';
 import BookmarkForm from '../components/BookmarkForm.js';
 import { Settings } from '../contexts/SettingsProvider.js';
+import { ReactComponent as CancelSvg } from '../images/icons/cancel.svg';
+import { ReactComponent as PencilSvg } from '../images/icons/pencil.svg';
+import { ReactComponent as PlusSvg } from '../images/icons/plus.svg';
 import styles from './Lists.module.css';
 
 const Lists = () => {
@@ -100,7 +103,10 @@ const Lists = () => {
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>+ Add Bookmark</button>
+      <button onClick={() => setShowModal(true)}>
+        <PlusSvg />
+        Add Bookmark
+      </button>
 
       {hasData ? (
         <>
@@ -112,7 +118,10 @@ const Lists = () => {
                 onDragLeave={() => setOverDelete(false)}
                 onDragOver={(event) => event.preventDefault()}
                 onDrop={(event) => handleDelete(event, draggingNode)}>
-                <span className={styles.label}>Delete</span>
+                <span className={styles.label}>
+                  <CancelSvg />
+                  Delete
+                </span>
               </li>
               <li
                 className={cx(styles.dropzone, { [styles.over]: overEdit })}
@@ -120,7 +129,10 @@ const Lists = () => {
                 onDragLeave={() => setOverEdit(false)}
                 onDragOver={(event) => event.preventDefault()}
                 onDrop={(event) => handleEdit(event, draggingNode)}>
-                <span className={styles.label}>Edit</span>
+                <span className={styles.label}>
+                  <PencilSvg />
+                  Edit
+                </span>
               </li>
             </ul>
           )}

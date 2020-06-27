@@ -1,11 +1,46 @@
 .bookmarks {
   display: grid;
   grid-area: list;
-  grid-gap: 5px;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-gap: 1px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   justify-self: stretch;
   list-style: none;
   margin-top: 10px;
+  overflow: hidden;
+  position: relative;
+  z-index: -1;
+}
+
+.bookmarks::after {
+  background-color: var(--theme-base);
+  content: '';
+  width: 100vw;
+}
+
+.bookmarks::before {
+  background-color: var(--theme-text);
+  background-image: linear-gradient(
+      to bottom,
+      var(--theme-base) 0,
+      transparent 36px,
+      transparent calc(100% - 36px),
+      var(--theme-base) 100%
+    ),
+    linear-gradient(
+      to right,
+      var(--theme-base) 0,
+      transparent 24px,
+      transparent calc(100% - 36px),
+      var(--theme-base) 100%
+    );
+  content: '';
+  height: 100%;
+  left: 0;
+  opacity: 0.08;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
 }
 
 .category {
