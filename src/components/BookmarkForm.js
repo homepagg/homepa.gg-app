@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import Vibrant from 'node-vibrant';
 import { Bookmarks } from '../contexts/BookmarksProvider.js';
 import { Categories } from '../contexts/CategoriesProvider.js';
+import ColorPicker from './ColorPicker';
 import { ReactComponent as CancelSvg } from '../images/icons/cancel.svg';
 
 const BookmarkForm = ({ bookmarkId, formCallback }) => {
@@ -123,6 +124,12 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
           required
           ref={linkInput}
           type="url"
+        />
+        <label>Color</label>
+        <ColorPicker
+          classes="class"
+          color={color}
+          onChange={({ hex }) => setColor(hex)}
         />
         <label htmlFor="category">Category</label>
         <fieldset>
