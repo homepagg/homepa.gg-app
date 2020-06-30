@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { Session } from '../contexts/SessionProvider.js';
 import { Settings } from '../contexts/SettingsProvider.js';
@@ -56,74 +57,72 @@ const AppSettings = () => {
         title="Settings">
         <SettingsSvg />
       </button>
-      {showSettings && (
-        <aside className={styles.container}>
-          <button
-            className={styles.close}
-            onClick={() => setShowSettings(!showSettings)}>
-            <CancelSvg />
-          </button>
-          <form className={styles.form}>
-            <h2>Settings</h2>
-            <fieldset>
-              <h3>Theme</h3>
-              <label>
-                <input
-                  checked={theme === 'default'}
-                  name="theme"
-                  onChange={() => updateTheme('default')}
-                  type="radio"
-                  value="default"
-                />
-                <span>System (Default)</span>
-              </label>
-              <label>
-                <input
-                  checked={theme === 'dark'}
-                  name="theme"
-                  onChange={() => updateTheme('dark')}
-                  type="radio"
-                  value="dark"
-                />
-                <span>Dark</span>
-              </label>
-              <label>
-                <input
-                  checked={theme === 'light'}
-                  name="theme"
-                  onChange={() => updateTheme('light')}
-                  type="radio"
-                  value="light"
-                />
-                <span>Light</span>
-              </label>
-            </fieldset>
-            <fieldset>
-              <h3>Favorites</h3>
-              <label>
-                <input
-                  checked={favesGroup}
-                  onChange={(event) => updateFavsGroup(event.target.checked)}
-                  type="checkbox"
-                />
-                <span>Show Favorites group</span>
-              </label>
-              <label>
-                <input
-                  checked={favesHide}
-                  onChange={(event) => updateFavesHide(event.target.checked)}
-                  type="checkbox"
-                />
-                <span>Hide favorites in categories</span>
-              </label>
-            </fieldset>
-            <Link className={styles.logout} to="/logout">
-              <LogoutSvg />
-              Logout
-            </Link>
-          </form>
-        </aside>
-      )}
+      <aside className={cx(styles.container, { [styles.open]: showSettings })}>
+        <button
+          className={styles.close}
+          onClick={() => setShowSettings(!showSettings)}>
+          <CancelSvg />
+        </button>
+        <form className={styles.form}>
+          <h2>Settings</h2>
+          <fieldset>
+            <h3>Theme</h3>
+            <label>
+              <input
+                checked={theme === 'default'}
+                name="theme"
+                onChange={() => updateTheme('default')}
+                type="radio"
+                value="default"
+              />
+              <span>System (Default)</span>
+            </label>
+            <label>
+              <input
+                checked={theme === 'dark'}
+                name="theme"
+                onChange={() => updateTheme('dark')}
+                type="radio"
+                value="dark"
+              />
+              <span>Dark</span>
+            </label>
+            <label>
+              <input
+                checked={theme === 'light'}
+                name="theme"
+                onChange={() => updateTheme('light')}
+                type="radio"
+                value="light"
+              />
+              <span>Light</span>
+            </label>
+          </fieldset>
+          <fieldset>
+            <h3>Favorites</h3>
+            <label>
+              <input
+                checked={favesGroup}
+                onChange={(event) => updateFavsGroup(event.target.checked)}
+                type="checkbox"
+              />
+              <span>Show Favorites group</span>
+            </label>
+            <label>
+              <input
+                checked={favesHide}
+                onChange={(event) => updateFavesHide(event.target.checked)}
+                type="checkbox"
+              />
+              <span>Hide favorites in categories</span>
+            </label>
+          </fieldset>
+          <Link className={styles.logout} to="/logout">
+            <LogoutSvg />
+            Logout
+          </Link>
+        </form>
+      </aside>
     </>
   ) : null;
 };

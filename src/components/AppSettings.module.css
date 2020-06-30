@@ -23,7 +23,13 @@
   max-width: calc(100vw - 24px);
   position: fixed;
   top: 0;
+  transform: translateX(-100%);
+  transition: transform var(--animation-time) var(--animation-ease);
   z-index: 1;
+}
+
+.container.open {
+  transform: translateX(0);
 }
 
 .form {
@@ -38,4 +44,10 @@
 
 .logout {
   margin-top: auto;
+}
+
+.settings {
+  position: absolute;
+  right: 40px;
+  top: 40px;
 }

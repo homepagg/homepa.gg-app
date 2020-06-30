@@ -20,20 +20,22 @@ function App() {
       <SettingsProvider>
         <CategoriesProvider>
           <BookmarksProvider>
-            <AppHeader />
             <Router>
-              <AppSettings />
-              <main className={styles.main}>
-                <Switch>
-                  <Route exact path="/" component={Home} />
-                  <Route path="/auth" component={Auth} />
-                  <Route path="/error" component={Error} />
-                  <Route path="/logout" component={Logout} />
-                  <Route path="/setup" component={Setup} />
-                </Switch>
-              </main>
+              <div className={styles.app}>
+                <AppHeader />
+                <AppSettings />
+                <main className={styles.main}>
+                  <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route path="/auth" component={Auth} />
+                    <Route path="/error" component={Error} />
+                    <Route path="/logout" component={Logout} />
+                    <Route path="/setup" component={Setup} />
+                  </Switch>
+                </main>
+                <AppFooter />
+              </div>
             </Router>
-            <AppFooter />
           </BookmarksProvider>
         </CategoriesProvider>
       </SettingsProvider>
