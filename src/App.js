@@ -4,6 +4,7 @@ import { BookmarksProvider } from './contexts/BookmarksProvider';
 import { CategoriesProvider } from './contexts/CategoriesProvider';
 import { SessionProvider } from './contexts/SessionProvider';
 import { SettingsProvider } from './contexts/SettingsProvider';
+import AppFooter from './components/AppFooter';
 import AppHeader from './components/AppHeader';
 import AppSettings from './components/AppSettings';
 import Auth from './routes/Auth';
@@ -32,6 +33,7 @@ function App() {
                 </Switch>
               </main>
             </Router>
+            <AppFooter />
           </BookmarksProvider>
         </CategoriesProvider>
       </SettingsProvider>

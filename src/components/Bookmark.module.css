@@ -39,7 +39,6 @@
 
 .link {
   align-items: center;
-  border-left: 3px solid var(--color-main);
   border-radius: 5px / 50% 50%;
   color: var(--theme-text);
   display: flex;
