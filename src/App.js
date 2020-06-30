@@ -11,7 +11,7 @@ import Error from './routes/Error';
 import Home from './routes/Home';
 import Logout from './routes/Logout';
 import Setup from './routes/Setup';
-import './App.css';
+import styles from './App.module.css';
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
             <AppHeader />
             <Router>
               <AppSettings />
-              <main>
+              <main className={styles.main}>
                 <Switch>
                   <Route exact path="/" component={Home} />
                   <Route path="/auth" component={Auth} />

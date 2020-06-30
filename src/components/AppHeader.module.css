@@ -1,0 +1,23 @@
+.header {
+  padding: 20px 40px;
+}
+
+.define {
+  margin-left: 0.5ch;
+  opacity: 0.48;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 200;
+}
+
+.title em {
+  font-style: normal;
+}
+
+.title strong {
+  font-size: 48px;
+  font-style: italic;
+  font-weight: 700;
+}
