@@ -87,7 +87,11 @@ const Lists = () => {
 
   useEffect(() => {
     const dragstart = (event) => {
-      if (!!event.target.closest('[data-bookmark]')) setIsDragging(true);
+      if (
+        event.target.nodeType === 1 &&
+        !!event.target.closest('[data-bookmark]')
+      )
+        setIsDragging(true);
     };
 
     const dragend = () => setIsDragging(false);
