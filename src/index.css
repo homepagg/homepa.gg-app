@@ -75,6 +75,10 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+a {
+  color: inherit;
+}
+
 button,
 input[type='checkbox'],
 input[type='radio'] {
