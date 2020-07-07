@@ -10,6 +10,12 @@
   z-index: -1;
 }
 
+.bookmarks.collapse {
+  mask-image: linear-gradient(to bottom, #000, transparent);
+  max-height: 72px;
+  overflow: hidden;
+}
+
 .category {
   align-items: center;
   display: grid;

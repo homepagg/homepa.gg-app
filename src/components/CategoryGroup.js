@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import styles from './CategoryGroup.module.css';
 import Bookmark from './Bookmark';
 import { ReactComponent as ArrowSvg } from '../images/icons/arrow.svg';
@@ -28,9 +29,7 @@ const CategoryGroup = ({
           <MoveSvg />
         </span>
       )}
-      <ul
-        className={styles.bookmarks}
-        style={{ display: sorting ? 'none' : '' }}>
+      <ul className={cx(styles.bookmarks, { [styles.collapse]: sorting })}>
         {bookmarks.map((bookmark) => (
           <Bookmark
             key={bookmark.id}

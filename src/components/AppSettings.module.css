@@ -1,6 +1,6 @@
 .close {
-  background-color: var(--theme-base);
-  border: 1px solid var(--theme-text);
+  background-color: var(--color-secondary);
+  border: 1px solid var(--color-primary);
   border-left-width: 0;
   border-radius: 0 5px 5px 0;
   margin-top: 10px;
@@ -33,8 +33,8 @@
 }
 
 .form {
-  background-color: var(--theme-base);
-  border-right: 1px solid var(--theme-text);
+  background-color: var(--color-secondary);
+  border-right: 1px solid var(--color-primary);
   display: flex;
   flex-direction: column;
   height: 100%;

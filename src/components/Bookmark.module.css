@@ -1,5 +1,4 @@
 .bookmark {
-  background-color: var(--theme-base);
   list-style: none;
 }
 
@@ -9,7 +8,7 @@
   flex: 0 0 auto;
   height: calc(100% - 12px);
   margin-right: 6px;
-  padding: 6px;
+  padding: 4px 6px;
   position: relative;
   width: auto;
   z-index: 0;
@@ -26,23 +25,19 @@
   z-index: -1;
 }
 
-.icon::after {
-  background-color: var(--color-alt);
-  border-radius: 50%;
-  opacity: 0;
-}
-
 .img {
+  filter: drop-shadow(1px 0 0 var(--bookmark-dark))
+    drop-shadow(-1px 0 0 var(--bookmark-dark))
+    drop-shadow(0 1px 0 var(--bookmark-dark))
+    drop-shadow(0 -1px 0 var(--bookmark-dark));
   height: 16px;
   width: 16px;
 }
 
 .link {
   align-items: center;
-  border-radius: 5px / 50% 50%;
-  color: var(--theme-text);
+  color: var(--bookmark-light);
   display: flex;
-  overflow: hidden;
   padding: 4px 12px 4px 4px;
   position: relative;
   text-decoration: none;
@@ -50,13 +45,14 @@
 }
 
 .link::after {
-  background-color: var(--color-main);
+  background-color: var(--bookmark-dark);
+  border-radius: 9px / 50% 50%;
   opacity: 0.18;
   transition: opacity var(--animation-time) var(--animation-ease);
 }
 
 .link:hover::after {
-  opacity: 0.36;
+  opacity: 0.48;
 }
 
 .text {

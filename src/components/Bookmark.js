@@ -13,8 +13,8 @@ const Bookmark = ({ bookmark, setDraggingNode }) => {
       onDragStart={() => setDraggingNode(bookmark.id)}
       onDragEnd={() => setDraggingNode(null)}
       style={{
-        '--color-main': bookmark.color,
-        '--color-alt': color.lighten(0.54),
+        '--bookmark-dark': color.darken(0.48),
+        '--bookmark-light': color.lighten(0.6),
       }}>
       <a className={styles.link} href={bookmark.link} title={bookmark.name}>
         <span className={styles.icon}>

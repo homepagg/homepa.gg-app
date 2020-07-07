@@ -14,43 +14,46 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: hsla(var(--theme-text), 0.8);
+  background-color: hsla(var(--color-primary), 0.8);
   border-radius: 0.4rem;
 }
 
 :root {
   --animation-ease: cubic-bezier(0.4, 0, 0.6, 1);
-  --animation-time: 200ms;
-  --theme-base: #fff;
-  --theme-text: #000;
-  --color-main: var(--theme-text);
+  --animation-time: 180ms;
 
-  scrollbar-color: hsla(var(--theme-text), 0.8) transparent;
+  --color-dark: hsl(240, 72%, 12%);
+  --color-light: hsl(60, 100%, 96%);
+
+  --color-primary: var(--color-light);
+  --color-secondary: var(--color-dark);
+
+  scrollbar-color: hsla(var(--color-primary), 0.8) transparent;
   scrollbar-width: thin;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --theme-base: hsl(263, 50%, 14%);
-    --theme-text: hsl(55, 100%, 95%);
+    --color-secondary: var(--color-dark);
+    --color-primary: var(--color-light);
   }
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    --theme-base: hsl(55, 100%, 95%);
-    --theme-text: hsl(263, 50%, 14%);
+    --color-secondary: var(--color-light);
+    --color-primary: var(--color-dark);
   }
 }
 
 [data-theme='dark'] {
-  --theme-base: hsl(263, 50%, 14%);
-  --theme-text: hsl(55, 100%, 95%);
+  --color-secondary: var(--color-dark);
+  --color-primary: var(--color-light);
 }
 
 [data-theme='light'] {
-  --theme-base: hsl(55, 100%, 95%);
-  --theme-text: hsl(263, 50%, 14%);
+  --color-secondary: var(--color-light);
+  --color-primary: var(--color-dark);
 }
 
 body,
@@ -64,9 +67,11 @@ html {
 }
 
 body {
-  background-color: var(--theme-base);
-  color: var(--theme-text);
-  font: 300 1.5rem/1.3333 'Work Sans', sans-serif;
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  font: 400 1.5rem/1.3333 'Work Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
@@ -79,7 +84,7 @@ input[type='radio'] {
 button {
   appearance: none;
   background-color: transparent;
-  color: var(--theme-text);
+  color: var(--color-primary);
   border: none;
   padding: 5px 10px;
   position: relative;
@@ -87,7 +92,7 @@ button {
 }
 
 button::after {
-  background-color: var(--theme-text);
+  background-color: var(--color-primary);
   border-radius: 10px;
   content: '';
   height: 100%;
@@ -111,6 +116,15 @@ form {
   padding: 24px;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-size: 1em;
+  text-transform: uppercase;
+}
+
 label {
   grid-column: 1;
 }
@@ -125,7 +139,7 @@ form *:not(label) {
 
 svg {
   display: inline-block;
-  fill: var(--theme-text);
+  fill: var(--color-primary);
   height: 1em;
   width: 1em;
 }
