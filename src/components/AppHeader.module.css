@@ -7,13 +7,12 @@
 
 .define {
   margin-left: 0.5ch;
-  opacity: 0.48;
 }
 
 .title {
   font-size: 1em;
   font-weight: 300;
-  opacity: 0.36;
+  opacity: 0.48;
 }
 
 .title em {

@@ -17,18 +17,20 @@ const CategoryGroup = ({
 
   return (
     <section className={styles.category}>
-      <h2 className={styles.title}>{name}</h2>
-      {!sorting && (
-        <button className={styles.open} onClick={openAll}>
-          Open All
-          <ArrowSvg />
-        </button>
-      )}
-      {sortable && (
-        <span className={styles.move} data-sortable-handle>
-          <MoveSvg />
-        </span>
-      )}
+      <header className={styles.header}>
+        <h2 className={styles.title}>{name}</h2>
+        {!sorting && (
+          <button className={styles.open} onClick={openAll}>
+            Open All
+            <ArrowSvg />
+          </button>
+        )}
+        {sortable && (
+          <span className={styles.move} data-sortable-handle>
+            <MoveSvg />
+          </span>
+        )}
+      </header>
       <ul className={cx(styles.bookmarks, { [styles.collapse]: sorting })}>
         {bookmarks.map((bookmark) => (
           <Bookmark
