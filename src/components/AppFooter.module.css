@@ -1,4 +1,12 @@
 .footer {
+  font-size: 0.8em;
   grid-area: app-footer;
+  opacity: 0.6;
+  padding-bottom: 24px;
   position: relative;
+  text-align: center;
+}
+
+.footer strong {
+  display: block;
 }

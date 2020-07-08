@@ -7,10 +7,7 @@ const AppFooter = () => {
       <p>
         <strong>Baile was made with love by Doug Stewart.</strong>
         Want to see how it's built?{' '}
-        <a href="https://github.com/doug-stewart/baile">
-          Check out the Git repo
-        </a>
-        .
+        <a href="https://github.com/doug-stewart/baile">Check the Git repo</a>.
       </p>
     </footer>
   );
