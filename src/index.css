@@ -97,7 +97,7 @@ button {
 
 button::after {
   background-color: var(--color-primary);
-  border-radius: 10px;
+  border-radius: 9px / 50% 50%;
   content: '';
   height: 100%;
   left: 0;
