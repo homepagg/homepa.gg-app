@@ -22,7 +22,7 @@
   --animation-ease: cubic-bezier(0.4, 0, 0.6, 1);
   --animation-time: 180ms;
 
-  --color-dark: hsl(240, 48%, 12%);
+  --color-dark: hsl(240, 36%, 12%);
   --color-light: hsl(60, 100%, 96%);
 
   --color-primary: var(--color-light);
