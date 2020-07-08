@@ -23,7 +23,7 @@
   --animation-time: 180ms;
 
   --color-dark: hsl(240, 36%, 12%);
-  --color-light: hsl(60, 100%, 96%);
+  --color-light: hsl(64, 47%, 94%);
 
   --color-primary: var(--color-light);
   --color-secondary: var(--color-dark);

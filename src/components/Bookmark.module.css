@@ -15,17 +15,17 @@
 }
 
 .img {
-  filter: drop-shadow(1px 0 0 var(--bookmark-dark))
-    drop-shadow(-1px 0 0 var(--bookmark-dark))
-    drop-shadow(0 1px 0 var(--bookmark-dark))
-    drop-shadow(0 -1px 0 var(--bookmark-dark));
+  filter: drop-shadow(1px 0 0 var(--bookmark-second))
+    drop-shadow(-1px 0 0 var(--bookmark-second))
+    drop-shadow(0 1px 0 var(--bookmark-second))
+    drop-shadow(0 -1px 0 var(--bookmark-second));
   height: 16px;
   width: 16px;
 }
 
 .link {
   align-items: center;
-  color: var(--bookmark-light);
+  color: var(--bookmark-prime);
   display: flex;
   padding: 4px 12px 4px 4px;
   position: relative;
@@ -34,7 +34,7 @@
 }
 
 .link::after {
-  background-color: var(--bookmark-dark);
+  background-color: var(--bookmark-second);
   border-radius: 9px / 50% 50%;
   content: '';
   height: 100%;

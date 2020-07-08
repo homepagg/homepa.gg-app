@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Color from 'color';
+import { Settings } from '../contexts/SettingsProvider.js';
 import styles from './Bookmark.module.css';
 
 const Bookmark = ({ bookmark, setDraggingNode }) => {
   const favicon = `http://www.google.com/s2/favicons?domain=${bookmark.link}`;
   const color = Color(bookmark.color);
+  const [goDark, setGoDark] = useState(false);
+  const settingsState = useContext(Settings);
+  const settings = settingsState.state;
+
+  useEffect(() => {
+    setGoDark(
+      settings.theme === 'dark'
+        ? true
+        : settings.theme === 'light'
+        ? false
+        : window.matchMedia('(prefers-color-scheme: dark)')
+        ? true
+        : false
+    );
+  }, [settings.theme]);
 
   return (
     <li
@@ -13,8 +29,8 @@ const Bookmark = ({ bookmark, setDraggingNode }) => {
       onDragStart={() => setDraggingNode(bookmark.id)}
       onDragEnd={() => setDraggingNode(null)}
       style={{
-        '--bookmark-dark': color.darken(0.48),
-        '--bookmark-light': color.lighten(0.6),
+        '--bookmark-prime': goDark ? color.lighten(0.6) : color.darken(0.48),
+        '--bookmark-second': goDark ? color.darken(0.48) : color.lighten(0.6),
       }}>
       <a className={styles.link} href={bookmark.link} title={bookmark.name}>
         <span className={styles.icon}>
