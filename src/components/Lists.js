@@ -107,9 +107,9 @@ const Lists = () => {
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>
+      <button className={styles.add} onClick={() => setShowModal(true)}>
         <PlusSvg />
-        Add Bookmark
+        <span>Add Bookmark</span>
       </button>
 
       {hasData ? (

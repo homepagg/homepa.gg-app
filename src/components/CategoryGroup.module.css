@@ -48,7 +48,12 @@
   flex: 0 0 auto;
   font-style: italic;
   font-weight: 700;
+  opacity: 0.5;
   text-transform: uppercase;
+}
+
+.open:hover {
+  opacity: 1;
 }
 
 .open svg {
@@ -64,7 +69,7 @@
   height: 36px;
   justify-content: center;
   left: -20px;
-  opacity: 0.12;
+  opacity: 0;
   padding: 5px;
   position: absolute;
   top: 50%;
@@ -73,7 +78,11 @@
   width: 36px;
 }
 
-.move:hover {
+.category:hover .move {
+  opacity: 0.12;
+}
+
+.category:hover .move:hover {
   opacity: 1;
 }
 

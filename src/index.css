@@ -22,8 +22,8 @@
   --animation-ease: cubic-bezier(0.4, 0, 0.6, 1);
   --animation-time: 180ms;
 
-  --color-dark: hsl(240, 36%, 12%);
-  --color-light: hsl(64, 47%, 94%);
+  --color-dark: hsl(240, 12%, 6%);
+  --color-light: hsl(72, 24%, 96%);
 
   --color-primary: var(--color-light);
   --color-secondary: var(--color-dark);

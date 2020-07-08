@@ -42,7 +42,6 @@
   opacity: 0.18;
   position: absolute;
   top: 0;
-  transition: opacity var(--animation-time) var(--animation-ease);
   width: 100%;
   z-index: -1;
 }

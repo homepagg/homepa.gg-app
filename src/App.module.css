@@ -1,14 +1,14 @@
 .app {
   display: grid;
   grid-template:
-    'app-header' auto
     'app-main' 1fr
     'app-footer' auto
-    / 100%;
+    / 1fr;
   min-height: 100%;
+  padding-left: 50px;
 }
 
 .main {
   grid-area: app-main;
-  padding-bottom: 60px;
+  padding-bottom: 20px;
 }

@@ -53,9 +53,9 @@ const AppSettings = () => {
     <>
       <button
         className={styles.settings}
-        onClick={() => setShowSettings(!showSettings)}
-        title="Settings">
+        onClick={() => setShowSettings(!showSettings)}>
         <SettingsSvg />
+        <span>Settings</span>
       </button>
       <aside className={cx(styles.container, { [styles.open]: showSettings })}>
         <button
