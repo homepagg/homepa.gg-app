@@ -9,10 +9,17 @@
   margin-left: 0.5ch;
 }
 
+.logo {
+  display: inline-block;
+  height: 2em;
+  width: auto;
+}
+
 .title {
   font-size: 1em;
   font-weight: 300;
   opacity: 0.48;
+  text-transform: none;
 }
 
 .title em {
@@ -22,4 +29,5 @@
 .title strong {
   font-size: 1.5em;
   font-weight: 600;
+  text-transform: uppercase;
 }
