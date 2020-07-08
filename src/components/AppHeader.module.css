@@ -10,9 +10,12 @@
 }
 
 .logo {
+  background-color: var(--color-primary);
   display: inline-block;
-  height: 2em;
-  width: auto;
+  border-radius: 50% 50% 12% 50% / 50% 50% 12% 50%;
+  height: 1.5em;
+  margin-right: 0.75ch;
+  width: 1.5em;
 }
 
 .title {
