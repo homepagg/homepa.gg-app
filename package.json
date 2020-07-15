@@ -14,6 +14,7 @@
   "main": ".eslintrc.js",
   "devDependencies": {
     "autoprefixer": "^9.8.0",
+    "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
@@ -39,7 +40,11 @@
     "react-modal": "^3.11.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "react-sortablejs": "^2.0.11"
+    "react-sortablejs": "^2.0.11",
+    "suncalc": "^1.8.0"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   },
   "scripts": {
     "start": "react-scripts start",
