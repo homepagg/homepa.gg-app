@@ -29,8 +29,8 @@ const Bookmark = ({ bookmark, setDraggingNode }) => {
       onDragStart={() => setDraggingNode(bookmark.id)}
       onDragEnd={() => setDraggingNode(null)}
       style={{
-        '--bookmark-prime': goDark ? color.lightness(86) : color.lightness(24),
-        '--bookmark-second': goDark ? color.lightness(24) : color.lightness(86),
+        '--bookmark-prime': goDark ? color.lightness(80) : color.lightness(20),
+        '--bookmark-second': goDark ? color.lightness(20) : color.lightness(80),
       }}>
       <a className={styles.link} href={bookmark.link} title={bookmark.name}>
         <span className={styles.icon}>
