@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 // import cx from 'classnames';
 import ReactModal from 'react-modal';
+import suncalc from 'suncalc';
 import { Link } from 'react-router-dom';
 import { Session } from '../contexts/SessionProvider.js';
 import { Settings } from '../contexts/SettingsProvider.js';
@@ -10,6 +11,7 @@ import styles from './AppSettings.module.css';
 
 const AppSettings = ({ closeModal, showModal }) => {
   const sessionState = useContext(Session);
+  const { sessionReducer } = sessionState;
   const activeSession = sessionState.state.loggedIn || false;
 
   const settingsState = useContext(Settings);
@@ -43,6 +45,29 @@ const AppSettings = ({ closeModal, showModal }) => {
     setFavesHide(settings.favesHide);
   }, [settings, updated]);
 
+  useEffect(() => {
+    if (!theme === 'solar') return;
+
+    const setDay = (latitude, longitude) => {
+      const times = suncalc.getTimes(new Date(), latitude, longitude);
+      const isDay =
+        Date.parse(times.dawn) < new Date() < Date.parse(times.sunset)
+          ? true
+          : false;
+
+      sessionReducer({ type: 'SET_DAYTIME', value: isDay });
+    };
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setDay(pos.coords.latitude, pos.coords.longitude);
+      },
+      () => {
+        setDay('38', '-122');
+      }
+    );
+  }, [sessionReducer, theme]);
+
   return activeSession ? (
     <ReactModal
       className={styles.modal}
@@ -60,13 +85,13 @@ const AppSettings = ({ closeModal, showModal }) => {
           <h3>Theme</h3>
           <label>
             <input
-              checked={theme === 'default'}
+              checked={theme === 'solar'}
               name="theme"
-              onChange={() => updateTheme('default')}
+              onChange={() => updateTheme('solar')}
               type="radio"
-              value="default"
+              value="solar"
             />
-            <span>System (Default)</span>
+            <span>Sunrise &amp; Sunset</span>
           </label>
           <label>
             <input
@@ -87,6 +112,16 @@ const AppSettings = ({ closeModal, showModal }) => {
               value="light"
             />
             <span>Light</span>
+          </label>
+          <label>
+            <input
+              checked={theme === 'default'}
+              name="theme"
+              onChange={() => updateTheme('default')}
+              type="radio"
+              value="default"
+            />
+            <span>System (Default)</span>
           </label>
         </fieldset>
         <fieldset>

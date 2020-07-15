@@ -6,6 +6,7 @@ import { SessionProvider } from './contexts/SessionProvider';
 import { SettingsProvider } from './contexts/SettingsProvider';
 import AppFooter from './components/AppFooter';
 import AppHeader from './components/AppHeader';
+// import Background from './components/Background';
 import Theme from './components/Theme';
 import Auth from './routes/Auth';
 import Error from './routes/Error';
@@ -36,6 +37,7 @@ function App() {
                 <AppFooter />
               </div>
             </Router>
+            {/* <Background /> */}
           </BookmarksProvider>
         </CategoriesProvider>
       </SettingsProvider>

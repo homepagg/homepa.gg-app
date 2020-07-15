@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Color from 'color';
+import { Session } from '../contexts/SessionProvider.js';
 import { Settings } from '../contexts/SettingsProvider.js';
 import styles from './Bookmark.module.css';
 
@@ -7,12 +8,18 @@ const Bookmark = ({ bookmark, setDraggingNode }) => {
   const favicon = `http://www.google.com/s2/favicons?domain=${bookmark.link}`;
   const color = Color(bookmark.color);
   const [goDark, setGoDark] = useState(false);
+  const sessionState = useContext(Session);
+  const session = sessionState.state;
   const settingsState = useContext(Settings);
   const settings = settingsState.state;
 
   useEffect(() => {
     setGoDark(
-      settings.theme === 'dark'
+      settings.theme === 'solar' && session.daytime
+        ? false
+        : settings.theme === 'solar' && !session.daytime
+        ? true
+        : settings.theme === 'dark'
         ? true
         : settings.theme === 'light'
         ? false
@@ -20,7 +27,7 @@ const Bookmark = ({ bookmark, setDraggingNode }) => {
         ? true
         : false
     );
-  }, [settings.theme]);
+  }, [session.daytime, settings.theme]);
 
   return (
     <li
