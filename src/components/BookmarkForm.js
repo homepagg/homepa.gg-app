@@ -25,6 +25,8 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
   const [color, setColor] = useState('');
 
   const getPalette = async () => {
+    if (!linkInput.current.checkValidity()) return;
+
     const image = new Image();
     image.crossOrigin = 'anonymous';
     image.src = `https://cors-anywhere.herokuapp.com/http://www.google.com/s2/favicons?domain=${linkInput.current.value}`;
