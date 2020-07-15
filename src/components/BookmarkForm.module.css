@@ -2,16 +2,6 @@
   composes: close from '../shared/Modal.module.css';
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.logout {
-  margin-top: auto;
-}
-
 .modal {
   composes: modal from '../shared/Modal.module.css';
 }

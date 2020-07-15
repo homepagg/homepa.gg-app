@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import cx from 'classnames';
 import { ReactSortable } from 'react-sortablejs';
-import ReactModal from 'react-modal';
 import { Bookmarks } from '../contexts/BookmarksProvider.js';
 import { Categories } from '../contexts/CategoriesProvider.js';
 import CategoryGroup from './CategoryGroup.js';
@@ -9,7 +8,6 @@ import BookmarkForm from '../components/BookmarkForm.js';
 import { Settings } from '../contexts/SettingsProvider.js';
 import { ReactComponent as CancelSvg } from '../images/icons/cancel.svg';
 import { ReactComponent as PencilSvg } from '../images/icons/pencil.svg';
-import { ReactComponent as PlusSvg } from '../images/icons/plus.svg';
 import styles from './Lists.module.css';
 
 const Lists = () => {
@@ -107,11 +105,6 @@ const Lists = () => {
 
   return (
     <>
-      <button className={styles.add} onClick={() => setShowModal(true)}>
-        <PlusSvg />
-        <span>Add Bookmark</span>
-      </button>
-
       {hasData ? (
         <>
           {isDragging && (
@@ -184,9 +177,11 @@ const Lists = () => {
         <p>No Data.</p>
       )}
 
-      <ReactModal isOpen={showModal} onRequestClose={closeModal}>
-        <BookmarkForm bookmarkId={editModalId} formCallback={closeModal} />
-      </ReactModal>
+      <BookmarkForm
+        bookmarkId={editModalId}
+        closeModal={closeModal}
+        showModal={showModal}
+      />
     </>
   );
 };

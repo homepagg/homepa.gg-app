@@ -6,7 +6,7 @@ import { SessionProvider } from './contexts/SessionProvider';
 import { SettingsProvider } from './contexts/SettingsProvider';
 import AppFooter from './components/AppFooter';
 import AppHeader from './components/AppHeader';
-import AppSettings from './components/AppSettings';
+import Theme from './components/Theme';
 import Auth from './routes/Auth';
 import Error from './routes/Error';
 import Home from './routes/Home';
@@ -20,10 +20,10 @@ function App() {
       <SettingsProvider>
         <CategoriesProvider>
           <BookmarksProvider>
+            <Theme />
             <Router>
               <div className={styles.app}>
                 <AppHeader />
-                <AppSettings />
                 <main className={styles.main}>
                   <Switch>
                     <Route exact path="/" component={Home} />

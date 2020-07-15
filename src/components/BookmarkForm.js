@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import Vibrant from 'node-vibrant';
+import ReactModal from 'react-modal';
 import { Bookmarks } from '../contexts/BookmarksProvider.js';
 import { Categories } from '../contexts/CategoriesProvider.js';
 import ColorPicker from './ColorPicker';
+import styles from './BookmarkForm.module.css';
 import { ReactComponent as CancelSvg } from '../images/icons/cancel.svg';
 
-const BookmarkForm = ({ bookmarkId, formCallback }) => {
+const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
   const bookmarksState = useContext(Bookmarks);
   const bookmarks = bookmarksState.state.bookmarks || [];
   const { bookmarksReducer } = bookmarksState;
@@ -46,8 +48,7 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
     setAddCategory(false);
     categorySelect.current.disabled = !addCategory;
     form.current.reset();
-
-    if (formCallback) formCallback();
+    closeModal();
   };
 
   const handleSubmit = (event) => {
@@ -104,8 +105,17 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
   }, [bookmarkId, bookmarks]);
 
   return (
-    <>
+    <ReactModal
+      className={styles.modal}
+      isOpen={showModal}
+      overlayClassName={styles.overlay}>
       <h1>{bookmark ? `Edit ${bookmark.name}` : 'Add a new bookmark'}</h1>
+      <button
+        className={styles.close}
+        onClick={closeModal}
+        title="Close Settings">
+        <CancelSvg />
+      </button>
       <form onReset={resetForm} onSubmit={handleSubmit} ref={form}>
         <label htmlFor="name">Name</label>
         <input
@@ -185,7 +195,7 @@ const BookmarkForm = ({ bookmarkId, formCallback }) => {
           </button>
         </div>
       </form>
-    </>
+    </ReactModal>
   );
 };
 

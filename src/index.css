@@ -22,38 +22,11 @@
   --animation-ease: cubic-bezier(0.4, 0, 0.6, 1);
   --animation-time: 180ms;
 
-  --color-dark: hsl(240, 12%, 6%);
-  --color-light: hsl(72, 24%, 96%);
-
-  --color-primary: var(--color-light);
-  --color-secondary: var(--color-dark);
+  --color-dark: 240, 12%, 6%; /* #0d0d11 */
+  --color-light: 72, 24%, 96%; /* #f6f7f2 */
 
   scrollbar-color: hsla(var(--color-primary), 0.8) transparent;
   scrollbar-width: thin;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-secondary: var(--color-dark);
-    --color-primary: var(--color-light);
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    --color-secondary: var(--color-light);
-    --color-primary: var(--color-dark);
-  }
-}
-
-[data-theme='dark'] {
-  --color-secondary: var(--color-dark);
-  --color-primary: var(--color-light);
-}
-
-[data-theme='light'] {
-  --color-secondary: var(--color-light);
-  --color-primary: var(--color-dark);
 }
 
 body,
@@ -67,8 +40,8 @@ html {
 }
 
 body {
-  background-color: var(--color-secondary);
-  color: var(--color-primary);
+  background-color: hsl(var(--color-secondary));
+  color: hsl(var(--color-primary));
   font: 400 1.5rem/1.3333 'Work Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -88,7 +61,7 @@ input[type='radio'] {
 button {
   appearance: none;
   background-color: transparent;
-  color: var(--color-primary);
+  color: hsl(var(--color-primary));
   border: none;
   padding: 5px 10px;
   position: relative;
@@ -96,7 +69,7 @@ button {
 }
 
 button::after {
-  background-color: var(--color-primary);
+  background-color: hsl(var(--color-primary));
   border-radius: 9px / 50% 50%;
   content: '';
   height: 100%;
@@ -143,7 +116,11 @@ form *:not(label) {
 
 svg {
   display: inline-block;
-  fill: var(--color-primary);
+  fill: hsl(var(--color-primary));
   height: 1em;
   width: 1em;
+}
+
+.ReactModal__Body--open {
+  overflow: hidden;
 }
