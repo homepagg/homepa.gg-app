@@ -5,11 +5,11 @@
   "author": "Doug Stewart",
   "homepage": "/",
   "bugs": {
-    "url": "https://github.com/doug-stewart/baile/issues"
+    "url": "https://github.com/baile-app/baile/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/doug-stewart/baile.git"
+    "url": "git+https://github.com/baile-app/baile.git"
   },
   "main": ".eslintrc.js",
   "devDependencies": {

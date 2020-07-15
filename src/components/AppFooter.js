@@ -14,7 +14,7 @@ const AppFooter = () => {
       <p>
         Made with love by Doug |{' '}
         <a
-          href="https://github.com/doug-stewart/baile"
+          href="https://github.com/baile-app/baile"
           rel="noopener noreferrer"
           target="_blank">
           Checkout on GitHub
@@ -52,7 +52,7 @@ const AppFooter = () => {
           Ever. But you don&rsquo;t have to take our word for it. Baile is fully
           open source an you can{' '}
           <a
-            href="https://github.com/doug-stewart/baile"
+            href="https://github.com/baile-app/baile"
             rel="noopener noreferrer"
             target="_blank">
             check our code on GitHub
@@ -112,7 +112,7 @@ const AppFooter = () => {
         <p>
           For all problems, please file an issue on{' '}
           <a
-            href="https://github.com/doug-stewart/baile/issues"
+            href="https://github.com/baile-app/baile/issues"
             rel="noopener noreferrer"
             target="_blank">
             GitHub
