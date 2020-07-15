@@ -48,7 +48,7 @@ const AppSettings = ({ closeModal, showModal }) => {
       className={styles.modal}
       isOpen={showModal}
       overlayClassName={styles.overlay}>
-      <h1>Settings</h1>
+      <h1 className={styles.title}>Settings</h1>
       <button
         className={styles.close}
         onClick={closeModal}

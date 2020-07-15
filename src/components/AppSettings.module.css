@@ -19,3 +19,7 @@
 .overlay {
   composes: overlay from '../shared/Modal.module.css';
 }
+
+.title {
+  composes: title from '../shared/Modal.module.css';
+}

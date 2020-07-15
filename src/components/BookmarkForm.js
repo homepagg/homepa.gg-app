@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import cx from 'classnames';
 import Vibrant from 'node-vibrant';
 import ReactModal from 'react-modal';
 import { Bookmarks } from '../contexts/BookmarksProvider.js';
@@ -17,7 +18,6 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
   const { categoryReducer } = categoriesState;
 
   const form = useRef();
-  const categorySelect = useRef();
   const linkInput = useRef();
 
   const [addCategory, setAddCategory] = useState(false);
@@ -46,7 +46,6 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
 
   const resetForm = () => {
     setAddCategory(false);
-    categorySelect.current.disabled = !addCategory;
     form.current.reset();
     closeModal();
   };
@@ -94,7 +93,6 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
   const toggleAddCategory = (event) => {
     event.preventDefault();
     setAddCategory(!addCategory);
-    categorySelect.current.disabled = !addCategory;
   };
 
   useEffect(() => {
@@ -109,24 +107,36 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
       className={styles.modal}
       isOpen={showModal}
       overlayClassName={styles.overlay}>
-      <h1>{bookmark ? `Edit ${bookmark.name}` : 'Add a new bookmark'}</h1>
+      <h1 className={styles.title}>
+        {bookmark ? `Edit ${bookmark.name}` : 'Add a new bookmark'}
+      </h1>
       <button
         className={styles.close}
         onClick={closeModal}
         title="Close Settings">
         <CancelSvg />
       </button>
-      <form onReset={resetForm} onSubmit={handleSubmit} ref={form}>
-        <label htmlFor="name">Name</label>
+      <form
+        className={styles.form}
+        onReset={resetForm}
+        onSubmit={handleSubmit}
+        ref={form}>
+        <label className={styles.label} htmlFor="name">
+          Name
+        </label>
         <input
+          className={styles.input}
           defaultValue={bookmark?.name}
           id="name"
           name="name"
           required
           type="text"
         />
-        <label htmlFor="link">URL</label>
+        <label className={styles.label} htmlFor="link">
+          URL
+        </label>
         <input
+          className={styles.input}
           defaultValue={bookmark?.link}
           id="link"
           name="link"
@@ -135,49 +145,53 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
           ref={linkInput}
           type="url"
         />
-        <label>Color</label>
+        <label className={styles.label}>Color</label>
         <ColorPicker
-          classes="class"
+          classes={styles.input}
           color={color}
           onChange={({ hex }) => setColor(hex)}
         />
-        <label htmlFor="category">Category</label>
-        <fieldset>
-          <select
-            defaultValue={bookmark?.category || ''}
-            id="category"
-            key={`category-select-${bookmark?.category || 0}`}
-            name="category"
-            ref={categorySelect}>
-            <option value=""></option>
-            {categories.length > 0
-              ? categories
-                  .sort((a, b) => a.name.localeCompare(b.name))
-                  .map((category) => {
-                    return (
-                      <option key={category.id} value={category.id}>
-                        {category.name}
-                      </option>
-                    );
-                  })
-              : null}
-          </select>
-          or
-          <button onClick={toggleAddCategory}>
-            <span>Category</span>
-          </button>
-        </fieldset>
+        <label className={styles.label} htmlFor="category">
+          Category
+        </label>
         {addCategory ? (
-          <fieldset>
+          <fieldset className={cx(styles.input, styles.newCategory)}>
             <label htmlFor="new-category">Name your new category</label>
             <input id="new-category" name="new-category" required type="text" />
             <button onClick={toggleAddCategory} title="Delete">
               <CancelSvg />
             </button>
           </fieldset>
-        ) : null}
-        <label htmlFor="favorite">Favorite</label>
-        <label htmlFor="favorite">
+        ) : (
+          <fieldset className={cx(styles.input, styles.chooseCategory)}>
+            <select
+              defaultValue={bookmark?.category || ''}
+              id="category"
+              key={`category-select-${bookmark?.category || 0}`}
+              name="category">
+              <option value=""></option>
+              {categories.length > 0
+                ? categories
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((category) => {
+                      return (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      );
+                    })
+                : null}
+            </select>
+            or
+            <button onClick={toggleAddCategory}>
+              <span>Category</span>
+            </button>
+          </fieldset>
+        )}
+        <label className={styles.label} htmlFor="favorite">
+          Favorite
+        </label>
+        <label className={styles.input} htmlFor="favorite">
           <input
             defaultChecked={bookmark?.favorite}
             id="favorite"
@@ -186,11 +200,11 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
           />
           <em>Include this bookmark in your favorites section</em>
         </label>
-        <div>
-          <button type="submit">
+        <div className={styles.controls}>
+          <button className={cx(styles.control, styles.submit)} type="submit">
             <span>{bookmark ? 'Save' : 'Add'}</span>
           </button>
-          <button type="reset">
+          <button className={cx(styles.control, styles.reset)} type="reset">
             <span>Cancel</span>
           </button>
         </div>

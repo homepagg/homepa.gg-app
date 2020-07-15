@@ -18,7 +18,7 @@ export const SaturationPointer = () => {
 
 const ColorPicker = ({ classes, hsl, hsv, hex, onChange }) => {
   const [shows, setShow] = useState(false);
-  const picker = useRef();
+  const colorPicker = useRef();
 
   const toggleShow = (event) => {
     event.preventDefault();
@@ -27,11 +27,7 @@ const ColorPicker = ({ classes, hsl, hsv, hex, onChange }) => {
 
   useEffect(() => {
     const handleClick = (event) => {
-      if (
-        event.currentTarget === event.target ||
-        picker.current.hasChildNodes(event.target)
-      )
-        return;
+      if (colorPicker.current.contains(event.target)) return;
       setShow(false);
     };
 
@@ -40,15 +36,12 @@ const ColorPicker = ({ classes, hsl, hsv, hex, onChange }) => {
   }, []);
 
   return (
-    <div className={cx(styles.container, classes)}>
+    <div className={cx(styles.container, classes)} ref={colorPicker}>
       <button className={styles.button} onClick={toggleShow}>
         <span className={styles.swatch} style={{ backgroundColor: hex }} />
         {hex}
       </button>
-      <div
-        className={styles.picker}
-        ref={picker}
-        style={{ display: shows ? '' : 'none' }}>
+      <div className={styles.picker} style={{ display: shows ? '' : 'none' }}>
         <div className={styles.saturation}>
           <Saturation
             hsl={hsl}
