@@ -62,8 +62,8 @@
 }
 
 .logo {
-  fill: hsl(var(--color-secondary));
   display: block;
+  fill: hsl(var(--color-secondary));
   height: 100%;
   left: 0;
   padding: 12px;

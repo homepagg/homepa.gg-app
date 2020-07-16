@@ -1,17 +1,17 @@
 {
   "extends": [
-    "eslint:recommended",
-    "plugin:import/errors",
     "plugin:react/recommended",
-    "plugin:jsx-a11y/recommended",
+    "react-app",
     "prettier",
     "prettier/react",
-    "react-app"
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:jsx-a11y/recommended"
   ],
   "plugins": ["react", "import", "jest", "jsx-a11y", "react-hooks"],
   "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "ecmaVersion": 2020,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -25,6 +25,7 @@
     "jest/prefer-to-have-length": "warn",
     "jest/valid-expect": "error",
     "jsx-quotes": ["error", "prefer-double"],
+    "import/order": ["error"],
     "no-console": 1,
     "one-var": ["error", "never"],
     "quotes": [2, "single", "avoid-escape"],

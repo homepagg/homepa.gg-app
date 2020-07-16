@@ -21,10 +21,12 @@
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.4",
     "prettier": "^2.0.5",
+    "prettier-stylelint": "^0.4.2",
     "sass": "^1.26.7",
-    "stylelint": "^13.5.0",
-    "stylelint-config-recommended": "^3.0.0",
-    "stylelint-order": "^4.0.0"
+    "stylelint": "^13.6.1",
+    "stylelint-config-css-modules": "^2.2.0",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-order": "^4.1.0"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",

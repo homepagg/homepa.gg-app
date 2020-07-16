@@ -18,9 +18,9 @@
 
 .controls {
   display: grid;
+  grid-column: 1 / 3;
   grid-column-gap: 12px;
   grid-template-columns: 1fr 1fr;
-  grid-column: 1 / 3;
 }
 
 .control {

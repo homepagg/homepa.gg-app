@@ -78,16 +78,16 @@
   width: 36px;
 }
 
+.move:active {
+  cursor: grabbing;
+}
+
 .category:hover .move {
   opacity: 0.12;
 }
 
 .category:hover .move:hover {
   opacity: 1;
-}
-
-.move:active {
-  cursor: grabbing;
 }
 
 .title {
