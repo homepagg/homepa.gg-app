@@ -5,6 +5,7 @@ import { Bookmarks } from '../contexts/BookmarksProvider.js';
 import { Categories } from '../contexts/CategoriesProvider.js';
 import { Session } from '../contexts/SessionProvider.js';
 import { Settings } from '../contexts/SettingsProvider.js';
+import styles from './Setup.module.css';
 
 const Setup = () => {
   const accessToken = localStorage.getItem('accessToken');
@@ -95,7 +96,33 @@ const Setup = () => {
       });
   }, [accessToken, bookmarksReducer]);
 
-  const checkRevisions = useCallback(() => {
+  const checkForLocalData = useCallback(() => {
+    if (
+      localStorage.getItem('settingsJson') &&
+      localStorage.getItem('settingsJson').startsWith('{"')
+    ) {
+      const settings = JSON.parse(localStorage.getItem('settingsJson'));
+      settingReducer({ type: 'UPDATE', settings: settings });
+    }
+
+    if (
+      localStorage.getItem('categoriesJson') &&
+      localStorage.getItem('categoriesJson').startsWith('{"categories":[{')
+    ) {
+      const categories = JSON.parse(localStorage.getItem('categoriesJson'));
+      categoryReducer({ type: 'UPDATE', categories: categories });
+    }
+
+    if (
+      localStorage.getItem('bookmarksJson') &&
+      localStorage.getItem('bookmarksJson').startsWith('{"bookmarks":[{')
+    ) {
+      const bookmarks = JSON.parse(localStorage.getItem('bookmarksJson'));
+      bookmarksReducer({ type: 'UPDATE', bookmarks: bookmarks });
+    }
+  }, [bookmarksReducer, categoryReducer, settingReducer]);
+
+  const checkForRevisions = useCallback(() => {
     const dbx = new Dropbox({ accessToken, fetch });
 
     dbx
@@ -120,39 +147,13 @@ const Setup = () => {
           updateSettings();
         }
 
-        if (
-          localStorage.getItem('settingsJson') &&
-          localStorage.getItem('settingsJson').startsWith('{"settings":[{')
-        ) {
-          const settings = JSON.parse(localStorage.getItem('settingsJson'));
-          settingReducer({ type: 'UPDATE', settings: settings });
-        } else {
-          updateSettings();
-        }
-
-        if (localStorage.getItem('categoriesRevision') !== categories)
+        if (localStorage.getItem('categoriesRevision') !== categories) {
           localStorage.setItem('categoriesRevision', categories);
-
-        if (
-          localStorage.getItem('categoriesJson') &&
-          localStorage.getItem('categoriesJson').startsWith('{"categories":[{')
-        ) {
-          const categories = JSON.parse(localStorage.getItem('categoriesJson'));
-          categoryReducer({ type: 'UPDATE', categories: categories });
-        } else {
           updateCategories();
         }
 
-        if (localStorage.getItem('bookmarksRevision') !== bookmarks)
+        if (localStorage.getItem('bookmarksRevision') !== bookmarks) {
           localStorage.setItem('bookmarksRevision', bookmarks);
-
-        if (
-          localStorage.getItem('bookmarksJson') &&
-          localStorage.getItem('bookmarksJson').startsWith('{"bookmarks":[{')
-        ) {
-          const bookmarks = JSON.parse(localStorage.getItem('bookmarksJson'));
-          bookmarksReducer({ type: 'UPDATE', bookmarks: bookmarks });
-        } else {
           updateBookmarks();
         }
       })
@@ -160,15 +161,7 @@ const Setup = () => {
         console.error('Unable to access Dropbox:', error);
         setGrabError(true);
       });
-  }, [
-    accessToken,
-    bookmarksReducer,
-    categoryReducer,
-    settingReducer,
-    updateBookmarks,
-    updateCategories,
-    updateSettings,
-  ]);
+  }, [accessToken, updateBookmarks, updateCategories, updateSettings]);
 
   useEffect(() => {
     setHasBookmarks(bookmarks.length > 0);
@@ -185,20 +178,17 @@ const Setup = () => {
   useEffect(() => {
     if (grabbing) return;
     setGrabbing(true);
-    checkRevisions();
-  }, [checkRevisions, grabbing]);
+    checkForLocalData();
+    checkForRevisions();
+  }, [checkForLocalData, checkForRevisions, grabbing]);
 
   useEffect(() => {
     if (hasBookmarks && hasCategories && hasDropbox && hasSettings)
       sessionReducer({ type: 'SET', value: true });
   }, [hasBookmarks, hasCategories, hasDropbox, hasSettings, sessionReducer]);
 
-  return isReady ? (
-    <Redirect to="/" />
-  ) : grabError ? (
-    <Redirect to="/error" />
-  ) : (
-    <>
+  return !isReady ? (
+    <aside className={styles.aside}>
       <h2>Setting the bits&hellip;</h2>
       <dl>
         <dt>Dropbox</dt>
@@ -250,8 +240,10 @@ const Setup = () => {
           )}
         </dd>
       </dl>
-    </>
-  );
+    </aside>
+  ) : grabError ? (
+    <Redirect to="/error" />
+  ) : null;
 };
 
 export default Setup;

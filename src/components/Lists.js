@@ -29,9 +29,7 @@ const Lists = () => {
   const [overEdit, setOverEdit] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isSorting, setIsSorting] = useState(false);
-  const [sortedCategories, setSortedCategories] = useState(
-    categories.sort((a, b) => (a.order > b.order ? 1 : -1)) || []
-  );
+  const [sortedCategories, setSortedCategories] = useState([]);
 
   const hasData = categories.length > 0 && bookmarks.length > 0;
 
@@ -102,6 +100,12 @@ const Lists = () => {
       document.removeEventListener('dragend', dragend);
     };
   }, []);
+
+  useEffect(() => {
+    if (!categories.length > 0) return;
+    const sorted = categories.sort((a, b) => (a.order > b.order ? 1 : -1));
+    setSortedCategories(sorted);
+  }, [categories]);
 
   return (
     <>

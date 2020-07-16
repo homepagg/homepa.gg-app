@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import Color from 'color';
 import { Session } from '../contexts/SessionProvider.js';
 import { Settings } from '../contexts/SettingsProvider.js';
@@ -6,15 +6,15 @@ import styles from './Bookmark.module.css';
 
 const Bookmark = ({ bookmark, setDraggingNode }) => {
   const favicon = `http://www.google.com/s2/favicons?domain=${bookmark.link}`;
+  const container = useRef();
   const color = Color(bookmark.color);
-  const [goDark, setGoDark] = useState(false);
   const sessionState = useContext(Session);
   const session = sessionState.state;
   const settingsState = useContext(Settings);
   const settings = settingsState.state;
 
   useEffect(() => {
-    setGoDark(
+    const dark =
       settings.theme === 'solar' && session.daytime
         ? false
         : settings.theme === 'solar' && !session.daytime
@@ -25,9 +25,17 @@ const Bookmark = ({ bookmark, setDraggingNode }) => {
         ? false
         : window.matchMedia('(prefers-color-scheme: dark)')
         ? true
-        : false
+        : false;
+
+    container.current.style.setProperty(
+      '--bookmark-prime',
+      dark ? color.lightness(80) : color.lightness(20)
     );
-  }, [session.daytime, settings.theme]);
+    container.current.style.setProperty(
+      '--bookmark-second',
+      dark ? color.lightness(20) : color.lightness(80)
+    );
+  }, [color, session.daytime, settings.theme]);
 
   return (
     <li
@@ -35,10 +43,7 @@ const Bookmark = ({ bookmark, setDraggingNode }) => {
       data-bookmark={bookmark.id}
       onDragStart={() => setDraggingNode(bookmark.id)}
       onDragEnd={() => setDraggingNode(null)}
-      style={{
-        '--bookmark-prime': godark ? color.lightness(80) : color.lightness(20),
-        '--bookmark-second': godark ? color.lightness(20) : color.lightness(80),
-      }}>
+      ref={container}>
       <a className={styles.link} href={bookmark.link} title={bookmark.name}>
         <span className={styles.icon}>
           <img alt="" className={styles.img} src={favicon} />
