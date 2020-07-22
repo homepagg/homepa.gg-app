@@ -3,58 +3,44 @@
 }
 
 .icon {
-  border-radius: 50%;
   display: flex;
-  flex: 0 0 auto;
+  filter:
+    drop-shadow(1px 0 0 hsla(var(--bookmark-prime), 0.24))
+    drop-shadow(-1px 0 0 hsla(var(--bookmark-prime), 0.24))
+    drop-shadow(0 1px 0 hsla(var(--bookmark-prime), 0.24))
+    drop-shadow(0 -1px 0 hsla(var(--bookmark-prime), 0.24));
+  flex-shrink: 0;
   height: calc(100% - 12px);
-  margin-right: 6px;
-  padding: 4px 6px;
+  margin-right: 9px;
   position: relative;
   width: auto;
   z-index: 0;
 }
 
 .img {
-  filter:
-    drop-shadow(1px 0 0 var(--bookmark-second))
-    drop-shadow(-1px 0 0 var(--bookmark-second))
-    drop-shadow(0 1px 0 var(--bookmark-second))
-    drop-shadow(0 -1px 0 var(--bookmark-second));
+  border-radius: 3px;
   height: 16px;
   width: 16px;
 }
 
 .link {
   align-items: center;
-  color: var(--bookmark-prime);
+  color: hsl(var(--bookmark-prime));
   display: flex;
-  padding: 4px 12px 4px 4px;
+  line-height: 1.2;
   position: relative;
   text-decoration: none;
   z-index: 0;
 }
 
-.link::after {
-  background-color: var(--bookmark-second);
-  border-radius: 9px / 50% 50%;
-  content: '';
-  height: 100%;
-  left: 0;
-  opacity: 0.24;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: -1;
-}
-
-.link:hover::after {
-  opacity: 0.72;
-}
-
 .text {
-  flex: 1;
-  line-height: 1.2;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.link:hover .text {
+  box-shadow:
+    inset 0 -0.54em 0 hsla(var(--bookmark-second), 0.72),
+    0 0.06em 0 hsla(var(--bookmark-second), 0.72);
 }

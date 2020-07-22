@@ -14,6 +14,13 @@ const Bookmark = ({ bookmark, setDraggingNode }) => {
   const settings = settingsState.state;
 
   useEffect(() => {
+    const split = (color) => {
+      const hsl = color.hsl().object();
+      return `${Math.round(hsl.h)}, ${Math.round(hsl.s)}%, ${Math.round(
+        hsl.l
+      )}%`;
+    };
+
     const dark =
       settings.theme === 'solar' && session.daytime
         ? false
@@ -27,14 +34,11 @@ const Bookmark = ({ bookmark, setDraggingNode }) => {
         ? true
         : false;
 
-    container.current.style.setProperty(
-      '--bookmark-prime',
-      dark ? color.lightness(80) : color.lightness(20)
-    );
-    container.current.style.setProperty(
-      '--bookmark-second',
-      dark ? color.lightness(20) : color.lightness(80)
-    );
+    const primary = dark ? color.lightness(72) : color.lightness(24);
+    const secondary = dark ? color.lightness(24) : color.lightness(84);
+
+    container.current.style.setProperty('--bookmark-prime', split(primary));
+    container.current.style.setProperty('--bookmark-second', split(secondary));
   }, [color, session.daytime, settings.theme]);
 
   return (
