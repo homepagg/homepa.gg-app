@@ -1,46 +1,45 @@
 .bookmark {
+  display: block;
   list-style: none;
+  user-select: none;
 }
 
 .icon {
   display: flex;
   filter:
-    drop-shadow(1px 0 0 hsla(var(--bookmark-prime), 0.24))
-    drop-shadow(-1px 0 0 hsla(var(--bookmark-prime), 0.24))
-    drop-shadow(0 1px 0 hsla(var(--bookmark-prime), 0.24))
-    drop-shadow(0 -1px 0 hsla(var(--bookmark-prime), 0.24));
+    drop-shadow(1px 0 0 hsla(var(--accent-color), 0.72))
+    drop-shadow(-1px 0 0 hsla(var(--accent-color), 0.72))
+    drop-shadow(0 1px 0 hsla(var(--accent-color), 0.72))
+    drop-shadow(0 -1px 0 hsla(var(--accent-color), 0.72));
   flex-shrink: 0;
   height: calc(100% - 12px);
   margin-right: 9px;
-  position: relative;
   width: auto;
-  z-index: 0;
 }
 
 .img {
-  border-radius: 3px;
+  border-radius: 24%;
   height: 16px;
   width: 16px;
 }
 
 .link {
   align-items: center;
-  color: hsl(var(--bookmark-prime));
+  background-color: hsla(var(--accent-color), 0.24);
+  border-radius: 0.36em;
+  color: inherit;
   display: flex;
   line-height: 1.2;
-  position: relative;
+  padding: 0.62em;
   text-decoration: none;
-  z-index: 0;
+}
+
+.link:hover {
+  background-color: hsla(var(--accent-color), 0.64);
 }
 
 .text {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.link:hover .text {
-  box-shadow:
-    inset 0 -0.54em 0 hsla(var(--bookmark-second), 0.72),
-    0 0.06em 0 hsla(var(--bookmark-second), 0.72);
 }

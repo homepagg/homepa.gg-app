@@ -20,9 +20,9 @@ function App() {
       <SettingsProvider>
         <CategoriesProvider>
           <BookmarksProvider>
-            <Setup />
             <Theme />
             <Router>
+              <Setup />
               <div className={styles.app}>
                 <AppHeader />
                 <main className={styles.main}>

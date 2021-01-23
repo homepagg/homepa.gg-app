@@ -2,30 +2,26 @@ import React, { createContext, useReducer } from 'react';
 
 const initialState = {
   loggedIn: false,
-  daytime: true,
+  theme: 'light',
 };
 
 const Session = createContext(initialState);
 const { Provider } = Session;
 
 const reducer = (state, action) => {
-  const temp = state;
-
   switch (true) {
-    case action.type === 'SET':
-      temp.loggedIn = action.value;
-      break;
+    case action.type === 'SET_LOGGED_IN':
+      state.loggedIn = action.value;
+      return { ...state };
 
-    case action.type === 'SET_DAYTIME':
-      temp.daytime = action.value;
-      break;
+    case action.type === 'SET_THEME':
+      state.theme = action.value;
+      return { ...state };
 
     default:
       console.error('Session reducer called unnecessarily.');
-      break;
+      return;
   }
-
-  return { ...temp };
 };
 
 const SessionProvider = ({ children }) => {

@@ -15,7 +15,7 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
 
   const categoriesState = useContext(Categories);
   const categories = categoriesState.state.categories || [];
-  const { categoryReducer } = categoriesState;
+  const { categoriesReducer } = categoriesState;
 
   const form = useRef();
   const linkInput = useRef();
@@ -58,7 +58,7 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
     const form = new FormData(event.target);
 
     if (addCategory) {
-      categoryReducer({
+      categoriesReducer({
         type: 'ADD',
         name: form.get('new-category'),
       });

@@ -43,11 +43,7 @@ const Auth = () => {
     setHasToken(true);
   }, [accessToken]);
 
-  return hasToken ? (
-    <Redirect to="/setup" />
-  ) : (
-    <h2>Checking you out&hellip;</h2>
-  );
+  return hasToken ? <Redirect to="/" /> : <h2>Checking you out&hellip;</h2>;
 };
 
 export default Auth;

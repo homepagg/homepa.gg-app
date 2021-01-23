@@ -1,58 +1,66 @@
 import React, { createContext, useReducer } from 'react';
 import { Dropbox } from 'dropbox';
 
-const accessToken = localStorage.getItem('accessToken');
 const initialState = [];
-
 const Categories = createContext(initialState);
 const { Provider } = Categories;
-
+const accessToken = localStorage.getItem('accessToken');
 const dbx = new Dropbox({ accessToken, fetch });
 
 const updateRemoteCategories = (data) => {
+  const json = JSON.stringify(data);
   dbx
     .filesUpload({
       path: '/categories.json',
-      contents: JSON.stringify(data),
+      contents: json,
       mode: 'overwrite',
     })
+    .then(() => localStorage.setItem('categoriesJSON', json))
     .catch((error) => console.error(error));
 };
 
 const reducer = (state, action) => {
-  let temp = state;
+  let temp = [...state];
 
-  switch (true) {
-    case action.type === 'UPDATE':
-      temp = action.categories;
+  switch (action.type) {
+    case 'SET':
+      temp = [...action.categories];
+      localStorage.setItem('categoriesJSON', JSON.stringify(temp));
       break;
 
-    case action.type === 'ADD':
-      temp.categories.push({
+    case 'PUSH':
+      updateRemoteCategories(temp);
+      break;
+
+    case 'REORDER':
+      const list = [...state];
+      const item = list.splice(action.drag, 1)[0];
+      list.splice(action.hover, 0, item);
+      temp = [...list];
+      break;
+
+    case 'ADD':
+      temp.push({
         id: state.categories[state.categories.length - 1].id + 1,
         order: state.categories[state.categories.length - 1].order + 1,
         name: action.name,
       });
       break;
 
-    case action.type === 'REMOVE':
-      temp.categories.splice(action.id, 1);
+    case 'REMOVE':
+      temp.splice(action.id, 1);
       break;
 
     default:
-      console.error('Category reducer called unnecessarily.');
+      console.error('Category reducer called unnecessarily.', state, action);
   }
 
-  localStorage.setItem('categoriesJson', JSON.stringify(temp));
-
-  if (state !== temp && state.length !== 0) updateRemoteCategories(temp);
-
-  return { ...temp };
+  return [...temp];
 };
 
 const CategoriesProvider = ({ children }) => {
-  const [state, categoryReducer] = useReducer(reducer, initialState);
-  return <Provider value={{ state, categoryReducer }}>{children}</Provider>;
+  const [state, categoriesReducer] = useReducer(reducer, initialState);
+  return <Provider value={{ state, categoriesReducer }}>{children}</Provider>;
 };
 
 export { Categories, CategoriesProvider };

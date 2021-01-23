@@ -15,7 +15,7 @@ const AppSettings = ({ closeModal, showModal }) => {
   const activeSession = sessionState.state.loggedIn || false;
 
   const settingsState = useContext(Settings);
-  const { settingReducer } = settingsState;
+  const { settingsReducer } = settingsState;
   const settings = settingsState.state || {};
   const [updated, setUpdated] = useState(false);
   const [theme, setTheme] = useState('default');
@@ -24,17 +24,17 @@ const AppSettings = ({ closeModal, showModal }) => {
 
   const updateTheme = (value) => {
     setTheme(value);
-    settingReducer({ type: 'SET_THEME', value: value });
+    settingsReducer({ type: 'SET_THEME', value: value });
   };
 
   const updateFavsGroup = (value) => {
     setFavesGroup(value);
-    settingReducer({ type: 'SET_FAVORITES_GROUP', value: value });
+    settingsReducer({ type: 'SET_FAVORITES_GROUP', value: value });
   };
 
   const updateFavesHide = (value) => {
     setFavesHide(value);
-    settingReducer({ type: 'SET_SHOW_FAVORITES', value: value });
+    settingsReducer({ type: 'SET_SHOW_FAVORITES', value: value });
   };
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const AppSettings = ({ closeModal, showModal }) => {
         Date.parse(times.dawn) > new Date() > Date.parse(times.sunset)
           ? true
           : false;
-      sessionReducer({ type: 'SET_DAYTIME', value: isDay });
+      sessionReducer({ type: 'SET_THEME', value: isDay ? 'light' : 'dark' });
     };
 
     navigator.geolocation.getCurrentPosition(

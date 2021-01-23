@@ -1,35 +1,40 @@
 import React, { createContext, useReducer } from 'react';
 import { Dropbox } from 'dropbox';
 
-const accessToken = localStorage.getItem('accessToken');
 const initialState = [];
-
 const Bookmarks = createContext(initialState);
 const { Provider } = Bookmarks;
-
+const accessToken = localStorage.getItem('accessToken');
 const dbx = new Dropbox({ accessToken, fetch });
 
 const updateRemoteBookmarks = (data) => {
+  const json = JSON.stringify(data);
   dbx
     .filesUpload({
       path: '/bookmarks.json',
-      contents: JSON.stringify(data),
+      contents: json,
       mode: 'overwrite',
     })
+    .then(() => localStorage.setItem('bookmarksJSON', json))
     .catch((error) => console.error(error));
 };
 
 const reducer = (state, action) => {
-  let temp = state;
+  let temp = [...state];
 
   switch (true) {
-    case action.type === 'UPDATE':
-      temp = action.bookmarks;
+    case action.type === 'SET':
+      temp = [...action.bookmarks];
+      localStorage.setItem('bookmarksJSON', JSON.stringify(temp));
+      break;
+
+    case 'PUSH':
+      updateRemoteBookmarks(temp);
       break;
 
     case action.type === 'ADD':
-      temp.bookmarks.push({
-        id: state.bookmarks[state.bookmarks.length - 1].id + 1,
+      temp.push({
+        id: temp[temp.length - 1].id + 1,
         name: action.name,
         link: action.link,
         category: action.category,
@@ -39,10 +44,8 @@ const reducer = (state, action) => {
       break;
 
     case action.type === 'EDIT':
-      const bookmark = state.bookmarks
-        .map((node) => node.id)
-        .indexOf(action.id);
-      temp.bookmarks[bookmark] = {
+      const bookmark = temp.map((node) => node.id).indexOf(action.id);
+      temp[bookmark] = {
         id: action.id,
         name: action.name,
         link: action.link,
@@ -53,19 +56,15 @@ const reducer = (state, action) => {
       break;
 
     case action.type === 'REMOVE':
-      const index = state.bookmarks.map((node) => node.id).indexOf(action.id);
+      const index = temp.map((node) => node.id).indexOf(action.id);
       temp.bookmarks.splice(index, 1);
       break;
 
     default:
-      console.error('Bookmark reducer called unnecessarily.');
+      console.error('Bookmark reducer called unnecessarily.', state, action);
   }
 
-  localStorage.setItem('bookmarksJson', JSON.stringify(temp));
-
-  if (state === temp) updateRemoteBookmarks(temp);
-
-  return { ...temp };
+  return [...temp];
 };
 
 const BookmarksProvider = ({ children }) => {
