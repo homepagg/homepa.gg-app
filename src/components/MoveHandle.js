@@ -58,7 +58,6 @@ const MoveHandle = ({ container, index, setDragging }) => {
       )
         return;
 
-      console.log('Calling `categoriesReducer` with "REORDER" type');
       categoriesReducer({
         type: 'REORDER',
         drag: dragIndex,
