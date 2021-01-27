@@ -1,7 +1,10 @@
 {
   "extends": [
     "stylelint-config-standard",
-    "stylelint-config-css-modules"
+    "stylelint-config-styled-components"
+  ],
+  "processors": [
+    "stylelint-processor-styled-components"
   ],
   "plugins": [
     "stylelint-order"

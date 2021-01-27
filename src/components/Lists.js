@@ -1,11 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Categories } from '../contexts/CategoriesProvider.js';
 import { Settings } from '../contexts/SettingsProvider.js';
 import Dropzones from './Dropzones';
-import CategoryGroup from './CategoryGroup';
-import FavoritesGroup from './FavoritesGroup';
+import Category from './Category';
 
 const Lists = () => {
   const categoriesState = useContext(Categories);
@@ -18,13 +17,16 @@ const Lists = () => {
       {categories && categories.length > 0 ? (
         <DndProvider backend={HTML5Backend}>
           <Dropzones />
-          {settings.favesGroup && <FavoritesGroup />}
+          {settings.favesGroup && (
+            <Category group="favorites" name="Favorites" />
+          )}
           {categories &&
             categories.length > 0 &&
             categories.map((category, index) => (
-              <CategoryGroup
+              <Category
+                draggable={true}
+                group={category.id}
                 key={category.id}
-                id={category.id}
                 index={index}
                 name={category.name}
               />

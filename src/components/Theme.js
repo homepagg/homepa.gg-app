@@ -2,6 +2,16 @@ import { useContext, useEffect } from 'react';
 import { Session } from '../contexts/SessionProvider.js';
 import { Settings } from '../contexts/SettingsProvider.js';
 
+const darkStyles = `:root {
+  --color-primary: var(--color-light);
+  --color-secondary: var(--color-dark);
+}`;
+
+const lightStyles = `:root {
+  --color-primary: var(--color-dark);
+  --color-secondary: var(--color-light);
+}`;
+
 const Theme = () => {
   const sessionState = useContext(Session);
   const { sessionReducer } = sessionState;
@@ -18,16 +28,6 @@ const Theme = () => {
 
   useEffect(() => {
     if (!document.getElementById('theme-style')) return;
-
-    const darkStyles = `:root {
-      --color-primary: var(--color-light);
-      --color-secondary: var(--color-dark);
-    }`;
-
-    const lightStyles = `:root {
-      --color-primary: var(--color-dark);
-      --color-secondary: var(--color-light);
-    }`;
 
     const isDay =
       settings.theme === 'solar' && session.theme

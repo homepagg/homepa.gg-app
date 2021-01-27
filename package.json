@@ -13,7 +13,7 @@
   },
   "main": ".eslintrc.js",
   "devDependencies": {
-    "autoprefixer": "^9.8.0",
+    "babel-plugin-macros": "^3.0.1",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
@@ -22,11 +22,11 @@
     "eslint-plugin-react-hooks": "^4.0.4",
     "prettier": "^2.0.5",
     "prettier-stylelint": "^0.4.2",
-    "sass": "^1.26.7",
     "stylelint": "^13.6.1",
-    "stylelint-config-css-modules": "^2.2.0",
     "stylelint-config-standard": "^20.0.0",
-    "stylelint-order": "^4.1.0"
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-order": "^4.1.0",
+    "stylelint-processor-styled-components": "^1.10.0"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -44,7 +44,11 @@
     "react-modal": "^3.11.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "styled-components": "^5.2.1",
     "suncalc": "^1.8.0"
+  },
+  "resolutions": {
+    "styled-components": "^5"
   },
   "eslintConfig": {
     "extends": "react-app"

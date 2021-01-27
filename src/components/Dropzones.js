@@ -1,11 +1,21 @@
 import React from 'react';
-import cx from 'classnames';
+import styled from 'styled-components/macro';
 import { useDrop } from 'react-dnd';
 import Dropzone from './Dropzone';
-import styles from './Dropzones.module.css';
+
+const Container = styled.div`
+  display: ${(props) => (props.canDrop ? 'grid' : 'none')};
+  grid-gap: 24px;
+  grid-template: 0 / 1fr 1fr;
+  list-style: none;
+  margin: 0 36px;
+  position: sticky;
+  top: 24px;
+  z-index: 1;
+`;
 
 const Dropzones = () => {
-  const [{ canDrop }, dropzones] = useDrop({
+  const [{ canDrop }, container] = useDrop({
     accept: 'bookmark',
     collect: (monitor) => ({
       canDrop: monitor.canDrop(),
@@ -13,12 +23,10 @@ const Dropzones = () => {
   });
 
   return (
-    <div
-      ref={dropzones}
-      className={cx(styles.dropzones, { [styles['is-visible']]: canDrop })}>
+    <Container canDrop={canDrop} ref={container}>
       <Dropzone action="edit" hoverText="Drop it!" text="Edit" />
       <Dropzone action="delete" hoverText="Drop it!" text="Delete" />
-    </div>
+    </Container>
   );
 };
 

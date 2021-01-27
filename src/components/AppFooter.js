@@ -1,13 +1,31 @@
 import React, { useState } from 'react';
-import ReactModal from 'react-modal';
 import { Link } from 'react-router-dom';
-import { ReactComponent as CancelSvg } from '../images/icons/cancel.svg';
-import styles from './AppFooter.module.css';
+import styled from 'styled-components/macro';
+import Modal from './Modal';
+
+const Footer = styled.footer`
+  font-size: 0.8em;
+  grid-area: app-footer;
+  opacity: 0.6;
+  padding-bottom: 24px;
+  position: relative;
+  text-align: center;
+`;
+
+const Button = styled.button`
+  padding: 0;
+  text-decoration: underline;
+
+  &::after {
+    display: none;
+  }
+`;
 
 const AppFooter = () => {
   const [showModal, setShowModal] = useState(false);
+
   return (
-    <footer className={styles.footer}>
+    <Footer>
       <p>
         <strong>Baile</strong> <em>/BAL-yeh/</em> (n.) Home.
       </p>
@@ -19,24 +37,13 @@ const AppFooter = () => {
           target="_blank">
           Checkout on GitHub
         </a>{' '}
-        |{' '}
-        <button className={styles.link} onClick={() => setShowModal(true)}>
-          Privacy
-        </button>
-        .
+        | <Button onClick={() => setShowModal(true)}>Privacy</Button>.
       </p>
 
-      <ReactModal
-        className={styles.modal}
+      <Modal
+        closeModal={setShowModal}
         isOpen={showModal}
-        overlayClassName={styles.overlay}>
-        <h1 className={styles.title}>Privacy Policy</h1>
-        <button
-          className={styles.close}
-          onClick={() => setShowModal(false)}
-          title="Close Settings">
-          <CancelSvg />
-        </button>
+        title="Privacy Policy">
         <p>
           <em>Effective date: July 1st, 2020.</em>
         </p>
@@ -79,11 +86,8 @@ const AppFooter = () => {
         </p>
         <p>
           You can remove all information from your browser at any time by{' '}
-          <Link className={styles.logout} to="/logout">
-            logging out
-          </Link>
-          . If you wish to stop using Baile at any time you can disconnect it
-          from your Dropbox account on{' '}
+          <Link to="/logout">logging out</Link>. If you wish to stop using Baile
+          at any time you can disconnect it from your Dropbox account on{' '}
           <a
             href="https://www.dropbox.com/account/connected_apps"
             rel="noopener noreferrer"
@@ -119,8 +123,8 @@ const AppFooter = () => {
           </a>
           .
         </p>
-      </ReactModal>
-    </footer>
+      </Modal>
+    </Footer>
   );
 };
 

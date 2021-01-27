@@ -1,7 +1,16 @@
 import React from 'react';
-import cx from 'classnames';
+import styled from 'styled-components/macro';
 import { useDrop } from 'react-dnd';
-import styles from './Dropzone.module.css';
+
+const Container = styled.div`
+  align-items: center;
+  border: 1px dashed;
+  display: flex;
+  height: 20vh;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px 40px;
+`;
 
 const Dustbin = ({ action, text, hoverText }) => {
   const [{ canDrop, isOver }, drop] = useDrop({
@@ -14,9 +23,9 @@ const Dustbin = ({ action, text, hoverText }) => {
   });
 
   return (
-    <div ref={drop} className={cx(styles.dropper)}>
+    <Container ref={drop}>
       <strong>{canDrop && isOver ? hoverText : text}</strong>
-    </div>
+    </Container>
   );
 };
 

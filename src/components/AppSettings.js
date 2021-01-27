@@ -1,13 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
-// import cx from 'classnames';
-import ReactModal from 'react-modal';
+import styled from 'styled-components/macro';
 import suncalc from 'suncalc';
 import { Link } from 'react-router-dom';
 import { Session } from '../contexts/SessionProvider.js';
 import { Settings } from '../contexts/SettingsProvider.js';
-import { ReactComponent as CancelSvg } from '../images/icons/cancel.svg';
+import Modal from './Modal';
 import { ReactComponent as LogoutSvg } from '../images/icons/logout.svg';
-import styles from './AppSettings.module.css';
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+`;
+
+const Logout = styled(Link)`
+  margin-top: auto;
+`;
 
 const AppSettings = ({ closeModal, showModal }) => {
   const sessionState = useContext(Session);
@@ -68,18 +76,8 @@ const AppSettings = ({ closeModal, showModal }) => {
   }, [sessionReducer, theme]);
 
   return activeSession ? (
-    <ReactModal
-      className={styles.modal}
-      isOpen={showModal}
-      overlayClassName={styles.overlay}>
-      <h1 className={styles.title}>Settings</h1>
-      <button
-        className={styles.close}
-        onClick={closeModal}
-        title="Close Settings">
-        <CancelSvg />
-      </button>
-      <form className={styles.form}>
+    <Modal closeModal={closeModal} isOpen={showModal} title="Settings">
+      <Form>
         <fieldset>
           <h3>Theme</h3>
           <label>
@@ -142,12 +140,12 @@ const AppSettings = ({ closeModal, showModal }) => {
             <span>Hide favorites in categories</span>
           </label>
         </fieldset>
-        <Link className={styles.logout} to="/logout">
+        <Logout to="/logout">
           <LogoutSvg />
           Logout
-        </Link>
-      </form>
-    </ReactModal>
+        </Logout>
+      </Form>
+    </Modal>
   ) : null;
 };
 

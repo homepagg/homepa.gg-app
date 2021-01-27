@@ -1,12 +1,60 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import cx from 'classnames';
+import styled from 'styled-components/macro';
 import Vibrant from 'node-vibrant';
-import ReactModal from 'react-modal';
 import { Bookmarks } from '../contexts/BookmarksProvider.js';
 import { Categories } from '../contexts/CategoriesProvider.js';
+import Modal from './Modal';
 import ColorPicker from './ColorPicker';
-import styles from './BookmarkForm.module.css';
 import { ReactComponent as CancelSvg } from '../images/icons/cancel.svg';
+
+const Controls = styled.div`
+  display: grid;
+  grid-column: 1 / 3;
+  grid-column-gap: 12px;
+  grid-template-columns: 1fr 1fr;
+`;
+
+const Control = styled.button`
+  font-weight: 700;
+  padding: 12px 24px;
+  text-transform: uppercase;
+`;
+
+const Form = styled.form`
+  display: grid;
+  grid-gap: 12px;
+  grid-template-columns: max-content 1fr;
+`;
+
+const Input = styled.input`
+  grid-column: 2;
+`;
+
+const Fieldset = styled(Input).attrs({
+  as: 'fieldset',
+})`
+  align-items: center;
+  display: flex;
+
+  button {
+    margin-left: 1ch;
+  }
+
+  select {
+    flex: 1;
+    margin-right: 1ch;
+  }
+`;
+
+const Label = styled.label`
+  font-weight: 600;
+  grid-column: 1;
+  padding: 6px 0;
+`;
+
+const Picker = styled(ColorPicker)`
+  grid-column: 2;
+`;
 
 const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
   const bookmarksState = useContext(Bookmarks);
@@ -105,40 +153,21 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
   }, [bookmarkId, bookmarks]);
 
   return (
-    <ReactModal
-      className={styles.modal}
+    <Modal
+      closeModal={closeModal}
       isOpen={showModal}
-      overlayClassName={styles.overlay}>
-      <h1 className={styles.title}>
-        {bookmark ? `Edit ${bookmark.name}` : 'Add a new bookmark'}
-      </h1>
-      <button
-        className={styles.close}
-        onClick={closeModal}
-        title="Close Settings">
-        <CancelSvg />
-      </button>
-      <form
-        className={styles.form}
-        onReset={resetForm}
-        onSubmit={handleSubmit}
-        ref={form}>
-        <label className={styles.label} htmlFor="name">
-          Name
-        </label>
-        <input
-          className={styles.input}
+      title={bookmark ? `Edit ${bookmark.name}` : 'Add a new bookmark'}>
+      <Form onReset={resetForm} onSubmit={handleSubmit} ref={form}>
+        <Label htmlFor="name">Name</Label>
+        <Input
           defaultValue={bookmark?.name}
           id="name"
           name="name"
           required
           type="text"
         />
-        <label className={styles.label} htmlFor="link">
-          URL
-        </label>
-        <input
-          className={styles.input}
+        <Label htmlFor="link">URL</Label>
+        <Input
           defaultValue={bookmark?.link}
           id="link"
           name="link"
@@ -147,25 +176,19 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
           ref={linkInput}
           type="url"
         />
-        <label className={styles.label}>Color</label>
-        <ColorPicker
-          classes={styles.input}
-          color={color}
-          onChange={({ hex }) => setColor(hex)}
-        />
-        <label className={styles.label} htmlFor="category">
-          Category
-        </label>
+        <Label>Color</Label>
+        <Picker color={color} onChange={({ hex }) => setColor(hex)} />
+        <Label htmlFor="category">Category</Label>
         {addCategory ? (
-          <fieldset className={cx(styles.input, styles.newCategory)}>
+          <Fieldset>
             <label htmlFor="new-category">Name your new category</label>
             <input id="new-category" name="new-category" required type="text" />
             <button onClick={toggleAddCategory} title="Delete">
               <CancelSvg />
             </button>
-          </fieldset>
+          </Fieldset>
         ) : (
-          <fieldset className={cx(styles.input, styles.chooseCategory)}>
+          <Fieldset>
             <select
               defaultValue={bookmark?.category || ''}
               id="category"
@@ -188,12 +211,10 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
             <button onClick={toggleAddCategory}>
               <span>Category</span>
             </button>
-          </fieldset>
+          </Fieldset>
         )}
-        <label className={styles.label} htmlFor="favorite">
-          Favorite
-        </label>
-        <label className={styles.input} htmlFor="favorite">
+        <Label htmlFor="favorite">Favorite</Label>
+        <Input as="label" htmlFor="favorite">
           <input
             defaultChecked={bookmark?.favorite}
             id="favorite"
@@ -201,17 +222,17 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
             type="checkbox"
           />
           <em>Include this bookmark in your favorites section</em>
-        </label>
-        <div className={styles.controls}>
-          <button className={cx(styles.control, styles.submit)} type="submit">
+        </Input>
+        <Controls>
+          <Control type="submit">
             <span>{bookmark ? 'Save' : 'Add'}</span>
-          </button>
-          <button className={cx(styles.control, styles.reset)} type="reset">
+          </Control>
+          <Control type="reset">
             <span>Cancel</span>
-          </button>
-        </div>
-      </form>
-    </ReactModal>
+          </Control>
+        </Controls>
+      </Form>
+    </Modal>
   );
 };
 

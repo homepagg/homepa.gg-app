@@ -1,11 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
+import styled from 'styled-components/macro';
 import { Dropbox } from 'dropbox';
 import { Bookmarks } from '../contexts/BookmarksProvider.js';
 import { Categories } from '../contexts/CategoriesProvider.js';
 import { Session } from '../contexts/SessionProvider.js';
 import { Settings } from '../contexts/SettingsProvider.js';
-import styles from './Setup.module.css';
+
+const Aside = styled.aside`
+  background-color: hsl(var(--color-secondary));
+  border: 1px solid hsl(var(--color-secondary));
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1;
+`;
 
 const Setup = () => {
   const accessToken = localStorage.getItem('accessToken');
@@ -185,7 +194,7 @@ const Setup = () => {
   }, [sessionReducer, hasBookmarks, hasCategories, hasSettings]);
 
   return status === 'loading' ? (
-    <aside className={styles.aside}>
+    <Aside>
       <h2>Setting the bits&hellip;</h2>
       <dl>
         <dt>Settings</dt>
@@ -225,7 +234,7 @@ const Setup = () => {
           )}
         </dd>
       </dl>
-    </aside>
+    </Aside>
   ) : status === 'error' ? (
     <Redirect to="/error" />
   ) : null;

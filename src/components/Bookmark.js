@@ -1,11 +1,55 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import cx from 'classnames';
+import styled from 'styled-components/macro';
 import { useDrag } from 'react-dnd';
 import Color from 'color';
 import { Bookmarks } from '../contexts/BookmarksProvider.js';
 import { Session } from '../contexts/SessionProvider.js';
 import BookmarkForm from './BookmarkForm.js';
-import styles from './Bookmark.module.css';
+
+const Container = styled.li`
+  display: block;
+  list-style: none;
+  user-select: none;
+`;
+
+const Icon = styled.span`
+  display: flex;
+  filter: drop-shadow(1px 0 0 hsla(var(--accent-color), 0.72))
+    drop-shadow(-1px 0 0 hsla(var(--accent-color), 0.72))
+    drop-shadow(0 1px 0 hsla(var(--accent-color), 0.72))
+    drop-shadow(0 -1px 0 hsla(var(--accent-color), 0.72));
+  flex-shrink: 0;
+  height: calc(100% - 12px);
+  margin-right: 9px;
+  width: auto;
+`;
+
+const Img = styled.img`
+  border-radius: 24%;
+  height: 16px;
+  width: 16px;
+`;
+
+const Link = styled.a`
+  align-items: center;
+  background-color: hsla(var(--accent-color), 0.24);
+  border-radius: 0.36em;
+  color: inherit;
+  display: flex;
+  line-height: 1.2;
+  padding: 0.62em;
+  text-decoration: none;
+
+  &:hover {
+    background-color: hsla(var(--accent-color), 0.64);
+  }
+`;
+
+const Text = styled.span`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
 
 const Bookmark = ({ bookmark }) => {
   const sessionState = useContext(Session);
@@ -16,7 +60,7 @@ const Bookmark = ({ bookmark }) => {
   const [accentColor, setAccentColor] = useState('');
   const container = useRef();
 
-  const [{ isDragging }, containerRef] = useDrag({
+  const [, containerRef] = useDrag({
     item: { bookmark, type: 'bookmark' },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
@@ -56,26 +100,23 @@ const Bookmark = ({ bookmark }) => {
 
   return (
     <>
-      <li
-        className={cx(styles.bookmark, { [styles.isDragging]: isDragging })}
+      <Container
         draggable="true"
         ref={container}
         style={{ '--accent-color': `${accentColor}` }}>
-        <a
-          className={styles.link}
+        <Link
           href={bookmark.link}
           rel="nofollow noopener"
           title={bookmark.name}>
-          <span className={styles.icon}>
-            <img
+          <Icon>
+            <Img
               alt=""
-              className={styles.img}
               src={`http://www.google.com/s2/favicons?domain=${bookmark.link}`}
             />
-          </span>
-          <span className={styles.text}>{bookmark.name}</span>
-        </a>
-      </li>
+          </Icon>
+          <Text>{bookmark.name}</Text>
+        </Link>
+      </Container>
       <BookmarkForm
         bookmarkId={bookmark.id}
         closeModal={() => setAddingBookmark(false)}
