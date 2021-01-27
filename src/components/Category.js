@@ -7,6 +7,7 @@ import Bookmark from './Bookmark';
 import { ReactComponent as ArrowSvg } from '../images/icons/arrow.svg';
 
 const Container = styled.section`
+  opacity: ${(props) => (props.isDragging ? '0' : '1')};
   padding: 24px 36px;
 `;
 
@@ -71,6 +72,7 @@ const Category = ({ draggable, group, index, name }) => {
   const bookmarks = bookmarksState.state;
   const settingsState = useContext(Settings);
   const settings = settingsState.state;
+  const [isDragging, setIsDragging] = useState(false);
   const [categoryBookmarks, setCategoryBookmarks] = useState([]);
 
   useEffect(() => {
@@ -96,14 +98,20 @@ const Category = ({ draggable, group, index, name }) => {
     bookmarks.forEach((bookmark) => window.open(bookmark.link));
 
   return (
-    <Container ref={container}>
+    <Container isDragging={isDragging} ref={container}>
       <Header>
         <Title>{name}</Title>
         <OpenAll onClick={openAll}>
           Open All
           <ArrowSvg />
         </OpenAll>
-        {draggable && <MoveHandle container={container} index={index} />}
+        {draggable && (
+          <MoveHandle
+            container={container}
+            index={index}
+            setDragging={setIsDragging}
+          />
+        )}
       </Header>
       <List>
         {categoryBookmarks.map((bookmark) => (

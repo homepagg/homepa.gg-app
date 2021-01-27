@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { useDrag, useDrop } from 'react-dnd';
 import { Categories } from '../contexts/CategoriesProvider.js';
@@ -32,7 +32,7 @@ const Move = styled.span`
   } */}
 `;
 
-const MoveHandle = ({ container, index }) => {
+const MoveHandle = ({ container, index, setDragging }) => {
   const categoriesState = useContext(Categories);
   const { categoriesReducer } = categoriesState;
 
@@ -58,6 +58,7 @@ const MoveHandle = ({ container, index }) => {
       )
         return;
 
+      console.log('Calling `categoriesReducer` with "REORDER" type');
       categoriesReducer({
         type: 'REORDER',
         drag: dragIndex,
@@ -66,7 +67,7 @@ const MoveHandle = ({ container, index }) => {
     },
   });
 
-  const [, drag] = useDrag({
+  const [{ isDragging }, drag] = useDrag({
     item: { type: 'group', index },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
@@ -74,6 +75,10 @@ const MoveHandle = ({ container, index }) => {
   });
 
   drag(drop(container));
+
+  useEffect(() => {
+    setDragging(isDragging);
+  }, [setDragging, isDragging]);
 
   return (
     <Move data-sortable-handle>
