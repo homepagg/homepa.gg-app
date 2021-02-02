@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components/macro';
 import { Bookmarks } from '../contexts/BookmarksProvider.js';
 import { Settings } from '../contexts/SettingsProvider.js';
-import MoveHandle from './MoveHandle.js';
+import Handle from './Handle.js';
 import Bookmark from './Bookmark';
 import { ReactComponent as ArrowSvg } from '../images/icons/arrow.svg';
+import { ReactComponent as MoveSvg } from '../images/icons/move.svg';
 
 const Container = styled.section`
   opacity: ${(props) => (props.isDragging ? '0' : '1')};
@@ -40,6 +41,31 @@ const List = styled.ul`
   justify-self: stretch;
   list-style: none;
   margin-top: 24px;
+`;
+
+const Move = styled(MoveSvg)`
+  cursor: grab;
+  height: 40px;
+  left: 8px;
+  opacity: 0;
+  padding: 12px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity var(--animation-time) var(--animation-ease);
+  width: 40px;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  ${Container}:hover & {
+    opacity: 0.12;
+  }
+
+  ${Container}:hover &:hover {
+    opacity: 1;
+  }
 `;
 
 const OpenAll = styled.button`
@@ -106,11 +132,12 @@ const Category = ({ draggable, group, index, name }) => {
           <ArrowSvg />
         </OpenAll>
         {draggable && (
-          <MoveHandle
+          <Handle
             container={container}
             index={index}
-            setDragging={setIsDragging}
-          />
+            setDragging={setIsDragging}>
+            <Move />
+          </Handle>
         )}
       </Header>
       <List>
