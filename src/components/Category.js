@@ -67,7 +67,7 @@ const Title = styled.h2`
 `;
 
 const Category = ({ draggable, group, index, name }) => {
-  const container = useRef(null);
+  const container = useRef();
   const bookmarksState = useContext(Bookmarks);
   const bookmarks = bookmarksState.state;
   const settingsState = useContext(Settings);

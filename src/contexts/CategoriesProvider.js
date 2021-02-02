@@ -33,10 +33,8 @@ const reducer = (state, action) => {
       break;
 
     case 'REORDER':
-      const list = [...state];
-      const item = list.splice(action.drag, 1)[0];
-      list.splice(action.hover, 0, item);
-      temp = [...list];
+      const item = temp.splice(action.drag, 1)[0];
+      temp.splice(action.hover, 0, item);
       break;
 
     case 'ADD':

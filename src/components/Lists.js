@@ -10,30 +10,28 @@ const Lists = () => {
   const categoriesState = useContext(Categories);
   const categories = categoriesState.state;
   const settingsState = useContext(Settings);
-  const settings = settingsState.state || {};
+  const settings = settingsState.state;
+
+  console.log('render');
 
   return (
     <>
-      {categories && categories.length > 0 ? (
+      {categories?.length > 0 && settings?.favesGroup && (
         <DndProvider backend={HTML5Backend}>
           <Dropzones />
           {settings.favesGroup && (
             <Category group="favorites" name="Favorites" />
           )}
-          {categories &&
-            categories.length > 0 &&
-            categories.map((category, index) => (
-              <Category
-                draggable={true}
-                group={category.id}
-                key={category.id}
-                index={index}
-                name={category.name}
-              />
-            ))}
+          {categories.map((category, index) => (
+            <Category
+              draggable={true}
+              group={category.id}
+              key={category.id}
+              index={index}
+              name={category.name}
+            />
+          ))}
         </DndProvider>
-      ) : (
-        <p>No Data.</p>
       )}
     </>
   );

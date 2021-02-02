@@ -63,6 +63,8 @@ const MoveHandle = ({ container, index, setDragging }) => {
         drag: dragIndex,
         hover: hoverIndex,
       });
+
+      item.index = hoverIndex;
     },
   });
 
@@ -80,7 +82,7 @@ const MoveHandle = ({ container, index, setDragging }) => {
   }, [setDragging, isDragging]);
 
   return (
-    <Move data-sortable-handle>
+    <Move>
       <MoveSvg />
     </Move>
   );
