@@ -19,6 +19,30 @@ const Theme = () => {
   const settingsState = useContext(Settings);
   const theme = settingsState.state.theme;
 
+  const updateSolarTheme = () => {
+    const isDay = (times) => {
+      new Date().getTime() > Date.parse(times.dawn) &&
+      new Date().getTime() < Date.parse(times.sunset)
+        ? sessionReducer({ type: 'SET_THEME', value: 'light' })
+        : sessionReducer({ type: 'SET_THEME', value: 'dark' });
+    };
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        isDay(
+          suncalc.getTimes(
+            new Date(),
+            pos.coords.latitude,
+            pos.coords.longitude
+          )
+        );
+      },
+      () => {
+        isDay(suncalc.getTimes(new Date(), '38', '-122'));
+      }
+    );
+  };
+
   useEffect(() => {
     if (document.getElementById('theme-style')) return;
     const style = document.createElement('style');
@@ -27,34 +51,30 @@ const Theme = () => {
   }, []);
 
   useEffect(() => {
-    let useTheme = true;
+    if (!theme) return;
 
-    if (theme === 'solar') {
-      const setDay = (latitude, longitude) => {
-        const times = suncalc.getTimes(new Date(), latitude, longitude);
-        useTheme =
-          new Date().getTime() > Date.parse(times.dawn) &&
-          new Date().getTime() < Date.parse(times.sunset)
-            ? 'light'
-            : 'dark';
-      };
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          setDay(pos.coords.latitude, pos.coords.longitude);
-        },
-        () => {
-          setDay('38', '-122');
-        }
-      );
+    let useTheme;
+
+    switch (theme) {
+      case 'default':
+        useTheme = window.matchMedia('(prefers-color-scheme: light)').matches
+          ? 'light'
+          : 'dark';
+        break;
+      case 'solar':
+        useTheme = 'light';
+        updateSolarTheme();
+        break;
+      case 'light':
+        useTheme = 'light';
+        break;
+      case 'dark':
+        useTheme = 'dark';
+        break;
+      default:
+        useTheme = 'light';
+        break;
     }
-
-    if (theme === 'default')
-      useTheme = window.matchMedia('(prefers-color-scheme: light)').matches
-        ? 'light'
-        : 'dark';
-
-    if (theme === 'light' || theme === 'dark') useTheme = theme;
-
     sessionReducer({ type: 'SET_THEME', value: useTheme });
   }, [sessionReducer, theme]);
 
