@@ -1,15 +1,15 @@
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
+import suncalc from 'suncalc';
+import { createGlobalStyle } from 'styled-components/macro';
 import { Session } from '../contexts/SessionProvider.js';
 import { Settings } from '../contexts/SettingsProvider.js';
 
-const darkStyles = `:root {
-  --color-primary: var(--color-light);
-  --color-secondary: var(--color-dark);
-}`;
-
-const lightStyles = `:root {
-  --color-primary: var(--color-dark);
-  --color-secondary: var(--color-light);
+const ThemeStyles = createGlobalStyle`
+:root {
+  --color-primary: var(--color-${(props) =>
+    props.theme === 'light' ? 'dark' : 'light'});
+  --color-secondary: var(--color-${(props) =>
+    props.theme === 'light' ? 'light' : 'dark'});
 }`;
 
 const Theme = () => {
@@ -17,7 +17,7 @@ const Theme = () => {
   const { sessionReducer } = sessionState;
   const session = sessionState.state;
   const settingsState = useContext(Settings);
-  const settings = settingsState.state;
+  const theme = settingsState.state.theme;
 
   useEffect(() => {
     if (document.getElementById('theme-style')) return;
@@ -27,28 +27,38 @@ const Theme = () => {
   }, []);
 
   useEffect(() => {
-    if (!document.getElementById('theme-style')) return;
+    let useTheme = true;
 
-    const isDay =
-      settings.theme === 'solar' && session.theme
-        ? true
-        : settings.theme === 'solar' && !session.theme
-        ? true
-        : settings.theme === 'dark'
-        ? false
-        : settings.theme === 'light'
-        ? true
-        : window.matchMedia('(prefers-color-scheme: dark)')
-        ? false
-        : true;
+    if (theme === 'solar') {
+      const setDay = (latitude, longitude) => {
+        const times = suncalc.getTimes(new Date(), latitude, longitude);
+        useTheme =
+          new Date().getTime() > Date.parse(times.dawn) &&
+          new Date().getTime() < Date.parse(times.sunset)
+            ? 'light'
+            : 'dark';
+      };
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setDay(pos.coords.latitude, pos.coords.longitude);
+        },
+        () => {
+          setDay('38', '-122');
+        }
+      );
+    }
 
-    document.getElementById('theme-style').innerHTML = isDay
-      ? lightStyles
-      : darkStyles;
-    sessionReducer({ type: 'SET_THEME', value: isDay ? 'light' : 'dark' });
-  }, [sessionReducer, session.theme, settings.theme]);
+    if (theme === 'default')
+      useTheme = window.matchMedia('(prefers-color-scheme: light)').matches
+        ? 'light'
+        : 'dark';
 
-  return null;
+    if (theme === 'light' || theme === 'dark') useTheme = theme;
+
+    sessionReducer({ type: 'SET_THEME', value: useTheme });
+  }, [sessionReducer, theme]);
+
+  return <ThemeStyles theme={session.theme} />;
 };
 
 export default Theme;

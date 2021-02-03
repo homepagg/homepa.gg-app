@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
-import suncalc from 'suncalc';
 import { Link } from 'react-router-dom';
 import { Session } from '../contexts/SessionProvider.js';
 import { Settings } from '../contexts/SettingsProvider.js';
@@ -19,7 +18,6 @@ const Logout = styled(Link)`
 
 const AppSettings = ({ closeModal, showModal }) => {
   const sessionState = useContext(Session);
-  const { sessionReducer } = sessionState;
   const activeSession = sessionState.state.loggedIn || false;
 
   const settingsState = useContext(Settings);
@@ -52,28 +50,6 @@ const AppSettings = ({ closeModal, showModal }) => {
     setFavesGroup(settings.favesGroup);
     setFavesHide(settings.favesHide);
   }, [settings, updated]);
-
-  useEffect(() => {
-    if (!theme === 'solar') return;
-
-    const setDay = (latitude, longitude) => {
-      const times = suncalc.getTimes(new Date(), latitude, longitude);
-      const isDay =
-        Date.parse(times.dawn) < new Date().getTime() > Date.parse(times.sunset)
-          ? true
-          : false;
-      sessionReducer({ type: 'SET_THEME', value: isDay ? 'light' : 'dark' });
-    };
-
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setDay(pos.coords.latitude, pos.coords.longitude);
-      },
-      () => {
-        setDay('38', '-122');
-      }
-    );
-  }, [sessionReducer, theme]);
 
   return activeSession ? (
     <Modal closeModal={closeModal} isOpen={showModal} title="Settings">
