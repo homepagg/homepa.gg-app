@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import suncalc from 'suncalc';
 import { createGlobalStyle } from 'styled-components/macro';
 import { Session } from '../contexts/SessionProvider.js';
@@ -19,7 +19,7 @@ const Theme = () => {
   const settingsState = useContext(Settings);
   const theme = settingsState.state.theme;
 
-  const updateSolarTheme = () => {
+  const updateSolarTheme = useCallback(() => {
     const isDay = (times) => {
       new Date().getTime() > Date.parse(times.dawn) &&
       new Date().getTime() < Date.parse(times.sunset)
@@ -41,7 +41,7 @@ const Theme = () => {
         isDay(suncalc.getTimes(new Date(), '38', '-122'));
       }
     );
-  };
+  }, [sessionReducer]);
 
   useEffect(() => {
     if (document.getElementById('theme-style')) return;
@@ -76,7 +76,7 @@ const Theme = () => {
         break;
     }
     sessionReducer({ type: 'SET_THEME', value: useTheme });
-  }, [sessionReducer, theme]);
+  }, [sessionReducer, theme, updateSolarTheme]);
 
   return <ThemeStyles theme={session.theme} />;
 };
