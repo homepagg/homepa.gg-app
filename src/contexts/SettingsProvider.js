@@ -28,10 +28,6 @@ const reducer = (state, action) => {
       localStorage.setItem('settingsJSON', JSON.stringify(temp));
       break;
 
-    case action.type === 'PUSH':
-      updateRemoteSettings(temp);
-      break;
-
     case action.type === 'SET_THEME':
       temp.theme = action.value;
       break;
@@ -48,6 +44,7 @@ const reducer = (state, action) => {
       console.error('Settings reducer called unnecessarily.');
   }
 
+  updateRemoteSettings(temp);
   return { ...temp };
 };
 
