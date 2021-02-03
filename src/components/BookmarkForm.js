@@ -58,11 +58,11 @@ const Picker = styled(ColorPicker)`
 
 const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
   const bookmarksState = useContext(Bookmarks);
-  const bookmarks = bookmarksState.state.bookmarks || [];
+  const bookmarks = bookmarksState.state || [];
   const { bookmarksReducer } = bookmarksState;
 
   const categoriesState = useContext(Categories);
-  const categories = categoriesState.state.categories || [];
+  const categories = categoriesState.state || [];
   const { categoriesReducer } = categoriesState;
 
   const form = useRef();
