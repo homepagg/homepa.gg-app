@@ -12,8 +12,6 @@ const Lists = () => {
   const settingsState = useContext(Settings);
   const settings = settingsState.state;
 
-  console.log('render');
-
   return (
     <>
       {categories?.length > 0 && settings?.favesGroup && (

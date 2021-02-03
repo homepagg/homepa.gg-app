@@ -22,21 +22,25 @@ const updateRemoteSettings = (data) => {
 const reducer = (state, action) => {
   let temp = { ...state };
 
-  switch (true) {
-    case action.type === 'SET':
+  switch (action.type) {
+    case 'SET':
       temp = { ...action.settings };
       localStorage.setItem('settingsJSON', JSON.stringify(temp));
       break;
 
-    case action.type === 'SET_THEME':
+    case 'UPDATE_REMOTE':
+      updateRemoteSettings(temp);
+      break;
+
+    case 'SET_THEME':
       temp.theme = action.value;
       break;
 
-    case action.type === 'SET_SHOW_FAVORITES':
+    case 'SET_SHOW_FAVORITES':
       temp.favesHide = action.value;
       break;
 
-    case action.type === 'SET_FAVORITES_GROUP':
+    case 'SET_FAVORITES_GROUP':
       temp.favesGroup = action.value;
       break;
 

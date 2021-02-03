@@ -28,7 +28,7 @@ const reducer = (state, action) => {
       localStorage.setItem('categoriesJSON', JSON.stringify(temp));
       break;
 
-    case 'PUSH':
+    case 'UPDATE_REMOTE':
       updateRemoteCategories(temp);
       break;
 

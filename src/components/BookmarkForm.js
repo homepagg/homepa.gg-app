@@ -137,6 +137,7 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
           favorite: form.get('favorite') === 'on',
         });
 
+    bookmarksReducer({ type: 'UPDATE_REMOTE' });
     resetForm();
   };
 

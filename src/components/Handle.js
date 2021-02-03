@@ -40,6 +40,7 @@ const MoveHandle = ({ children, container, index, setDragging }) => {
 
   const [{ isDragging }, drag] = useDrag({
     item: { type: 'group', index },
+    end: () => categoriesReducer({ type: 'UPDATE_REMOTE' }),
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),

@@ -22,17 +22,17 @@ const updateRemoteBookmarks = (data) => {
 const reducer = (state, action) => {
   let temp = [...state];
 
-  switch (true) {
-    case action.type === 'SET':
+  switch (action.type) {
+    case 'SET':
       temp = [...action.bookmarks];
       localStorage.setItem('bookmarksJSON', JSON.stringify(temp));
       break;
 
-    case 'PUSH':
+    case 'UPDATE_REMOTE':
       updateRemoteBookmarks(temp);
       break;
 
-    case action.type === 'ADD':
+    case 'ADD':
       temp.push({
         id: temp[temp.length - 1].id + 1,
         name: action.name,
@@ -43,7 +43,7 @@ const reducer = (state, action) => {
       });
       break;
 
-    case action.type === 'EDIT':
+    case 'EDIT':
       const bookmark = temp.map((node) => node.id).indexOf(action.id);
       temp[bookmark] = {
         id: action.id,
@@ -55,7 +55,7 @@ const reducer = (state, action) => {
       };
       break;
 
-    case action.type === 'REMOVE':
+    case 'REMOVE':
       const index = temp.map((node) => node.id).indexOf(action.id);
       temp.bookmarks.splice(index, 1);
       break;
