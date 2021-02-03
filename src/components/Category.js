@@ -121,7 +121,7 @@ const Category = ({ draggable, group, index, name }) => {
   }, [group, bookmarks, settings]);
 
   const openAll = () =>
-    bookmarks.forEach((bookmark) => window.open(bookmark.link));
+    categoryBookmarks.forEach((bookmark) => window.open(bookmark.link));
 
   return (
     <Container isDragging={isDragging} ref={container}>
