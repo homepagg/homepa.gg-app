@@ -117,11 +117,13 @@ const Bookmark = ({ bookmark }) => {
           <Text>{bookmark.name}</Text>
         </Link>
       </Container>
-      <BookmarkForm
-        bookmarkId={bookmark.id}
-        closeModal={() => setAddingBookmark(false)}
-        showModal={addingBookmark}
-      />
+      {addingBookmark && (
+        <BookmarkForm
+          bookmarkId={bookmark.id}
+          closeModal={() => setAddingBookmark(false)}
+          showModal={addingBookmark}
+        />
+      )}
     </>
   );
 };

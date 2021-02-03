@@ -161,10 +161,12 @@ const AppHeader = () => {
             <PlusSvg />
             <Tooltip>Add Bookmark</Tooltip>
           </Button>
-          <BookmarkForm
-            closeModal={() => setAddingBookmark(false)}
-            showModal={addingBookmark}
-          />
+          {addingBookmark && (
+            <BookmarkForm
+              closeModal={() => setAddingBookmark(false)}
+              showModal={addingBookmark}
+            />
+          )}
           <Settings onClick={() => setManagingSettings(!managingSettings)}>
             <SettingsSvg />
             <Tooltip>Settings</Tooltip>
