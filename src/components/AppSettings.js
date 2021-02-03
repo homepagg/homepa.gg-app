@@ -59,7 +59,7 @@ const AppSettings = ({ closeModal, showModal }) => {
     const setDay = (latitude, longitude) => {
       const times = suncalc.getTimes(new Date(), latitude, longitude);
       const isDay =
-        Date.parse(times.dawn) > new Date() > Date.parse(times.sunset)
+        Date.parse(times.dawn) < new Date().getTime() > Date.parse(times.sunset)
           ? true
           : false;
       sessionReducer({ type: 'SET_THEME', value: isDay ? 'light' : 'dark' });
