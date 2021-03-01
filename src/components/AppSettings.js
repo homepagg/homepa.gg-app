@@ -6,15 +6,94 @@ import { Settings } from '../contexts/SettingsProvider.js';
 import Modal from './Modal';
 import { ReactComponent as LogoutSvg } from '../images/icons/logout.svg';
 
+const Checkbox = styled.input`
+  &[type='checkbox'] {
+    left: 1.2em;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    z-index: 2;
+  }
+`;
+
+const Fieldset = styled.fieldset`
+  display: grid;
+  grid-gap: 6px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+`;
+
+const Field = styled.label`
+  align-items: center;
+  background-color: hsla(var(--color-primary), 0.06);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 20px;
+  position: relative;
+  z-index: 0;
+
+  &:hover {
+    background-color: hsla(var(--color-primary), 0.12);
+  }
+`;
+
+const Favorite = styled(Field)`
+  grid-column: span 2;
+  padding-left: 2.4em;
+  padding-right: 2.4em;
+`;
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 `;
 
+const Radio = styled.input`
+  &[type='radio'] {
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: calc(100%);
+    z-index: 2;
+  }
+`;
+
 const Logout = styled(Link)`
   margin-top: auto;
 `;
+
+const Theme = styled(Field)`
+  &::after {
+    background-color: hsla(var(--color-primary), 0.06);
+    border-radius: 0 0 0.8em 0.8em;
+    content: '';
+    height: 0.8em;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+    top: 100%;
+    width: 1.6em;
+    z-index: 1;
+  }
+
+  &:hover::after {
+    background-color: hsla(var(--color-primary), 0.12);
+  }
+`;
+
+const Title = styled.h3`
+  grid-column: 1 / -1;
+`;
+
+const themeOptions = [
+  { name: 'Solar', type: 'solar' },
+  { name: 'Light', type: 'light' },
+  { name: 'Dark', type: 'dark' },
+  { name: 'System', type: 'default' },
+];
 
 const AppSettings = ({ closeModal, showModal }) => {
   const sessionState = useContext(Session);
@@ -23,6 +102,7 @@ const AppSettings = ({ closeModal, showModal }) => {
   const settingsState = useContext(Settings);
   const { settingsReducer } = settingsState;
   const settings = settingsState.state || {};
+
   const [updated, setUpdated] = useState(false);
   const [theme, setTheme] = useState('default');
   const [favesGroup, setFavesGroup] = useState(true);
@@ -54,68 +134,40 @@ const AppSettings = ({ closeModal, showModal }) => {
   return activeSession ? (
     <Modal closeModal={closeModal} isOpen={showModal} title="Settings">
       <Form>
-        <fieldset>
-          <h3>Theme</h3>
-          <label>
-            <input
-              checked={theme === 'solar'}
-              name="theme"
-              onChange={() => updateTheme('solar')}
-              type="radio"
-              value="solar"
-            />
-            <span>Sunrise &amp; Sunset</span>
-          </label>
-          <label>
-            <input
-              checked={theme === 'dark'}
-              name="theme"
-              onChange={() => updateTheme('dark')}
-              type="radio"
-              value="dark"
-            />
-            <span>Dark</span>
-          </label>
-          <label>
-            <input
-              checked={theme === 'light'}
-              name="theme"
-              onChange={() => updateTheme('light')}
-              type="radio"
-              value="light"
-            />
-            <span>Light</span>
-          </label>
-          <label>
-            <input
-              checked={theme === 'default'}
-              name="theme"
-              onChange={() => updateTheme('default')}
-              type="radio"
-              value="default"
-            />
-            <span>System (Default)</span>
-          </label>
-        </fieldset>
-        <fieldset>
-          <h3>Favorites</h3>
-          <label>
-            <input
+        <Fieldset>
+          <Title>Theme</Title>
+          {themeOptions.map((themeOption) => (
+            <Theme key={themeOption.type}>
+              <Radio
+                checked={themeOption.type === theme}
+                name="theme"
+                onChange={() => updateTheme(themeOption.type)}
+                type="radio"
+                value={themeOption.type}
+              />
+              <span>{themeOption.name}</span>
+            </Theme>
+          ))}
+        </Fieldset>
+        <Fieldset>
+          <Title>Favorites</Title>
+          <Favorite>
+            <Checkbox
               checked={favesGroup}
               onChange={(event) => updateFavsGroup(event.target.checked)}
               type="checkbox"
             />
             <span>Show Favorites group</span>
-          </label>
-          <label>
-            <input
+          </Favorite>
+          <Favorite>
+            <Checkbox
               checked={favesHide}
               onChange={(event) => updateFavesHide(event.target.checked)}
               type="checkbox"
             />
             <span>Hide favorites in categories</span>
-          </label>
-        </fieldset>
+          </Favorite>
+        </Fieldset>
         <Logout to="/logout">
           <LogoutSvg />
           Logout

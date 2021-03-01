@@ -52,7 +52,11 @@ const Label = styled.label`
   padding: 6px 0;
 `;
 
-const Picker = styled(ColorPicker)`
+const Picker = styled.div`
+  grid-column: 2;
+`;
+
+const Url = styled.div`
   grid-column: 2;
 `;
 
@@ -65,11 +69,13 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
   const categories = categoriesState.state || [];
   const { categoriesReducer } = categoriesState;
 
+  const favicon = useRef();
   const form = useRef();
   const linkInput = useRef();
 
   const [addCategory, setAddCategory] = useState(false);
   const [bookmark, setBookmark] = useState(null);
+  const [url, setUrl] = useState('');
   const [color, setColor] = useState('');
 
   const getPalette = async () => {
@@ -77,9 +83,10 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
 
     const image = new Image();
     image.crossOrigin = 'anonymous';
-    image.src = `https://cors-anywhere.herokuapp.com/http://www.google.com/s2/favicons?domain=${linkInput.current.value}`;
+    image.src = `https://api.allorigins.win/raw?url=http://www.google.com/s2/favicons?domain=${linkInput.current.value}`;
 
     const palette = await Vibrant.from(image).getPalette();
+
     setColor(
       palette.Vibrant?.getHex() ||
         palette.Muted?.getHex() ||
@@ -147,10 +154,12 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
   };
 
   useEffect(() => {
-    if (bookmarkId)
-      setBookmark(
-        bookmarks[bookmarks.map((node) => node.id).indexOf(bookmarkId)]
-      );
+    if (!bookmarkId) return;
+    const data =
+      bookmarks[bookmarks.map((node) => node.id).indexOf(bookmarkId)];
+    setBookmark(data);
+    setColor(data.color);
+    setUrl(data.link);
   }, [bookmarkId, bookmarks]);
 
   return (
@@ -168,17 +177,29 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
           type="text"
         />
         <Label htmlFor="link">URL</Label>
-        <Input
-          defaultValue={bookmark?.link}
-          id="link"
-          name="link"
-          onBlur={getPalette}
-          required
-          ref={linkInput}
-          type="url"
-        />
+        <Url>
+          <img
+            alt=""
+            ref={favicon}
+            src={`http://www.google.com/s2/favicons?domain=${
+              url ? url : 'undefined'
+            }`}
+          />
+          <input
+            defaultValue={bookmark?.link}
+            id="link"
+            name="link"
+            onBlur={getPalette}
+            onChange={(event) => setUrl(event.target.value)}
+            required
+            ref={linkInput}
+            type="url"
+          />
+        </Url>
         <Label>Color</Label>
-        <Picker color={color} onChange={({ hex }) => setColor(hex)} />
+        <Picker>
+          <ColorPicker color={color} onChange={({ hex }) => setColor(hex)} />
+        </Picker>
         <Label htmlFor="category">Category</Label>
         {addCategory ? (
           <Fieldset>

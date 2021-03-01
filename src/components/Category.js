@@ -112,7 +112,7 @@ const Category = ({ draggable, group, index, name }) => {
       filtered = bookmarks.filter((bookmark) => bookmark.category === group);
     }
 
-    if (settings.favesHide)
+    if (settings.favesHide && group !== 'favorites')
       filtered = filtered.filter((bookmark) => bookmark.favorite === false);
 
     filtered.sort((a, b) => a.name.localeCompare(b.name));
