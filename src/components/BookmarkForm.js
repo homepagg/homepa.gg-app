@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components/macro';
-import Vibrant from 'node-vibrant';
+// import Vibrant from 'node-vibrant';
 import { Bookmarks } from '../contexts/BookmarksProvider.js';
 import { Categories } from '../contexts/CategoriesProvider.js';
 import Modal from './Modal';
@@ -85,20 +85,20 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
     image.crossOrigin = 'anonymous';
     image.src = `https://api.allorigins.win/raw?url=http://www.google.com/s2/favicons?domain=${linkInput.current.value}`;
 
-    const palette = await Vibrant.from(image).getPalette();
+    // const palette = await Vibrant.from(image).getPalette();
 
-    setColor(
-      palette.Vibrant?.getHex() ||
-        palette.Muted?.getHex() ||
-        palette[
-          Object.keys(palette)[
-            Object.values(palette).indexOf(
-              Object.values(palette).find((e) => e !== null)
-            )
-          ]
-        ] ||
-        '#888'
-    );
+    // setColor(
+    //   palette.Vibrant?.getHex() ||
+    //     palette.Muted?.getHex() ||
+    //     palette[
+    //       Object.keys(palette)[
+    //         Object.values(palette).indexOf(
+    //           Object.values(palette).find((e) => e !== null)
+    //         )
+    //       ]
+    //     ] ||
+    //     '#888'
+    // );
   };
 
   const resetForm = () => {

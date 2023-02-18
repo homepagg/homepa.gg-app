@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { Dropbox } from 'dropbox';
 import { Bookmarks } from '../contexts/BookmarksProvider.js';
@@ -18,7 +18,7 @@ const Aside = styled.aside`
 
 const Setup = () => {
   const accessToken = localStorage.getItem('accessToken');
-  const dbx = new Dropbox({ accessToken, fetch });
+  const dbx = new Dropbox({ accessToken });
 
   const bookmarksState = useContext(Bookmarks);
   const { bookmarksReducer } = bookmarksState;
@@ -236,7 +236,7 @@ const Setup = () => {
       </dl>
     </Aside>
   ) : status === 'error' ? (
-    <Redirect to="/error" />
+    <Navigate to="/error" />
   ) : null;
 };
 

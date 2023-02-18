@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 const Logout = () => {
   const [clean, setClean] = useState(false);
@@ -15,7 +15,7 @@ const Logout = () => {
     setClean(true);
   }, [clean]);
 
-  return clean ? <Redirect to="/" /> : <h2>Logging out&hellip;</h2>;
+  return clean ? <Navigate to="/" /> : <h2>Logging out&hellip;</h2>;
 };
 
 export default Logout;
