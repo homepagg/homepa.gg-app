@@ -6,13 +6,16 @@ const initialState = [
 
 const reducer = (state, action) => [...state, ...action];
 
-export const Categories = createContext(initialState);
+export const Categories = createContext();
 
 export const CategoriesProvider = ({ children }) => {
-    const [categories, categoriesReducer] = useReducer(reducer, initialState);
+    const [categories, categoriesDispatcher] = useReducer(
+        reducer,
+        initialState
+    );
 
     return (
-        <Categories.Provider value={{ categories, categoriesReducer }}>
+        <Categories.Provider value={{ categories, categoriesDispatcher }}>
             {children}
         </Categories.Provider>
     );

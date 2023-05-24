@@ -13,7 +13,7 @@ const initialState = {
     uid: '',
 };
 
-export const Dropbox = createContext(initialState);
+export const Dropbox = createContext();
 
 export const DropboxProvider = ({ children }) => {
     const [dropbox, dropboxDispatcher] = useReducer(reducer, initialState);

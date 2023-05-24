@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 // import Vibrant from 'node-vibrant';
 
-import { Bookmarks } from '../../contexts/BookmarksProvider';
+import { BookmarksContext } from '../../contexts/BookmarksProvider';
 import { Categories } from '../../contexts/CategoriesProvider';
 import Modal from '../Modal/Modal';
 import ColorPicker from '../ColorPicker/ColorPicker';
@@ -9,15 +9,14 @@ import { ReactComponent as CancelSvg } from '../../images/icons/cancel.svg';
 
 import styles from './BookmarkForm.module.scss';
 
-
 const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
-    const bookmarksState = useContext(Bookmarks);
+    const bookmarksState = useContext(BookmarksContext);
     const bookmarks = bookmarksState.state;
-    const { bookmarksReducer } = bookmarksState;
+    const { bookmarksDispatcher } = bookmarksState;
 
     const categoriesState = useContext(Categories);
     const categories = categoriesState.state;
-    const { categoriesReducer } = categoriesState;
+    const { categoriesDispatcher } = categoriesState;
 
     const favicon = useRef();
     const form = useRef();
@@ -63,7 +62,7 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
         const form = new FormData(event.target);
 
         if (addCategory) {
-            categoriesReducer({
+            categoriesDispatcher({
                 type: 'ADD',
                 name: form.get('new-category'),
             });
@@ -76,7 +75,7 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
             : parseInt(form.get('category'), 10);
 
         bookmark
-            ? bookmarksReducer({
+            ? bookmarksDispatcher({
                   type: 'EDIT',
                   id: bookmarkId,
                   name: form.get('name'),
@@ -85,7 +84,7 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
                   color: color,
                   favorite: form.get('favorite') === 'on',
               })
-            : bookmarksReducer({
+            : bookmarksDispatcher({
                   type: 'ADD',
                   name: form.get('name'),
                   link: form.get('link'),
@@ -94,7 +93,7 @@ const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
                   favorite: form.get('favorite') === 'on',
               });
 
-        bookmarksReducer({ type: 'UPDATE_REMOTE' });
+        bookmarksDispatcher({ type: 'UPDATE_REMOTE' });
         resetForm();
     };
 

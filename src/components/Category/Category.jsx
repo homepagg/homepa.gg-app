@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 
-import { Bookmarks } from '../../contexts/BookmarksProvider';
+import { BookmarksContext } from '../../contexts/BookmarksProvider';
 import { Settings } from '../../contexts/SettingsProvider';
 import Handle from '../Handle/Handle';
 import Bookmark from '../Bookmark/Bookmark';
@@ -12,7 +12,7 @@ import styles from './Category.module.scss';
 
 const Category = ({ draggable, group, index, name }) => {
     const container = useRef();
-    const bookmarksState = useContext(Bookmarks);
+    const bookmarksState = useContext(BookmarksContext);
     const bookmarks = bookmarksState.state;
     const settingsState = useContext(Settings);
     const settings = settingsState.state;

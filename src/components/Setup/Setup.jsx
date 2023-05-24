@@ -16,6 +16,12 @@ const Setup = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            const bookmarksVer = localStorage.getItem('hgg.bookmarks.version');
+            const categoriesVer = localStorage.getItem(
+                'hgg.categories.version'
+            );
+            const settingsVer = localStorage.getItem('hgg.settings.version');
+
             const list = await dropbox.fn.filesListFolder({ path: '' });
 
             const files = list.result.entries.reduce(
@@ -29,18 +35,34 @@ const Setup = () => {
                 {}
             );
 
+            const { bookmarks, categories, settings } = files;
+
+            if (
+                bookmarksVer === bookmarks.rev &&
+                categoriesVer === categories.rev &&
+                settingsVer === settings.rev
+            ) {
+                console.log('same as previous');
+                bookmarksDispatcher(
+                    JSON.parse(localStorage.getItem('hgg.bookmarks.data'))
+                );
+                categoriesDispatcher(
+                    JSON.parse(localStorage.getItem('hgg.categories.data'))
+                );
+                settingsDispatcher(
+                    JSON.parse(localStorage.getItem('hgg.settings.data'))
+                );
+                return;
+            }
+
             const downloads = await Promise.allSettled(
                 Object.values(files).map((f) =>
                     dropbox.fn.filesDownload({ path: f.path })
                 )
-            ).then((response) =>
-                response.map((item) => ({
-                    ...item.value.result,
-                }))
-            );
+            ).then((response) => response.map((item) => item.value.result));
 
             const results = await Promise.allSettled(
-                Object.values(downloads).map((d) => {
+                downloads.map((d) => {
                     return new Promise((resolve, reject) => {
                         const reader = new FileReader();
                         reader.addEventListener('loadend', () =>
@@ -49,29 +71,39 @@ const Setup = () => {
                         reader.readAsText(d.fileBlob);
                     });
                 })
-            ).then((response) =>
-                response.map((item) => ({
-                    ...item.value,
-                }))
+            ).then((response) => response.map((item) => item.value));
+
+            const [bookmarksData, categoriesData, settingsData] = results;
+
+            // Bookmarks
+            localStorage.setItem(
+                'hgg.bookmarks.data',
+                JSON.stringify(bookmarksData)
             );
+            localStorage.setItem('hgg.bookmarks.version', bookmarks.rev);
+            bookmarksDispatcher(bookmarksData);
 
-            console.log({ results });
+            // Categories
+            localStorage.setItem(
+                'hgg.categories.data',
+                JSON.stringify(categoriesData)
+            );
+            localStorage.setItem('hgg.categories.version', categories.rev);
+            categoriesDispatcher(categoriesData);
 
-            bookmarksDispatcher(results[0]);
-            categoriesDispatcher(results[1]);
-            settingsDispatcher(results[2]);
+            // Settings
+            localStorage.setItem(
+                'hgg.settings.data',
+                JSON.stringify(settingsData)
+            );
+            localStorage.setItem('hgg.settings.version', settings.rev);
+            settingsDispatcher(settingsData);
         };
 
-        console.log(
-            bookmarksDispatcher,
-            categoriesDispatcher,
-            settingsDispatcher
-        );
-
         dropbox.access_token &&
-            bookmarksDispatcher !== undefined &&
-            categoriesDispatcher !== undefined &&
-            settingsDispatcher !== undefined &&
+            typeof bookmarksDispatcher === 'function' &&
+            typeof categoriesDispatcher === 'function' &&
+            typeof settingsDispatcher === 'function' &&
             fetchData();
     }, [
         dropbox,

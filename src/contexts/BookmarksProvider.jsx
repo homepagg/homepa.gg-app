@@ -6,20 +6,19 @@ const initialState = [
 
 const reducer = (state, action) => [...state, ...action];
 
-export const BookmarksContext = createContext(initialState);
+export const BookmarksContext = createContext();
 
 export const BookmarksProvider = ({ children }) => {
-    const [bookmarks, bookmarksReducer] = useReducer(reducer, initialState);
+    const [bookmarks, bookmarksDispatcher] = useReducer(reducer, initialState);
 
     return (
-        <BookmarksContext.Provider value={{ bookmarks, bookmarksReducer }}>
+        <BookmarksContext.Provider value={{ bookmarks, bookmarksDispatcher }}>
             {children}
         </BookmarksContext.Provider>
     );
 };
 
 export const useBookmarks = () => {
-    console.log({ BookmarksContext });
     const { bookmarks, bookmarksDispatcher } = useContext(BookmarksContext);
 
     const addBookmark = (bookmark) => bookmarksDispatcher(bookmark);
@@ -27,7 +26,5 @@ export const useBookmarks = () => {
     const removeBookmark = (id) =>
         bookmarksDispatcher([...(bookmarks.filter((b) => b.id !== id) || [])]);
 
-    console.log({ bookmarks, bookmarksDispatcher });
-
-    return { bookmarks, addBookmark, removeBookmark, bookmarksDispatcher };
+    return { bookmarks, bookmarksDispatcher, addBookmark, removeBookmark };
 };

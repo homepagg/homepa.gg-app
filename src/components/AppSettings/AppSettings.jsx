@@ -8,7 +8,6 @@ import { ReactComponent as LogoutSvg } from '../../images/icons/logout.svg';
 
 import styles from './AppSettings.module.scss';
 
-
 const themeOptions = [
     { name: 'Solar', type: 'solar' },
     { name: 'Light', type: 'light' },
@@ -20,7 +19,7 @@ const AppSettings = ({ closeModal, showModal }) => {
     const { session } = useSession();
 
     const settingsState = useContext(Settings);
-    const { settingsReducer } = settingsState;
+    const { settingsDispatcher } = settingsState;
     const settings = settingsState.state;
 
     const [updated, setUpdated] = useState(false);
@@ -30,17 +29,17 @@ const AppSettings = ({ closeModal, showModal }) => {
 
     const updateTheme = (value) => {
         setTheme(value);
-        settingsReducer({ type: 'SET_THEME', value: value });
+        settingsDispatcher({ type: 'SET_THEME', value: value });
     };
 
     const updateFavsGroup = (value) => {
         setgroup_faves(value);
-        settingsReducer({ type: 'SET_FAVORITES_GROUP', value: value });
+        settingsDispatcher({ type: 'SET_FAVORITES_GROUP', value: value });
     };
 
     const updateFavesHide = (value) => {
         setFavesHide(value);
-        settingsReducer({ type: 'SET_SHOW_FAVORITES', value: value });
+        settingsDispatcher({ type: 'SET_SHOW_FAVORITES', value: value });
     };
 
     useEffect(() => {

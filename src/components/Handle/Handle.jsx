@@ -6,7 +6,7 @@ import { Categories } from '../../contexts/CategoriesProvider';
 
 const MoveHandle = ({ children, container, index, setDragging }) => {
     const categoriesState = useContext(Categories);
-    const { categoriesReducer } = categoriesState;
+    const { categoriesDispatcher } = categoriesState;
 
     const [, drop] = useDrop({
         accept: 'group',
@@ -31,7 +31,7 @@ const MoveHandle = ({ children, container, index, setDragging }) => {
             )
                 return;
 
-            categoriesReducer({
+            categoriesDispatcher({
                 type: 'REORDER',
                 drag: dragIndex,
                 hover: hoverIndex,
@@ -44,7 +44,7 @@ const MoveHandle = ({ children, container, index, setDragging }) => {
     const [{ isDragging }, drag] = useDrag({
         type: ItemTypes.GROUP,
         item: { index },
-        end: () => categoriesReducer({ type: 'UPDATE_REMOTE' }),
+        end: () => categoriesDispatcher({ type: 'UPDATE_REMOTE' }),
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),

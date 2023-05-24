@@ -12,13 +12,13 @@ const initialState = {
 
 const reducer = (state, action) => ({ ...state, ...action });
 
-export const Settings = createContext(initialState);
+export const Settings = createContext();
 
 export const SettingsProvider = ({ children }) => {
-    const [settings, settingsReducer] = useReducer(reducer, initialState);
+    const [settings, settingsDispatcher] = useReducer(reducer, initialState);
 
     return (
-        <Settings.Provider value={{ settings, settingsReducer }}>
+        <Settings.Provider value={{ settings, settingsDispatcher }}>
             {children}
         </Settings.Provider>
     );

@@ -13,7 +13,7 @@ const initialState = {
     uid: '',
 };
 
-export const Session = createContext(initialState);
+export const Session = createContext();
 
 export const SessionProvider = ({ children }) => {
     const [session, sessionDispatcher] = useReducer(reducer, initialState);

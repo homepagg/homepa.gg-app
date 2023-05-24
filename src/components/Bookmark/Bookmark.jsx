@@ -1,10 +1,9 @@
-
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useDrag } from 'react-dnd';
 import Color from 'color';
 
 import { ItemTypes } from '../../types/ItemTypes.d.ts';
-import { Bookmarks } from '../../contexts/BookmarksProvider';
+import { BookmarksContext } from '../../contexts/BookmarksProvider';
 import { useSession } from '../../contexts/SessionProvider';
 import BookmarkForm from '../BookmarkForm/BookmarkForm.jsx';
 
@@ -12,8 +11,8 @@ import styles from './Bookmark.module.scss';
 
 const Bookmark = ({ bookmark }) => {
     const { session } = useSession();
-    const bookmarksState = useContext(Bookmarks);
-    const { bookmarksReducer } = bookmarksState;
+    const bookmarksState = useContext(BookmarksContext);
+    const { bookmarksDispatcher } = bookmarksState;
     const [addingBookmark, setAddingBookmark] = useState(false);
     const [accentColor, setAccentColor] = useState('');
     const container = useRef();
@@ -25,7 +24,7 @@ const Bookmark = ({ bookmark }) => {
             const dropResult = monitor.getDropResult();
             if (item && dropResult?.type === 'edit') setAddingBookmark(true);
             if (item && dropResult?.type === 'delete')
-                bookmarksReducer({ type: 'EDIT', id: bookmark.id });
+                bookmarksDispatcher({ type: 'EDIT', id: bookmark.id });
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
