@@ -1,71 +1,86 @@
 {
-  "name": "homepa.gg",
-  "version": "0.1.0",
-  "license": "GPL-3.0-or-later",
-  "author": "Doug Stewart",
-  "homepage": "/",
-  "bugs": {
-    "url": "https://github.com/baile-app/baile/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/baile-app/baile.git"
-  },
-  "main": ".eslintrc.js",
-  "devDependencies": {
-    "babel-plugin-macros": "^3.0.1",
-    "eslint": "^8.34.0",
-    "eslint-config-prettier": "^8.6.0",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.20.0",
-    "eslint-plugin-react-hooks": "^4.0.4",
-    "prettier": "^2.0.5",
-    "prettier-stylelint": "^0.4.2",
-    "stylelint": "^15.1.0",
-    "stylelint-config-standard": "^30.0.1",
-    "stylelint-config-styled-components": "^0.1.1",
-    "stylelint-order": "^6.0.2",
-    "stylelint-processor-styled-components": "^1.10.0"
-  },
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.4.3",
-    "axios": "^1.3.3",
-    "classnames": "^2.2.6",
-    "color": "^4.2.3",
-    "dropbox": "^10.34.0",
-    "node-vibrant": "^3.2.1-alpha.1",
-    "react": "^18.2.0",
-    "react-color": "^2.18.1",
-    "react-dnd": "^16.0.1",
-    "react-dnd-html5-backend": "^16.0.1",
-    "react-dom": "^18.2.0",
-    "react-modal": "^3.11.2",
-    "react-router-dom": "^6.8.1",
-    "react-scripts": "5.0.1",
-    "styled-components": "^5",
-    "suncalc": "^1.8.0"
-  },
-  "resolutions": {
-    "styled-components": "^5"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test"
-  },
-  "browserslist": [
-    "last 2 Chrome versions",
-    "last 2 ChromeAndroid versions",
-    "last 2 Firefox versions",
-    "last 2 FirefoxAndroid versions",
-    "last 2 Safari versions",
-    "last 2 iOS versions",
-    "last 2 Edge versions"
-  ]
+    "name": "homepa.gg",
+    "author": "Doug Stewart",
+    "version": "0.0.0",
+    "license": "GPL-3.0-or-later",
+    "private": false,
+    "type": "module",
+    "bugs": {
+        "url": "https://github.com/baile-app/baile/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/baile-app/baile.git"
+    },
+    "scripts": {
+        "start": "vite --open",
+        "build": "vite build",
+        "preview": "vite preview",
+        "lintcss": "stylelint \"**/*.{scss,css}\"",
+        "lintjs": "eslint . --ext .js,.jsx --ignore-path .gitignore",
+        "pretty": "prettier src/**/*.{js,jsx} --write --ignore-unknown --no-error-on-unmatched-pattern",
+        "coverage": "vitest run --coverage",
+        "test": "vitest",
+        "test:ui": "vitest --ui"
+    },
+    "browserslist": [
+        "last 2 Chrome versions",
+        "last 2 ChromeAndroid versions",
+        "last 2 Firefox versions",
+        "last 2 FirefoxAndroid versions",
+        "last 2 Safari versions",
+        "last 2 iOS versions",
+        "last 2 Edge versions"
+    ],
+    "browser": {
+        "crypto": false
+    },
+    "dependencies": {
+        "axios": "^1.4.0",
+        "classnames": "^2.2.6",
+        "color": "^4.2.3",
+        "dropbox": "^10.34.0",
+        "eslint-import-resolver-node": "^0.3.7",
+        "node-vibrant": "^3.2.1-alpha.1",
+        "react": "^18.2.0",
+        "react-color": "^2.18.1",
+        "react-dnd": "^16.0.1",
+        "react-dnd-html5-backend": "^16.0.1",
+        "react-dom": "^18.2.0",
+        "react-helmet-async": "^1.3.0",
+        "react-modal": "^3.15.1",
+        "react-router-dom": "^6.11.2",
+        "suncalc": "^1.8.0"
+    },
+    "devDependencies": {
+        "@testing-library/jest-dom": "^5.16.5",
+        "@testing-library/react": "^14.0.0",
+        "@testing-library/user-event": "^14.4.3",
+        "@vitejs/plugin-react": "^4.0.0",
+        "autoprefixer": "^10.4.14",
+        "eslint": "^8.41.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-config-react-app": "^7.0.1",
+        "eslint-plugin-import": "^2.27.5",
+        "eslint-plugin-jsx-a11y": "^6.6.1",
+        "eslint-plugin-react": "^7.30.1",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "jsdom": "^22.0.0",
+        "msw": "^1.2.1",
+        "prettier": "^2.8.8",
+        "sass": "^1.62.1",
+        "stream": "npm:stream-browserify@3.0.0",
+        "stylelint": "^15.6.2",
+        "stylelint-config-css-modules": "^4.1.0",
+        "stylelint-config-prettier-scss": "^1.0.0",
+        "stylelint-config-standard-scss": "^9.0.0",
+        "stylelint-order": "^6.0.3",
+        "stylelint-prettier": "^3.0.0",
+        "stylelint-scss": "^5.0.0",
+        "typescript": "^5.0.4",
+        "util": "npm:util@0.12.5",
+        "vite": "^4.3.8",
+        "vite-plugin-svgr": "^3.2.0",
+        "vitest": "^0.31.1"
+    }
 }

@@ -1,19 +1,16 @@
 {
-  "extends": [
-    "stylelint-config-standard",
-    "stylelint-config-styled-components"
-  ],
-  "processors": [
-    "stylelint-processor-styled-components"
-  ],
-  "plugins": [
-    "stylelint-order"
-  ],
-  "rules": {
-    "order/order": [
-      "custom-properties",
-      "declarations"
+    "extends": [
+        "stylelint-config-standard-scss",
+        "stylelint-config-css-modules"
     ],
-    "order/properties-alphabetical-order": true
-  }
+    "plugins": ["stylelint-order", "stylelint-scss"],
+    "rules": {
+        "indentation": 4,
+        "selector-class-pattern": null,
+        "order/order": ["custom-properties", "declarations"],
+        "order/properties-alphabetical-order": true,
+        "no-descending-specificity": null,
+        "function-no-unknown": null,
+        "scss/function-no-unknown": null
+    }
 }

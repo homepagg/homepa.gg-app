@@ -1,0 +1,8 @@
+.aside {
+    background-color: hsl(var(--color-secondary));
+    border: 1px solid hsl(var(--color-secondary));
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1;
+}

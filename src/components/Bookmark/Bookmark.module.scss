@@ -1,0 +1,44 @@
+.container {
+    display: block;
+    list-style: none;
+    user-select: none;
+}
+
+.icon {
+    display: flex;
+    filter: drop-shadow(1px 0 0 hsl(var(--accent-color) 0.72))
+        drop-shadow(-1px 0 0 hsl(var(--accent-color) 0.72))
+        drop-shadow(0 1px 0 hsl(var(--accent-color) 0.72))
+        drop-shadow(0 -1px 0 hsl(var(--accent-color) 0.72));
+    flex-shrink: 0;
+    height: calc(100% - 12px);
+    margin-right: 9px;
+    width: auto;
+}
+
+.image {
+    border-radius: 24%;
+    height: 16px;
+    width: 16px;
+}
+
+.link {
+    align-items: center;
+    background-color: hsl(var(--accent-color) / 24%);
+    border-radius: 0.36em;
+    color: inherit;
+    display: flex;
+    line-height: 1.2;
+    padding: 0.62em;
+    text-decoration: none;
+
+    &:hover {
+        background-color: hsl(var(--accent-color) / 64%);
+    }
+}
+
+.text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

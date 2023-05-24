@@ -1,45 +1,28 @@
 {
-  "extends": [
-    "plugin:react/recommended",
-    "react-app",
-    "prettier",
-    "eslint:recommended",
-    "plugin:import/errors",
-    "plugin:jsx-a11y/recommended"
-  ],
-  "plugins": ["react", "import", "jest", "jsx-a11y", "react-hooks"],
-  "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
+    "extends": [
+        "react-app",
+        "react-app/jest",
+        "plugin:import/recommended",
+        "plugin:jsx-a11y/recommended",
+        "plugin:react-hooks/recommended"
+    ],
+    "plugins": ["import"],
+    "rules": {
+        "react/jsx-no-target-blank": ["error", { "allowReferrer": true }],
+        "testing-library/no-node-access": 0,
+        "import/order": [
+            "error",
+            {
+                "newlines-between": "always"
+            }
+        ],
+        "import/no-named-as-default": 0
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx"]
+            }
+        }
     }
-  },
-  "rules": {
-    "eqeqeq": "error",
-    "jest/no-disabled-tests": "warn",
-    "jest/no-focused-tests": "error",
-    "jest/no-identical-title": "error",
-    "jest/prefer-to-have-length": "warn",
-    "jest/valid-expect": "error",
-    "jsx-quotes": ["error", "prefer-double"],
-    "import/order": ["error"],
-    "no-console": 1,
-    "one-var": ["error", "never"],
-    "quotes": [2, "single", "avoid-escape"],
-    "react/jsx-filename-extension": 0,
-    "react/prop-types": 0,
-    "require-await": "error"
-  },
-  "env": {
-    "browser": true,
-    "es6": true,
-    "jest/globals": true,
-    "node": true
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  }
 }
