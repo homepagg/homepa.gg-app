@@ -1,10 +1,10 @@
 import { createContext, useContext, useReducer } from 'react';
 
-const initialState = [
-    ...(JSON.parse(localStorage.getItem('hgg.categories.data')) || []),
-];
+const initialState = {
+    items: [...(JSON.parse(localStorage.getItem('hgg.categories.data')) || [])],
+};
 
-const reducer = (state, action) => [...state, ...action];
+const reducer = (state, action) => ({ ...state, ...action });
 
 export const Categories = createContext();
 

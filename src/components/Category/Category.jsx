@@ -13,7 +13,9 @@ import styles from './Category.module.scss';
 const Category = ({ draggable, group, index, name }) => {
     const container = useRef();
 
-    const { bookmarks } = useBookmarks();
+    const {
+        bookmarks: { items: bookmarks },
+    } = useBookmarks();
     const { settings } = useSettings();
 
     const [isDragging, setIsDragging] = useState(false);

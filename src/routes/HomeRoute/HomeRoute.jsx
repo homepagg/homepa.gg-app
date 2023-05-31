@@ -9,7 +9,7 @@ const HomeRoute = () => {
     return dropbox.auth_token === '' ? (
         <Link to="/auth">Login</Link>
     ) : (
-        <Link to="/me">Login</Link>
+        <Link to="/auth">Login</Link>
     );
 };
 

@@ -1,12 +1,12 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
 import { ItemTypes } from '../../types/ItemTypes.d.ts';
-import { Categories } from '../../contexts/CategoriesProvider';
+import { useSettings } from '../../contexts/SettingsProvider.jsx';
 
 const MoveHandle = ({ children, container, index, setDragging }) => {
-    const categoriesState = useContext(Categories);
-    const { categoriesDispatcher } = categoriesState;
+    const { settings, settingsDispatcher } = useSettings();
+    const { order } = settings;
 
     const [, drop] = useDrop({
         accept: 'group',
@@ -31,11 +31,11 @@ const MoveHandle = ({ children, container, index, setDragging }) => {
             )
                 return;
 
-            categoriesDispatcher({
-                type: 'REORDER',
-                drag: dragIndex,
-                hover: hoverIndex,
-            });
+            const newOrder = [...order];
+            const dragItem = newOrder.splice(dragIndex, 1)[0];
+            newOrder.splice(hoverIndex, 0, dragItem);
+
+            settingsDispatcher({ order: newOrder });
 
             item.index = hoverIndex;
         },
@@ -44,17 +44,13 @@ const MoveHandle = ({ children, container, index, setDragging }) => {
     const [{ isDragging }, drag] = useDrag({
         type: ItemTypes.GROUP,
         item: { index },
-        end: () => categoriesDispatcher({ type: 'UPDATE_REMOTE' }),
-        collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
-        }),
+        end: () => console.log('end'),
+        collect: (monitor) => ({ isDragging: monitor.isDragging() }),
     });
 
     drag(drop(container));
 
-    useEffect(() => {
-        setDragging(isDragging);
-    }, [setDragging, isDragging]);
+    useEffect(() => setDragging(isDragging), [setDragging, isDragging]);
 
     return <>{children}</>;
 };

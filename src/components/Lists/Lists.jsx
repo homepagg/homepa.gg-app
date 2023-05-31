@@ -7,8 +7,11 @@ import Dropzones from '../Dropzones/Dropzones';
 import Category from '../Category/Category';
 
 const Lists = () => {
-    const { categories } = useCategories();
+    const {
+        categories: { items: categories },
+    } = useCategories();
     const { settings } = useSettings();
+    const { order } = settings;
 
     return (
         <>
@@ -18,15 +21,19 @@ const Lists = () => {
                     {settings.show_faves_category && (
                         <Category group="favorites" name="Favorites" />
                     )}
-                    {categories.map((category, index) => (
-                        <Category
-                            draggable={true}
-                            group={category.id}
-                            key={category.id}
-                            index={index}
-                            name={category.name}
-                        />
-                    ))}
+                    {categories
+                        .sort((a, b) =>
+                            order.indexOf(a.id) < order.indexOf(b.id) ? -1 : 1
+                        )
+                        .map((category, index) => (
+                            <Category
+                                draggable={true}
+                                group={category.id}
+                                key={category.id}
+                                index={index}
+                                name={category.name}
+                            />
+                        ))}
                 </DndProvider>
             )}
         </>
