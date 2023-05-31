@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 
-import { BookmarksContext } from '../../contexts/BookmarksProvider';
-import { Settings } from '../../contexts/SettingsProvider';
+import { useBookmarks } from '../../contexts/BookmarksProvider';
+import { useSettings } from '../../contexts/SettingsProvider';
 import Handle from '../Handle/Handle';
 import Bookmark from '../Bookmark/Bookmark';
 import { ReactComponent as ArrowSvg } from '../../images/icons/arrow.svg';
@@ -12,10 +12,10 @@ import styles from './Category.module.scss';
 
 const Category = ({ draggable, group, index, name }) => {
     const container = useRef();
-    const bookmarksState = useContext(BookmarksContext);
-    const bookmarks = bookmarksState.state;
-    const settingsState = useContext(Settings);
-    const settings = settingsState.state;
+
+    const { bookmarks } = useBookmarks();
+    const { settings } = useSettings();
+
     const [isDragging, setIsDragging] = useState(false);
     const [categoryBookmarks, setCategoryBookmarks] = useState([]);
 

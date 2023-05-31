@@ -1,17 +1,14 @@
-import React, { useContext } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import { Categories } from '../../contexts/CategoriesProvider';
-import { Settings } from '../../contexts/SettingsProvider';
+import { useCategories } from '../../contexts/CategoriesProvider';
+import { useSettings } from '../../contexts/SettingsProvider';
 import Dropzones from '../Dropzones/Dropzones';
 import Category from '../Category/Category';
 
 const Lists = () => {
-    const categoriesState = useContext(Categories);
-    const categories = categoriesState.state;
-    const settingsState = useContext(Settings);
-    const settings = settingsState.state;
+    const { categories } = useCategories();
+    const { settings } = useSettings();
 
     return (
         <>

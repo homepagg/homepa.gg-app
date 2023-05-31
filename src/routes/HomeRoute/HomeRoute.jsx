@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Lists from '../../components/Lists/Lists';
+import { useDropbox } from '../../contexts/DropboxProvider';
 
 const HomeRoute = () => {
-    return !localStorage.getItem('accessToken') ||
-        localStorage.getItem('accessToken') === '' ? (
+    const { dropbox } = useDropbox();
+
+    return dropbox.auth_token === '' ? (
         <Link to="/auth">Login</Link>
     ) : (
-        <Lists />
+        <Link to="/me">Login</Link>
     );
 };
 

@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-// import { Navigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import cx from 'classnames';
 
 import { useBookmarks } from '../../contexts/BookmarksProvider';
 import { useCategories } from '../../contexts/CategoriesProvider';
@@ -9,10 +9,18 @@ import { useSettings } from '../../contexts/SettingsProvider';
 import styles from './Setup.module.scss';
 
 const Setup = () => {
+    const [loaded, setLoaded] = useState(0);
+
     const { dropbox } = useDropbox();
     const { bookmarksDispatcher } = useBookmarks();
     const { categoriesDispatcher } = useCategories();
     const { settingsDispatcher } = useSettings();
+
+    useEffect(() => {
+        let timer;
+        if (loaded === 100) timer = setTimeout(() => console.log('Done!'), 200);
+        return clearTimeout(timer);
+    }, [loaded]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,6 +29,8 @@ const Setup = () => {
                 'hgg.categories.version'
             );
             const settingsVer = localStorage.getItem('hgg.settings.version');
+
+            setLoaded(10);
 
             const list = await dropbox.fn.filesListFolder({ path: '' });
 
@@ -34,6 +44,8 @@ const Setup = () => {
                 }),
                 {}
             );
+
+            setLoaded(20);
 
             const { bookmarks, categories, settings } = files;
 
@@ -52,6 +64,8 @@ const Setup = () => {
                 settingsDispatcher(
                     JSON.parse(localStorage.getItem('hgg.settings.data'))
                 );
+
+                setLoaded(100);
                 return;
             }
 
@@ -60,6 +74,8 @@ const Setup = () => {
                     dropbox.fn.filesDownload({ path: f.path })
                 )
             ).then((response) => response.map((item) => item.value.result));
+
+            setLoaded(50);
 
             const results = await Promise.allSettled(
                 downloads.map((d) => {
@@ -98,6 +114,8 @@ const Setup = () => {
             );
             localStorage.setItem('hgg.settings.version', settings.rev);
             settingsDispatcher(settingsData);
+
+            setLoaded(100);
         };
 
         dropbox.access_token &&
@@ -112,7 +130,14 @@ const Setup = () => {
         settingsDispatcher,
     ]);
 
-    return <></>;
+    return (
+        <div className={cx(styles.progress)} role="presentation">
+            <div
+                className={cx(styles.value)}
+                style={{ '--loaded': `${loaded}%` }}
+            />
+        </div>
+    );
 };
 
 export default Setup;

@@ -33,7 +33,7 @@ const AuthRoute = () => {
     }, [dropbox, dropboxDispatcher]);
 
     return dropbox.access_token ? (
-        <Navigate to="/" replace={true} />
+        <Navigate to="/me" replace={true} />
     ) : (
         <h2>Checking you out&hellip;</h2>
     );
