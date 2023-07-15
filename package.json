@@ -18,7 +18,7 @@
         "preview": "vite preview",
         "lintcss": "stylelint \"**/*.{scss,css}\"",
         "lintjs": "eslint . --ext .js,.jsx --ignore-path .gitignore",
-        "pretty": "prettier src/**/*.{js,jsx} --write --ignore-unknown --no-error-on-unmatched-pattern",
+        "pretty": "prettier src/**/*.* --write --ignore-unknown --no-error-on-unmatched-pattern",
         "coverage": "vitest run --coverage",
         "test": "vitest",
         "test:ui": "vitest --ui"

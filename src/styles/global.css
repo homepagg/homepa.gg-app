@@ -60,7 +60,9 @@ html {
 body {
     background-color: hsl(var(--color-secondary));
     color: hsl(var(--color-primary));
-    font: 400 1.5rem/1.3333 'Work Sans', sans-serif;
+    font:
+        400 1.5rem/1.3333 'Work Sans',
+        sans-serif;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     text-rendering: geometricprecision;
@@ -203,8 +205,10 @@ select {
             hsl(var(--color-primary) 0.48) 55%,
             hsl(var(--color-primary) 0.48)
         );
-    background-position: calc(100% - 11px) calc(50% - 2px),
-        calc(100% - 14px) calc(50% - 2px), calc(100% - 11px) calc(50% + 3px),
+    background-position:
+        calc(100% - 11px) calc(50% - 2px),
+        calc(100% - 14px) calc(50% - 2px),
+        calc(100% - 11px) calc(50% + 3px),
         calc(100% - 14px) calc(50% + 3px);
     background-repeat: no-repeat;
     background-size: 3px 3px;

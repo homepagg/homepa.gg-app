@@ -11,7 +11,7 @@ export const Categories = createContext();
 export const CategoriesProvider = ({ children }) => {
     const [categories, categoriesDispatcher] = useReducer(
         reducer,
-        initialState
+        initialState,
     );
 
     return (

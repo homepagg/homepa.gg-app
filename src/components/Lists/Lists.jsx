@@ -69,7 +69,7 @@ const Lists = () => {
             newActive = {
                 type: 'bookmark',
                 data: bookmarks.find(
-                    (bookmark) => bookmark.id === event.active.id
+                    (bookmark) => bookmark.id === event.active.id,
                 ),
             };
         }
@@ -78,7 +78,7 @@ const Lists = () => {
             newActive = {
                 type: 'category',
                 data: localCategories.find(
-                    (category) => category.id === event.active.id
+                    (category) => category.id === event.active.id,
                 ),
             };
         }
@@ -94,11 +94,21 @@ const Lists = () => {
         const type = event.active.data.current.type;
         const target = event.over.id;
 
-        console.log(target, type)
+        console.log(target, type);
 
-        
+        if (type === 'bookmark' && target === 'dropzone-delete') {
+            console.log('Delete bookmark: ', event.active.data.current.id);
+        }
+
+        if (type === 'bookmark' && target === 'dropzone-edit') {
+            console.log('Edit bookmark: ', event.active.data.current.id);
+        }
+
+        if (type === 'category') {
+            categoriesDispatcher({ items: [...localCategories] });
+        }
+
         setActive(null);
-        categoriesDispatcher({ items: [...localCategories] });
     };
 
     return (
