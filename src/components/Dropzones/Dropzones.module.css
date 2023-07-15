@@ -1,0 +1,32 @@
+.zones {
+    display: grid;
+    grid-gap: 24px;
+    grid-template: auto / 1fr 1fr;
+    inset: 0 0 auto;
+    list-style: none;
+    opacity: 0.5;
+    overflow: hidden;
+    padding: 20px 20px 0;
+    pointer-events:none;
+    position: sticky;
+    z-index: 10;
+
+    &.droppable {
+        opacity: 1;
+    }
+}
+
+.zone {
+    align-items: center;
+    background-color: black;
+    border: 1px dashed;
+    display: none;
+    height: 20vh;
+    justify-content: center;
+    min-height: 80px;
+    padding: 20px 40px;
+}
+
+.droppable .zone {
+    display: flex;
+}

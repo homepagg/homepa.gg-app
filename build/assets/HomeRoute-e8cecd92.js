@@ -1,0 +1,1 @@
+import{u as e,j as o,L as t}from"./index-e53bc31e.js";const r=()=>{const{dropbox:s}=e();return s.auth_token===""?o.jsx(t,{to:"/auth",children:"Login"}):o.jsx(t,{to:"/auth",children:"Login"})};export{r as default};
