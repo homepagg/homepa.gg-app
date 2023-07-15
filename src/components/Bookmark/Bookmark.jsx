@@ -1,37 +1,25 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useDrag } from 'react-dnd';
+import React, { useEffect, useRef, useState } from 'react';
+import cn from 'classnames';
 import Color from 'color';
+import { useDraggable } from '@dnd-kit/core';
 
-import { ItemTypes } from '../../types/ItemTypes.d.ts';
-import { BookmarksContext } from '../../contexts/BookmarksProvider';
 import { useSession } from '../../contexts/SessionProvider';
-import BookmarkForm from '../BookmarkForm/BookmarkForm.jsx';
 
-import styles from './Bookmark.module.scss';
+import styles from './Bookmark.module.css';
 
-const Bookmark = ({ bookmark }) => {
+const Bookmark = ({ bookmark, dragging }) => {
     const { session } = useSession();
-    const bookmarksState = useContext(BookmarksContext);
-    const { bookmarksDispatcher } = bookmarksState;
-    const [addingBookmark, setAddingBookmark] = useState(false);
     const [accentColor, setAccentColor] = useState('');
     const container = useRef();
 
-    const [, containerRef] = useDrag({
-        type: ItemTypes.BOOKMARK,
-        item: { bookmark },
-        end: (item, monitor) => {
-            const dropResult = monitor.getDropResult();
-            if (item && dropResult?.type === 'edit') setAddingBookmark(true);
-            if (item && dropResult?.type === 'delete')
-                bookmarksDispatcher({ type: 'EDIT', id: bookmark.id });
-        },
-        collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
-        }),
+    const {
+        attributes,
+        listeners,
+        setNodeRef: containerRef,
+    } = useDraggable({
+        id: bookmark.id,
+        data: { type: 'bookmark' },
     });
-
-    containerRef(container);
 
     useEffect(() => {
         if (!container.current) return;
@@ -59,10 +47,14 @@ const Bookmark = ({ bookmark }) => {
     return (
         <>
             <li
-                className={styles.container}
+                className={cn(styles.container, {
+                    [styles.dragging]: dragging,
+                })}
                 draggable="true"
-                ref={container}
                 style={{ '--accent-color': `${accentColor}` }}
+                ref={containerRef}
+                {...attributes}
+                {...listeners}
             >
                 <a
                     className={styles.link}
@@ -80,13 +72,13 @@ const Bookmark = ({ bookmark }) => {
                     <span className={styles.text}>{bookmark.name}</span>
                 </a>
             </li>
-            {addingBookmark && (
+            {/* {addingBookmark && (
                 <BookmarkForm
                     bookmarkId={bookmark.id}
                     closeModal={() => setAddingBookmark(false)}
                     showModal={addingBookmark}
                 />
-            )}
+            )} */}
         </>
     );
 };

@@ -7,7 +7,7 @@ import Modal from '../Modal/Modal';
 import ColorPicker from '../ColorPicker/ColorPicker';
 import { ReactComponent as CancelSvg } from '../../images/icons/cancel.svg';
 
-import styles from './BookmarkForm.module.scss';
+import styles from './BookmarkForm.module.css';
 
 const BookmarkForm = ({ bookmarkId, closeModal, showModal }) => {
     const bookmarksState = useContext(BookmarksContext);

@@ -10,7 +10,7 @@ import { SettingsProvider } from './contexts/SettingsProvider';
 import { DropboxProvider } from './contexts/DropboxProvider';
 import App from './App';
 
-import './styles/global.scss';
+import './styles/global.css';
 
 Modal.setAppElement('#root');
 

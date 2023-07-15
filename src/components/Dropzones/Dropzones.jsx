@@ -1,25 +1,28 @@
 import React from 'react';
 import cn from 'classnames';
-import { useDrop } from 'react-dnd';
+import { useDroppable } from '@dnd-kit/core';
 
 import Dropzone from './Dropzone';
-import styles from './Dropzones.module.scss';
+import styles from './Dropzones.module.css';
 
 const Dropzones = () => {
-    const [{ canDrop }, container] = useDrop({
-        accept: 'bookmark',
-        collect: (monitor) => ({
-            canDrop: monitor.canDrop(),
-        }),
+    const { setNodeRef, isOver, over } = useDroppable({
+        id: 'dropzones',
     });
+
+    const show = isOver || ['dropzone-delete', 'dropzone-edit'].includes(over?.id);
 
     return (
         <div
-            className={cn(styles.zones, { [styles.droppable]: canDrop })}
-            ref={container}
+            ref={setNodeRef}
+            className={cn(styles.zones, { [styles.droppable]: show })}
         >
-            <Dropzone action="edit" hoverText="Drop it!" text="Edit" />
-            <Dropzone action="delete" hoverText="Drop it!" text="Delete" />
+            <Dropzone action="dropzone-edit" hoverText="Drop it!" text="Edit" />
+            <Dropzone
+                action="dropzone-delete"
+                hoverText="Drop it!"
+                text="Delete"
+            />
         </div>
     );
 };

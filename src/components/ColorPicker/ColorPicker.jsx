@@ -7,7 +7,7 @@ import {
 } from 'react-color/lib/components/common/';
 import { CustomPicker } from 'react-color';
 
-import styles from './ColorPicker.module.scss';
+import styles from './ColorPicker.module.css';
 
 const Pointer = ({ className }) => {
     return <div className={className} />;

@@ -6,7 +6,7 @@ import { useCategories } from '../../contexts/CategoriesProvider';
 import { useDropbox } from '../../contexts/DropboxProvider';
 import { useSettings } from '../../contexts/SettingsProvider';
 
-import styles from './Setup.module.scss';
+import styles from './Setup.module.css';
 
 const Setup = () => {
     const [loaded, setLoaded] = useState(0);
@@ -54,17 +54,6 @@ const Setup = () => {
                 categoriesVer === categories.rev &&
                 settingsVer === settings.rev
             ) {
-                console.log('same as previous');
-                bookmarksDispatcher(
-                    JSON.parse(localStorage.getItem('hgg.bookmarks.data'))
-                );
-                categoriesDispatcher(
-                    JSON.parse(localStorage.getItem('hgg.categories.data'))
-                );
-                settingsDispatcher(
-                    JSON.parse(localStorage.getItem('hgg.settings.data'))
-                );
-
                 setLoaded(100);
                 return;
             }

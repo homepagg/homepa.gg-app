@@ -8,7 +8,7 @@ import { ReactComponent as LogoSvg } from '../../images/letter-logo.svg';
 import { ReactComponent as PlusSvg } from '../../images/icons/plus.svg';
 import { ReactComponent as SettingsSvg } from '../../images/icons/settings.svg';
 
-import styles from './AppHeader.module.scss';
+import styles from './AppHeader.module.css';
 
 const AppHeader = () => {
     const [addingBookmark, setAddingBookmark] = useState(false);

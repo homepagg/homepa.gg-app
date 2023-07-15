@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Modal from '../Modal/Modal';
 
-import styles from './AppFooter.module.scss';
+import styles from './AppFooter.module.css';
 
 const AppFooter = () => {
     const [showModal, setShowModal] = useState(false);

@@ -6,7 +6,7 @@ import { Settings } from '../../contexts/SettingsProvider';
 import Modal from '../Modal/Modal';
 import { ReactComponent as LogoutSvg } from '../../images/icons/logout.svg';
 
-import styles from './AppSettings.module.scss';
+import styles from './AppSettings.module.css';
 
 const themeOptions = [
     { name: 'Solar', type: 'solar' },

@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import AppFooter from './components/AppFooter/AppFooter';
 import AppHeader from './components/AppHeader/AppHeader';
 import Theme from './components/Theme/Theme';
-import styles from './App.module.scss';
+import styles from './App.module.css';
 
 const AuthRoute = lazy(() => import('./routes/AuthRoute/AuthRoute'));
 const ErrorRoute = lazy(() => import('./routes/ErrorRoute/ErrorRoute'));

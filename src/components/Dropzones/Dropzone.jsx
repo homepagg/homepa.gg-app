@@ -1,23 +1,25 @@
 import React from 'react';
-import { useDrop } from 'react-dnd';
+import { useDroppable } from '@dnd-kit/core';
 
-import styles from './Dropzones.module.scss';
+import styles from './Dropzones.module.css';
 
-const Dustbin = ({ action, text, hoverText }) => {
-    const [{ canDrop, isOver }, drop] = useDrop({
-        accept: 'bookmark',
-        drop: () => ({ type: action }),
-        collect: (monitor) => ({
-            isOver: monitor.isOver(),
-            canDrop: monitor.canDrop(),
-        }),
+const Dropzone = ({ action, text, hoverText }) => {
+    const { setNodeRef, isOver, over } = useDroppable({
+        id: action,
+        data: { accepts: ['bookmark'] },
     });
 
+    const hovering =
+        over &&
+        isOver &&
+        over.id === action &&
+        over.data.current.accepts.includes('bookmark');
+
     return (
-        <div className={styles.zone} ref={drop}>
-            <strong>{canDrop && isOver ? hoverText : text}</strong>
+        <div ref={setNodeRef} className={styles.zone}>
+            <strong>{hovering ? hoverText : text}</strong>
         </div>
     );
 };
 
-export default Dustbin;
+export default Dropzone;

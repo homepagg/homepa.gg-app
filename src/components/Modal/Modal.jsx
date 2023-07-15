@@ -3,7 +3,7 @@ import ReactModal from 'react-modal';
 
 import { ReactComponent as CancelSvg } from '../../images/icons/cancel.svg';
 
-import styles from './Modal.module.scss';
+import styles from './Modal.module.css';
 
 const Modal = ({ children, closeModal, isOpen, title }) => {
     return (
